@@ -26,3 +26,4 @@ This file is committed before Phase 3 so the Git history proves the patterns wer
 
 ## Magnitudes
 Exact planted magnitudes are stored in the generator config and the truth schema, and are compared with analysis results in the final ground-truth comparison.
+

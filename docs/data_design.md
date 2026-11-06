@@ -40,3 +40,12 @@ There is no journey_id in the raw data. A real company would not have one. Journ
 
 ## Build steps
 2A schema, 2B dimensions, 2C core simulation, 2D events and reconciliation, 2E quality issues and truth schema, 2F validation and load.
+
+
+## Schema notes (2A)
+- Attempt status is SUCCESS, FAILED or PENDING. INITIATED exists only as an event type.
+- staging.stg_transactions has no constraints so deliberately dirty rows (duplicates, UTC timestamps, missing codes) can land there. Cleaning loads the constrained fact_transactions.
+- Check constraints enforce cleaning: FAILED rows must have an error_code, SUCCESS and PENDING rows must not.
+- true_segment lives in truth.customer_truth because a segment belongs to a customer.
+- Timestamps are TIMESTAMP without time zone and always hold IST.
+- Indexes are created after bulk load in step 2F.

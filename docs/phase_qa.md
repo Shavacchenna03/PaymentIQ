@@ -132,6 +132,29 @@ A: It holds the real answers: true intents, true segments and which timeouts rea
 
 ---
 
+## Phase 2A: Database schema
+
+Q: What is a primary key and a foreign key?
+A: A primary key uniquely identifies each row (transaction_id). A foreign key points to a row in another table (bank_id in transactions points to dim_banks). The database then rejects transactions that reference a bank that does not exist.
+
+Q: Why a staging schema?
+A: Raw data often arrives dirty. Staging accepts it as is, then a cleaning step loads the strict tables. This keeps the raw record and shows the cleaning work.
+Interview angle: "I separated raw landing from cleaned tables, as a real pipeline does."
+
+Q: Why CHECK constraints on the transactions table?
+A: They make bad data impossible to load. A FAILED row without an error code is rejected, so the data cleaning is enforced by the database and not by memory.
+
+Q: Why are indexes not created yet?
+A: Building an index while inserting 300k rows is slower than building it once afterwards. Indexes come in step 2F.
+
+Q: Why TIMESTAMP and not TIMESTAMPTZ?
+A: Everything is stored in IST by rule (see the metric dictionary), so there is one timezone to reason about. The UTC-writing PSP is corrected during cleaning.
+
+Q: Why does the truth schema have no link to the analysis tables?
+A: It is the answer key. It only holds ids so it can be joined at the very end to compare findings against what was planted.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
