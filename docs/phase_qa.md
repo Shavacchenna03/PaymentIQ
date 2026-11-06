@@ -101,6 +101,37 @@ Interview angle: "I report the headline metric and the pessimistic version so th
 
 ---
 
+## Phase 2 design: Data engineering plan
+
+Q: Why fictional bank and PSP names?
+A: Naming a real bank as unreliable would be a false claim about a real institution. Fictional names avoid that and keep the project clearly synthetic.
+
+Q: Why no journey_id in the raw data?
+A: Real companies do not have one. Deriving journeys from customer, payee, amount and time makes the 30-minute assumption testable, because the hidden truth schema holds the real intents to compare against.
+
+Q: Why plant patterns and write them down before the analysis?
+A: Planted patterns give an answer key to check the analysis against. Committing the list first shows the patterns were declared in advance, so nobody can claim they were reverse-engineered from the results.
+
+Q: How do I answer "you just found what you planted"?
+A: The patterns are known, so the test is different: do the methods recover the correct magnitudes, and do they avoid the traps. Examples are Simpson's trap (P4), the latency trap (P8) and the null effect (P9).
+
+Q: What is the point of the null effect (P9)?
+A: Device type has no true effect on failures. If the analysis reports a device effect, it is a false finding. This tests that the analysis does not invent patterns.
+
+Q: What is Simpson's trap (P4)?
+A: A pattern that reverses when you control for another variable. Bank A looks bad overall only because it handles harder transactions. Bank B looks average but is truly bad because it handles easy ones. Regression with controls separates them.
+
+Q: Why is the retry target about 20k and not the charter's 50k?
+A: With about 10 percent failures of 300k attempts, there are about 30k failures. With a 40-50 percent retry rate, that gives about 15-25k retries. 50k would need an unrealistic 20 percent failure rate.
+
+Q: Why seed 42?
+A: A fixed seed makes the random generator repeatable, so anyone can recreate the identical dataset from the committed script.
+
+Q: Why is the truth schema hidden?
+A: It holds the real answers: true intents, true segments and which timeouts really debited. Keeping it separate and unused until the end keeps the analysis honest.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
