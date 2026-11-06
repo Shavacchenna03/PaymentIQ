@@ -12,10 +12,13 @@ Delivers actionable reliability engineering metrics and business intelligence da
 
 ## Status
 
-- [ ] Phase 1
-- [ ] Phase 2
-- [ ] Phase 3
-- [ ] Phase 4
-- [ ] Phase 5
-- [ ] Phase 6
-- [ ] Phase 7
+- [x] Phase 0: Setup
+- [x] Phase 1: Business foundation
+- [ ] Phase 2: Data engineering
+- [ ] Phase 3: W1 Payment performance
+- [ ] Phase 4: W2 Root cause
+- [ ] Phase 5: W3 Customer journey
+- [ ] Phase 6: W4 Financial impact
+- [ ] Phase 7: W5 Recovery intelligence
+- [ ] Phase 8: W6 Experimentation
+- [ ] Phase 9: Portfolio packaging

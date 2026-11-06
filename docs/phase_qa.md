@@ -60,7 +60,7 @@ A: No. The category is a best-effort label. A timeout could be network, PSP or b
 
 ---
 
-## Phase 1B: Metric dictionary (DRAFT, pending approval)
+## Phase 1B: Metric dictionary (FINAL)
 
 Q: Why define metrics before writing any code?
 A: If SQL, Python and Power BI each calculate success rate differently, the numbers disagree and trust is lost. One dictionary with an exact numerator, denominator and window prevents that.
@@ -89,6 +89,16 @@ A: It is a modelled estimate of what extra value could be recovered under assume
 Q: Is Retry Success Rate the same as Journey Recovery Rate?
 A: No. Retry Success Rate is per retry attempt. Journey Recovery Rate is per failed journey. A journey with three failed retries and one success counts as one recovered journey but four attempts.
 
+Q: Why do Journey Recovery Rate and Abandonment Rate use the same eligible journeys?
+A: So they add up to 100%. If they used different populations, the two numbers would not be complements and anyone checking would find the mismatch.
+
+Q: Which failures are excluded from recovery metrics and why?
+A: Journeys that start with a "Do not retry" code (CUS_03 customer cancelled, TEC_01 invalid request, RSK_01 risk block). Retrying these would be wrong or unsafe, so counting them as missed recoveries would be unfair.
+
+Q: Why keep a separate Recovery Rate with no exclusion?
+A: It is the pessimistic view. Placing it beside the headline rate shows management how much the exclusion changes the result, so nothing is hidden.
+Interview angle: "I report the headline metric and the pessimistic version so the choice of denominator is visible."
+
 ---
 
 ## Upcoming sections (added when each phase completes)
@@ -101,3 +111,4 @@ Phase 6: W4 Financial impact. Expected topics: failed versus lost value, revenue
 Phase 7: W5 Recovery intelligence. Expected topics: rules versus scoring layer, idempotency, duplicate debit, model comparison.
 Phase 8: W6 Experimentation. Expected topics: hypothesis, sample size, significance, confidence intervals, guardrail metrics.
 Phase 9: Portfolio. Expected topics: telling the project story, defending assumptions, limitations.
+
