@@ -44,3 +44,4 @@ with engine.connect() as connection:
     version = result.scalar()
     print(version)
     print("DB connection OK")
+
