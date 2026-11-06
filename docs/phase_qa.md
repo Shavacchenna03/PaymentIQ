@@ -155,6 +155,34 @@ A: It is the answer key. It only holds ids so it can be joined at the very end t
 
 ---
 
+## Phase 2B: Dimension tables
+
+Q: Why does bank size decide the volume share?
+A: Real payment volume is concentrated in a few large banks. Giving the 8 Large banks about 70 percent of volume makes the top 20 percent of banks produce about 60 percent of failures, which is the failure concentration pattern (P3). Part of that is simply volume, and part is real unreliability, so the analysis has to separate them.
+
+Q: Why is the trap bank (Tarang National) a Large bank?
+A: The comparison of raw versus adjusted failure rate needs enough transactions to be statistically clear. A Large bank has them. Its raw rate looks bad only because its customers use weaker networks, and regression with controls should clear it.
+
+Q: Why does Zenora have a penalty of +0.35 and what does it mean?
+A: Log-odds is the scale logistic regression works on. +0.35 multiplies the odds of failure by about 1.42, so an 8 percent failure rate becomes about 11 percent. It is real but not huge, so the analysis must be careful to detect it among the noise.
+
+Q: Why do Small banks get worse at peak hours?
+A: Smaller banks have less infrastructure capacity, so evening load hurts them more. In the data this is a bank-by-hour interaction (P2), meaning the hour effect is not the same for every bank.
+
+Q: Why are customer attributes assigned with exact counts instead of random sampling?
+A: Exact counts give exactly 45 percent Reliable, 35 percent Tier 1 and so on. Random sampling would drift by small amounts, and exactness makes the data easier to validate.
+
+Q: Why is the customer segment not in dim_customers?
+A: Real companies do not label customers as Retry-dependent or Failure-prone. Phase 5 tries to discover the segments from behaviour alone, then compares against truth.customer_truth.
+
+Q: Why does the script truncate tables before loading?
+A: So it can be re-run safely and always gives the same result. The fact tables are empty at this stage, so nothing is lost.
+
+Q: Why do 40 percent of customers sign up during the analysis period?
+A: New customers keep joining, which creates the volume growth in P13 and gives cohorts to analyse in Phase 5.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

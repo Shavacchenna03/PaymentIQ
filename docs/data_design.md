@@ -49,3 +49,12 @@ There is no journey_id in the raw data. A real company would not have one. Journ
 - true_segment lives in truth.customer_truth because a segment belongs to a customer.
 - Timestamps are TIMESTAMP without time zone and always hold IST.
 - Indexes are created after bulk load in step 2F.
+
+## Dimensions (2B)
+- 40 fictional banks: 8 Large (about 70 percent of volume), 14 Medium (about 22 percent), 18 Small (about 8 percent). Within a tier, volume is shared equally. Any resemblance to a real institution is coincidental.
+- Base bank-side failure rate: Large 8 percent, Medium 11 percent, Small 16 percent (worse at peak hours, added in 2C). Calibrated against the 10 percent overall target in 2C.
+- Planted roles are stored only in generator/config.py: Tarang National (trap bank), Zenora (hidden bad bank, +0.35 log-odds), Ridgeway (3 outage windows), Clearwave (bad deploy 3 to 16 Aug 2026), QuickRail (UTC timestamps).
+- 7 fictional PSPs with volume shares 28, 22, 18, 14, 9, 6, 3 percent.
+- 28 failure codes. The database stores five exact retry class names (Safe retry, Customer action, Verify status first, Do not retry, Escalate).
+- 30,000 customers, assigned with exact counts and shuffled (not random sampling), so the distributions are exact. Hidden segments live only in truth.customer_truth.
+- Customers per segment: Reliable 13,500, Retry-dependent 6,000, Failure-prone 3,600, Abandoning 3,900, High-value 3,000.

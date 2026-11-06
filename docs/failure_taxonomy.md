@@ -24,3 +24,9 @@ Categories are illustrative; a failure cannot always be attributed to a single p
 Retry classes: Safe retry, Customer action, Verify status first, Do not retry, Escalate.
 Codes marked "Verify status first" must never be blindly retried: risk of duplicate debit.
 Target: extend to 25-40 codes in Phase 2.
+
+## Extended codes (Phase 2B)
+The database has 28 codes. These 12 were added to the original 16:
+BNK_04 Issuer response delayed (Verify status first), BNK_05 Account inactive or frozen (Customer action), BNK_06 Issuer under maintenance (Safe retry), PSP_03 PSP rate limit hit (Safe retry), PSP_04 PSP routing error (Safe retry), NET_03 Gateway timeout (Verify status first), CUS_04 Invalid UPI ID or payee (Customer action), CUS_05 Collect request expired (Customer action), LIM_03 Merchant limit exceeded (Customer action), TEC_03 Auth token expired (Safe retry), RSK_02 Velocity check triggered (Escalate), UNK_02 Status unknown after response (Escalate).
+Note: the database stores only the five exact retry class names. Qualifiers such as "(later)" and "(fix first)" from the first table are dropped.
+"Do not retry" codes remain CUS_03, TEC_01 and RSK_01, matching the metric dictionary.

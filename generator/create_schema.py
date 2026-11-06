@@ -59,3 +59,4 @@ cur.close()
 conn.close()
 
 print("Schema created OK")
+
