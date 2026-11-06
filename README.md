@@ -6,6 +6,10 @@ Delivers actionable reliability engineering metrics and business intelligence da
 
 > **Note:** All data used in this project is synthetic.
 
+## Documentation
+
+- docs/phase_qa.md: questions and answers for every phase, updated as each phase completes
+
 ## Status
 
 - [ ] Phase 1
@@ -15,4 +19,3 @@ Delivers actionable reliability engineering metrics and business intelligence da
 - [ ] Phase 5
 - [ ] Phase 6
 - [ ] Phase 7
-
