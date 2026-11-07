@@ -211,6 +211,35 @@ A: So regenerating intents does not disturb the dimension tables, and each stage
 
 ---
 
+## Phase 2C-2: Failure model
+
+Q: What are competing risks?
+A: Each payment faces several independent chances to fail: bank, network, PSP, customer and so on. It fails if any one fires. This lets each cause respond to its own drivers, so network quality affects network failures and bank quality affects bank failures.
+
+Q: What is calibration and why do it?
+A: The script solves for one constant per family so the average failure probability hits a target. It keeps the overall failure rate near 10 percent while the effects (peak hours, banks, networks) keep their relative size.
+
+Q: What is log-odds, and why add effects on that scale?
+A: Log-odds is the scale logistic regression uses. Effects add up there and the probability always stays between 0 and 1. A +0.35 effect multiplies the odds of failure by about 1.42.
+
+Q: Why was the outage moved from Ridgeway to Kestrel Commercial?
+A: Ridgeway handles about 1 payment per hour, so three short windows held about 15 payments, too few to detect. Kestrel is a Large bank with about 90 payments in its windows, so an anomaly check can actually see it.
+
+Q: Why is the top-20-percent concentration about 68 percent and not 62?
+A: The 8 Large banks hold 70 percent of volume, and most failures follow volume. Concentration alone does not mean unreliable banks. The real question is which banks produce more failures than their volume predicts.
+Interview angle: "I separated concentration from unreliability by comparing failure share with volume share."
+
+Q: Why was the network failure share increased?
+A: For Simpson's trap to work, the confounder has to be strong enough to show in raw data. A bank with many weak-network customers must look worse than a bank with a real penalty. A small network share would have hidden the trap.
+
+Q: Why does BNK_03 sit in the customer family when its category is Bank-side?
+A: Insufficient funds is caused by the customer's balance, but the issuer reports it, so it is labelled Bank-side. The metric dictionary excludes it from the Technical Failure Rate for that reason.
+
+Q: Why store true probabilities in failure_truth.csv?
+A: They are the answer key. Later we can check whether regression recovers the real effect sizes and whether a bank's estimated penalty matches what was planted.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

@@ -40,3 +40,6 @@
 - Recovery Rate (all failed-first) must be less than or equal to Journey Recovery Rate.
 - Success Rate + Failure Rate must equal 100%.
 - Journey window is 30 minutes by assumption. Sensitivity tested at 15 and 60 minutes in Phase 5.
+
+## Clarification (Phase 2C-2)
+Technical Failure Rate counts failures in the Bank-side, PSP-side, Network and Technical categories, but EXCLUDES BNK_03 (insufficient funds) and BNK_05 (account inactive or frozen). They sit under Bank-side only because the issuer reports them, and they are customer-caused. Limit, Risk and Unknown categories are also outside the Technical Failure Rate.

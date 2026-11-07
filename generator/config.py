@@ -116,11 +116,11 @@ SEGMENT_SHARE = {
 TRAP_BANK = "Tarang National"          # looks bad raw, fine after controls (P4)
 HIDDEN_BAD_BANK = "Zenora"             # looks average raw, truly bad (P4)
 HIDDEN_BAD_BANK_LOGODDS_PENALTY = 0.35
-OUTAGE_BANK = "Ridgeway"               # P1
+OUTAGE_BANK = "Kestrel Commercial"     # P1
 OUTAGE_WINDOWS = [
-    ("2026-05-14 11:00", "2026-05-14 13:30"),
-    ("2026-07-22 19:00", "2026-07-22 22:00"),
-    ("2026-09-09 08:00", "2026-09-09 10:00"),
+    ("2026-05-14 11:00", "2026-05-14 15:00"),
+    ("2026-07-22 18:00", "2026-07-22 23:00"),
+    ("2026-09-09 08:00", "2026-09-09 12:00"),
 ]
 BAD_DEPLOY_PSP = "Clearwave"           # P7
 BAD_DEPLOY_START = "2026-08-03"
@@ -168,3 +168,41 @@ AMOUNT_SEGMENT_MULT = {"Reliable": 1.0, "Retry-dependent": 1.0, "Failure-prone":
                        "Abandoning": 1.0, "High-value": 2.5}
 ZENORA_AMOUNT_FACTOR = 0.6
 CHANNEL_MIX = {"In-app": 0.45, "QR scan": 0.35, "Collect request": 0.10, "Intent link": 0.10}
+
+# ---- 2C-2: failure model ----
+# Mean failure probability per family, solved by calibration (non-incident, non-fixed families)
+FAMILY_TARGET = {"bank": 0.020, "network": 0.040, "customer": 0.018, "psp": 0.010}
+NET_LOGODDS = {"WiFi": 0.0, "5G": 0.0, "4G": 0.15, "3G": 1.2, "2G": 1.5}
+SEGMENT_CUSTOMER_LOGODDS = {"Reliable": 0.0, "Retry-dependent": 0.2, "Failure-prone": 0.5,
+                            "Abandoning": 0.0, "High-value": 0.0}
+PEAK_HOURS = [20, 21]
+PEAK_LOGODDS = {"Large": 0.0, "Medium": 0.25, "Small": 0.8}   # P2: peak hurts Small banks most
+TREND_LOGODDS = -0.15          # P13: failures fall over the period (bank, network, psp)
+MONTH_END_LOGODDS = 0.12       # month-end seasonality (bank, psp)
+FAMILY_CODES = {
+    "bank": {"BNK_01": 0.25, "BNK_02": 0.30, "BNK_04": 0.20, "BNK_05": 0.05, "BNK_06": 0.20},
+    "network": {"NET_01": 0.55, "NET_02": 0.25, "NET_03": 0.20},
+    "customer": {"CUS_01": 0.40, "BNK_03": 0.27, "CUS_02": 0.04, "CUS_03": 0.12,
+                 "CUS_04": 0.10, "CUS_05": 0.07},
+    "psp": {"PSP_01": 0.35, "PSP_02": 0.25, "PSP_03": 0.15, "PSP_04": 0.25},
+    "risk": {"RSK_01": 0.6, "RSK_02": 0.4},
+    "technical": {"TEC_01": 0.33, "TEC_02": 0.17, "TEC_03": 0.50},
+    "unknown": {"UNK_01": 0.6, "UNK_02": 0.4},
+    "limit_02": {"LIM_02": 1.0},
+    "limit_01": {"LIM_01": 1.0},
+    "limit_03": {"LIM_03": 1.0},
+    "outage": {"BNK_01": 0.9, "BNK_04": 0.1},
+    "deploy": {"PSP_01": 1.0},
+}
+FIXED_FAMILY_P = {"risk": 0.002, "technical": 0.003, "unknown": 0.001}
+RISK_AMOUNT_THRESHOLD = 10000   # P6: risk blocks rise mildly above this
+RISK_AMOUNT_ODDS_MULT = 2.0
+PER_TXN_LIMIT = {"Large": 100000, "Medium": 50000, "Small": 10000}
+DAILY_LIMIT = 100000
+P_LIM02 = 0.92
+P_LIM01 = 0.90
+P_LIM03 = 0.03
+LIM03_CATEGORIES = ["Shopping", "Education", "Travel"]
+LIM03_AMOUNT = 20000
+OUTAGE_P = 0.85
+DEPLOY_P = 0.12

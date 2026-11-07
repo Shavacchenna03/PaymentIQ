@@ -27,3 +27,9 @@ This file is committed before Phase 3 so the Git history proves the patterns wer
 ## Magnitudes
 Exact planted magnitudes are stored in the generator config and the truth schema, and are compared with analysis results in the final ground-truth comparison.
 
+
+## Amendments (Phase 2C-2, committed before any analysis)
+- P1: the outage bank is Kestrel Commercial (a Large bank), not a small one, so the windows contain enough payments to detect. Windows are 4 to 5 hours long.
+- P3: with the 8 Large banks holding 70 percent of volume, the top 20 percent of banks produce about 66 to 70 percent of failures, not 60 to 65. Most of that is volume. The Pareto chart must be read against volume share, and the real finding is which banks fail more than their volume predicts.
+- P5: timeouts and network failures are about 3.3 times more likely on 3G and 4.5 times on 2G, relative to WiFi and 5G.
+- P4: the network family is the largest failure family (about 4 percent of attempts) so that Tarang National looks worse in raw data and is cleared after controlling for network.
