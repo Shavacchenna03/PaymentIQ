@@ -183,6 +183,34 @@ A: New customers keep joining, which creates the volume growth in P13 and gives 
 
 ---
 
+## Phase 2C-1: Intent generation
+
+Q: What is an intent?
+A: A payment the customer wants to make. It becomes one or more attempts, depending on whether it fails and the customer retries. Generating intents first lets retries and journeys be built from a known truth.
+
+Q: Why is volume built from day, weekday and hour weights?
+A: Real payment traffic has rhythm: growth over time, busier weekends and month-ends, and evening peaks. The analysis in Phase 3 has to separate genuine trends from this seasonality.
+
+Q: Why must customers transact only after their signup date?
+A: Otherwise the data would contain impossible rows, and the cohort analysis in Phase 5 would be wrong. The script asserts this.
+
+Q: What does it mean to rescale the bank tilts?
+A: Tarang and Zenora attract different kinds of customers, but their total share of volume should stay as designed. Rescaling changes who uses them, not how big they are. That is what makes Simpson's trap (P4) a clean test.
+
+Q: Why does Zenora get lower amounts?
+A: Zenora's customers are mostly Tier 1 on fast networks making small payments. That makes the raw failure rate look average, while the bank truly has a penalty. Only a model with controls reveals it.
+
+Q: Why give customers a primary and a secondary bank?
+A: Real customers hold more than one account. It also means a failed payment can be retried through another bank, which matters in the recovery analysis.
+
+Q: Why do repeat intents copy an earlier payment?
+A: Two identical purchases a few minutes apart, such as two cups of tea, look like a retry but are separate intents. Phase 5 derives journeys from time and amount, so it will merge some of these wrongly, and the truth column lets us measure that error.
+
+Q: Why use a separate random stream (SEED plus 1)?
+A: So regenerating intents does not disturb the dimension tables, and each stage stays reproducible on its own.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

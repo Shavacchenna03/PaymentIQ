@@ -58,3 +58,12 @@ There is no journey_id in the raw data. A real company would not have one. Journ
 - 28 failure codes. The database stores five exact retry class names (Safe retry, Customer action, Verify status first, Do not retry, Escalate).
 - 30,000 customers, assigned with exact counts and shuffled (not random sampling), so the distributions are exact. Hidden segments live only in truth.customer_truth.
 - Customers per segment: Reliable 13,500, Retry-dependent 6,000, Failure-prone 3,600, Abandoning 3,900, High-value 3,000.
+
+## Intents (2C-1)
+- 280,000 intents: 271,600 base intents plus 8,400 deliberate repeat intents (3 percent). Retries add about 20,000 attempts later.
+- Daily volume = linear growth of 35 percent over the period, times a weekday pattern, times a 15 percent month-end bump. Hourly volume has morning, lunch and strong 8-10pm peaks.
+- Customers transact only after their signup date. Customer activity is lognormal, so some customers transact far more than others.
+- Each customer has a primary bank (used 85 percent of the time) and a secondary bank. Bank weights follow tier volume share, tilted by city tier and rescaled so each bank's overall share is unchanged. Tarang National skews to Tier 3 customers and Zenora to Tier 1 customers (P4).
+- Network depends on city tier. Amount is lognormal by payee category, 2.5 times larger for High-value customers, and 0.6 times for Zenora transactions.
+- Repeat trap: each repeat copies an earlier intent (same customer, payee, amount, bank) 5 to 45 minutes later. About 75 percent fall within the 30-minute window and will be wrongly merged by journey logic in Phase 5. The real link is stored as repeat_of_intent_id.
+- Intents are saved to data/raw/intents.csv (gitignored). Failures, latency, status and retries come in 2C-2 and 2C-3.

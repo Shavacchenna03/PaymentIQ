@@ -127,3 +127,44 @@ BAD_DEPLOY_START = "2026-08-03"
 BAD_DEPLOY_END = "2026-08-16"
 UTC_TIMESTAMP_PSP = "QuickRail"        # data-quality issue
 DEVICE_TRUE_EFFECT = 0.0               # P9: device has no effect on failure
+
+
+# ---- 2C-1: intent generation ----
+N_INTENTS = 280000
+N_REPEAT_INTENTS = 8400
+N_BASE_INTENTS = N_INTENTS - N_REPEAT_INTENTS
+GROWTH_TOTAL = 0.35
+WEEKDAY_WEIGHT = [1.00, 0.98, 0.98, 1.00, 1.08, 1.12, 0.95]   # Monday=0
+MONTH_END_BUMP = 1.15
+HOUR_WEIGHT = [0.4, 0.25, 0.2, 0.15, 0.15, 0.25, 0.5, 1.0, 2.0, 2.8, 3.0, 3.2,
+               3.8, 3.6, 3.0, 2.8, 3.0, 3.4, 3.8, 4.4, 5.6, 5.4, 4.0, 1.8]
+ACTIVITY_SIGMA = 0.6
+SEGMENT_ACTIVITY = {"Reliable": 1.0, "Retry-dependent": 1.0, "Failure-prone": 1.0,
+                    "Abandoning": 0.8, "High-value": 1.3}
+PRIMARY_BANK_SHARE = 0.85
+CITY_TILT = {
+    "Tarang National": {"Tier1": 0.3, "Tier2": 1.0, "Tier3": 4.0},
+    "Zenora": {"Tier1": 3.0, "Tier2": 1.0, "Tier3": 0.3},
+    "_small_default": {"Tier1": 0.6, "Tier2": 1.0, "Tier3": 1.5},
+}
+NETWORK_PROBS = {
+    "Tier1": {"WiFi": 0.35, "5G": 0.30, "4G": 0.32, "3G": 0.025, "2G": 0.005},
+    "Tier2": {"WiFi": 0.25, "5G": 0.12, "4G": 0.50, "3G": 0.10, "2G": 0.03},
+    "Tier3": {"WiFi": 0.12, "5G": 0.03, "4G": 0.50, "3G": 0.25, "2G": 0.10},
+}
+# category: (weight, median amount in rupees, lognormal sigma)
+PAYEE_CATEGORIES = {
+    "Food & Beverage": (0.22, 180, 0.7),
+    "Grocery": (0.18, 450, 0.8),
+    "Transport": (0.15, 120, 0.6),
+    "Utilities & Bills": (0.12, 1200, 0.9),
+    "Shopping": (0.12, 900, 1.0),
+    "Peer transfer": (0.12, 800, 1.1),
+    "Education": (0.04, 3000, 0.9),
+    "Travel": (0.05, 2500, 1.0),
+}
+PAYEES_PER_CATEGORY = 250
+AMOUNT_SEGMENT_MULT = {"Reliable": 1.0, "Retry-dependent": 1.0, "Failure-prone": 1.0,
+                       "Abandoning": 1.0, "High-value": 2.5}
+ZENORA_AMOUNT_FACTOR = 0.6
+CHANNEL_MIX = {"In-app": 0.45, "QR scan": 0.35, "Collect request": 0.10, "Intent link": 0.10}
