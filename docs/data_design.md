@@ -84,3 +84,13 @@ There is no journey_id in the raw data. A real company would not have one. Journ
 - PENDING after 24 hours is about 0.5 percent of attempts. It is created from 6 percent of failures with uncertain-status codes (NET_01, NET_02, NET_03, BNK_04, UNK_02) and 0.25 percent of successes. PENDING rows have no error code, no latency and no completion time.
 - is_debited (P12) marks 3 percent of timeout failures (NET_01, NET_02, NET_03 still FAILED) where the customer was really debited. It exists only in data/raw/attempt_truth_first.csv.
 - Outputs: data/raw/attempts_first.csv and data/raw/attempt_truth_first.csv (both gitignored). Retries come in 2C-3b.
+
+## Retry chains and final attempts (2C-3b)
+- Each intent whose first attempt is FAILED or PENDING can be retried up to 3 times. A retry reuses the same customer, payee, amount, bank, PSP, device, network and channel, with new latency and outcome. Only FAILED retries can trigger another retry. PENDING and SUCCESS retries end the chain.
+- Retry probability and retry success depend on the error group (wrong PIN 70/80 percent, insufficient funds 15/20, limits 20/10, safe-retry codes 55/65, verify-status codes 45/60, do-not-retry 5/10, escalate 25/40, other customer codes 30/50, PENDING first attempts 40/60). Retry-dependent customers retry 1.4 times as often, Abandoning customers 0.3 times as often, and Failure-prone customers succeed at 0.8 times the rate. Each later round multiplies the retry probability by 0.75.
+- Retry gap: median about 40 seconds. About 5 percent of retries happen 31 to 180 minutes later, which makes the journey-window sensitivity in Phase 5 visible.
+- Retries during a Kestrel Commercial outage window succeed 0.15 times as often and fail with BNK_01 or BNK_04.
+- A failed retry repeats the previous error code 70 percent of the time. Otherwise it draws from a generic failure mix.
+- Double charge (is_duplicate_debit): a retry that succeeds after an earlier attempt in the same intent really debited the customer. The earlier debit source is a timeout flagged is_debited, or a PENDING attempt that was originally SUCCESS.
+- The Clearwave latency ramp is not applied to retries (under 2 percent of rows).
+- Outputs in data/raw/ (gitignored): attempts_all.csv (the raw fact table, no intent_id), transaction_truth.csv, attempt_truth_all.csv, intent_truth.csv. truth.intent_truth is added to the database in step 2F.

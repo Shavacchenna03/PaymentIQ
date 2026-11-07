@@ -233,3 +233,48 @@ LATENCY_CODE = {
     "RSK_01": (1100, 0.3, False), "RSK_02": (1100, 0.3, False),
     "UNK_01": (4000, 0.6, False), "UNK_02": (6000, 0.6, False),
 }
+
+# ---- 2C-3b: retry chains ----
+RETRY_MAX = 3
+RETRY_ROUND_DECAY = 0.75        # retry probability is multiplied by this for each later round
+RETRY_P_CAP = 0.95
+# group: (retry probability, retry success probability)
+RETRY_PARAMS = {
+    "wrong_pin": (0.70, 0.80),
+    "funds": (0.15, 0.20),
+    "limit": (0.20, 0.10),
+    "safe": (0.55, 0.65),
+    "verify": (0.45, 0.60),
+    "donot": (0.05, 0.10),
+    "escalate": (0.25, 0.40),
+    "customer_other": (0.30, 0.50),
+    "pending": (0.40, 0.60),
+}
+RETRY_GROUP_OF = {
+    "CUS_01": "wrong_pin", "CUS_02": "wrong_pin",
+    "BNK_03": "funds",
+    "LIM_01": "limit", "LIM_02": "limit", "LIM_03": "limit",
+    "BNK_01": "safe", "BNK_06": "safe", "PSP_01": "safe", "PSP_02": "safe",
+    "PSP_03": "safe", "PSP_04": "safe", "TEC_03": "safe",
+    "NET_01": "verify", "NET_02": "verify", "NET_03": "verify",
+    "BNK_04": "verify", "BNK_02": "verify", "TEC_02": "verify",
+    "CUS_03": "donot", "TEC_01": "donot", "RSK_01": "donot",
+    "RSK_02": "escalate", "UNK_01": "escalate", "UNK_02": "escalate",
+    "CUS_04": "customer_other", "CUS_05": "customer_other", "BNK_05": "customer_other",
+}
+RETRY_SEGMENT_RETRY_MULT = {"Reliable": 1.0, "Retry-dependent": 1.4, "Failure-prone": 1.0,
+                            "Abandoning": 0.3, "High-value": 1.0}
+RETRY_SEGMENT_SUCCESS_MULT = {"Reliable": 1.0, "Retry-dependent": 1.0, "Failure-prone": 0.8,
+                              "Abandoning": 1.0, "High-value": 1.0}
+GAP_MEDIAN_S = 40
+GAP_SIGMA = 0.8
+GAP_MIN_S = 5
+GAP_MAX_FAST_S = 1500
+LONG_GAP_P = 0.05               # share of retries that happen more than 30 minutes later
+LONG_GAP_MIN_MIN = 31
+LONG_GAP_MAX_MIN = 180
+PENDING_BASE_GAP_S = 120        # base delay when the previous attempt has no completion time
+OUTAGE_RETRY_SUCCESS_MULT = 0.15
+RETRY_SAME_CODE_P = 0.70
+RETRY_FAIL_CODES = {"NET_01": 0.25, "BNK_02": 0.15, "BNK_01": 0.10, "PSP_01": 0.15,
+                    "NET_02": 0.10, "PSP_02": 0.10, "UNK_01": 0.05, "CUS_01": 0.10}

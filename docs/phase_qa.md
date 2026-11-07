@@ -272,6 +272,34 @@ A: At 1 percent there would be only about 30 double charges, too few to measure 
 
 ---
 
+## Phase 2C-3b: Retry chains
+
+Q: Why do retries depend on the error code?
+A: Different failures call for different customer behaviour. A wrong PIN is easy to fix, so people retry and usually succeed. Insufficient funds usually needs a top-up first, so few retry and few succeed. Giving each group its own rates is what lets Phase 7 build retry rules from the data.
+
+Q: Why does a PENDING first attempt get retried?
+A: The customer sees no answer. Some assume it failed and pay again. If the first payment actually went through, the customer is charged twice. This is the realistic duplicate-payment scenario, and it is why status must be checked before any retry.
+
+Q: How are double charges created?
+A: A retry succeeds after an earlier attempt in the same intent that really debited the customer. The earlier debit can be a timeout flagged as debited, or a PENDING attempt that was originally a success. The flag lives only in the truth files.
+
+Q: Why do retries during the Kestrel outage rarely succeed?
+A: A retry seconds after an outage failure usually hits the same outage. In the data, retry success in the outage windows is 0.15 times the normal rate. This is why a retry rule must not fire blindly during an incident.
+
+Q: Why do some retries happen more than 30 minutes later?
+A: Some customers come back much later. About 5 percent of retries are 31 to 180 minutes after the previous attempt. A 30-minute journey window would treat those as separate journeys, which understates recovery. Phase 5 tests 15, 30 and 60 minutes to show how much this matters.
+
+Q: Why is the retry count about 14,000 and not 20,000?
+A: The failure rate is about 9 percent of 280,000 intents, so there are about 26,000 failures. With a retry rate of about 45 percent, that gives about 12,000 to 16,000 retries. Raising the retry rates to reach 20,000 would make the customers less realistic, so the target was lowered.
+
+Q: Why does the overall failure rate rise after retries?
+A: Retries add attempts, and a share of them fail again, so the attempt-level failure rate goes up. This is why journey-level metrics (recovery, abandonment) matter. A customer who fails once and then succeeds shows up as one failed attempt, but not as a lost payment.
+
+Q: Why is there no intent_id in attempts_all.csv?
+A: A real company would not have one. Phase 5 derives journeys from customer, payee, amount and time. The real intents live in the truth files so the derived journeys can be checked against them.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

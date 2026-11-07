@@ -14,3 +14,11 @@
 - PENDING after 24 hours is about 0.5 percent: 6 percent of failures with uncertain-status codes and 0.25 percent of successes.
 - Success latency median is 1,800 ms. Failure latencies are code-specific (see config LATENCY_CODE).
 - LIM_01 (daily limit exceeded) is accepted as negligible (4 failures) because few customers reach 1 lakh rupees in a day at the generated amounts.
+
+## Phase 2C-3b assumptions
+- Retry volume is about 12,000 to 16,000, not 20,000. The retry rates were not inflated to reach the target.
+- Retry rates and success rates by error group are assumptions, not industry statistics.
+- Pending first attempts are retried 40 percent of the time. These are the realistic duplicate-payment scenario because the customer sees no answer.
+- Duplicate debits come from debited timeouts (3 percent, inflated) and from PENDING attempts that were really successful. Both exist only in the truth files.
+- CUS_04, CUS_05 and BNK_05 form a "customer other" retry group (30 percent retry, 50 percent success) because the first retry table did not cover them.
+- The Clearwave latency ramp is not applied to retries.

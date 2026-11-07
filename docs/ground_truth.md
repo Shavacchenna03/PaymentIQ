@@ -40,3 +40,11 @@ Exact planted magnitudes are stored in the generator config and the truth schema
 - P12: 3 percent of timeout failures were really debited. This is inflated from the original 1 percent so the Phase 7 duplicate-charge analysis has enough events. A real-world rate would be lower. Double charges are created in 2C-3b.
 - PENDING: about 0.5 percent of attempts, mostly from uncertain-status codes (timeouts, BNK_04, UNK_02).
 - LIM_01: only 4 failures in the generated data. It is negligible and will not be analysed.
+
+## Amendments (Phase 2C-3b, committed before any analysis)
+- P10: retry rates and success rates by error group are planted as in docs/data_design.md (wrong PIN 70/80 percent, insufficient funds 15/20, limits 20/10, safe-retry 55/65, verify-status 45/60, do-not-retry 5/10). Later rounds retry less often (x0.75 per round).
+- P11: Retry-dependent customers retry 1.4x as often, Abandoning customers 0.3x, and Failure-prone customers have retry success at 0.8x.
+- P12 (extended): double charges come from two sources. Timeout failures flagged as debited (3 percent, inflated for power), and PENDING attempts that were really successful (the customer paid, saw no answer, and paid again). Both are recorded in truth.transaction_truth.is_duplicate_debit.
+- Retries during the Kestrel Commercial outage windows succeed only 0.15x as often as normal.
+- Journey window: about 5 percent of retries occur 31 to 180 minutes after the previous attempt, so a 30-minute window splits them from their journey. Separately, the 8,400 repeat intents (2C-1) will be wrongly merged with their original.
+- Expected retry volume is about 12,000 to 16,000 attempts, below the 20,000 originally targeted. This is the honest result of about a 9 percent failure rate.
