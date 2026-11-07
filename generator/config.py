@@ -206,3 +206,30 @@ LIM03_CATEGORIES = ["Shopping", "Education", "Travel"]
 LIM03_AMOUNT = 20000
 OUTAGE_P = 0.85
 DEPLOY_P = 0.12
+
+# ---- 2C-3a: latency, pending, debited flag ----
+LATENCY_MIN = 200
+LATENCY_MAX = 120000
+SUCCESS_LATENCY = (1800, 0.45)          # (median ms, lognormal sigma)
+NET_LAT_MULT = {"WiFi": 0.85, "5G": 0.80, "4G": 1.0, "3G": 1.8, "2G": 2.8}
+SIZE_LAT_MULT = {"Large": 1.0, "Medium": 1.1, "Small": 1.25}
+DEPLOY_LATENCY_PEAK_MULT = 2.0          # P7: ramps linearly from 1.0 to this over the deploy window
+TIMEOUT_CODES = ["NET_01", "NET_02", "NET_03"]
+PENDING_CODES = ["NET_01", "NET_02", "NET_03", "BNK_04", "UNK_02"]
+PENDING_FROM_FAILED_P = 0.06
+PENDING_FROM_SUCCESS_P = 0.0025
+DEBITED_P = 0.03                        # P12: inflated from 1 percent for statistical power
+# error_code: (median ms, sigma, use network and size multipliers)
+LATENCY_CODE = {
+    "BNK_01": (2500, 0.5, True), "BNK_02": (2800, 0.5, True), "BNK_03": (1400, 0.4, True),
+    "BNK_04": (12000, 0.4, False), "BNK_05": (1600, 0.4, True), "BNK_06": (2500, 0.5, True),
+    "PSP_01": (3000, 0.5, True), "PSP_02": (3500, 0.5, True), "PSP_03": (1500, 0.4, True),
+    "PSP_04": (2500, 0.5, True),
+    "NET_01": (30000, 0.05, False), "NET_02": (8000, 0.6, False), "NET_03": (20000, 0.05, False),
+    "CUS_01": (1200, 0.3, False), "CUS_02": (1200, 0.3, False), "CUS_03": (1000, 0.3, False),
+    "CUS_04": (900, 0.3, False), "CUS_05": (60000, 0.3, False),
+    "LIM_01": (900, 0.3, False), "LIM_02": (900, 0.3, False), "LIM_03": (900, 0.3, False),
+    "TEC_01": (500, 0.3, False), "TEC_02": (1500, 0.4, False), "TEC_03": (800, 0.3, False),
+    "RSK_01": (1100, 0.3, False), "RSK_02": (1100, 0.3, False),
+    "UNK_01": (4000, 0.6, False), "UNK_02": (6000, 0.6, False),
+}

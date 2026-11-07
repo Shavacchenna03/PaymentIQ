@@ -33,3 +33,10 @@ Exact planted magnitudes are stored in the generator config and the truth schema
 - P3: with the 8 Large banks holding 70 percent of volume, the top 20 percent of banks produce about 66 to 70 percent of failures, not 60 to 65. Most of that is volume. The Pareto chart must be read against volume share, and the real finding is which banks fail more than their volume predicts.
 - P5: timeouts and network failures are about 3.3 times more likely on 3G and 4.5 times on 2G, relative to WiFi and 5G.
 - P4: the network family is the largest failure family (about 4 percent of attempts) so that Tarang National looks worse in raw data and is cleared after controlling for network.
+
+## Amendments (Phase 2C-3a, committed before any analysis)
+- P8: timeouts have fixed long latencies (NET_01 about 30 s, NET_03 about 20 s, NET_02 about 8 s median, BNK_04 about 12 s), so high latency predicts failure mechanically. Latency also rises on weaker networks (2G about 3.3x WiFi) and at smaller banks (Medium 1.1x, Small 1.25x), so latency and failure also share the network confounder.
+- P7: Clearwave latency on non-timeout attempts ramps linearly from 1.0x on 3 Aug to 2.0x on 16 Aug, and returns to normal on 17 Aug.
+- P12: 3 percent of timeout failures were really debited. This is inflated from the original 1 percent so the Phase 7 duplicate-charge analysis has enough events. A real-world rate would be lower. Double charges are created in 2C-3b.
+- PENDING: about 0.5 percent of attempts, mostly from uncertain-status codes (timeouts, BNK_04, UNK_02).
+- LIM_01: only 4 failures in the generated data. It is negligible and will not be analysed.

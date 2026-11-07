@@ -240,6 +240,38 @@ A: They are the answer key. Later we can check whether regression recovers the r
 
 ---
 
+## Phase 2C-3a: Latency, pending and the debited flag
+
+Q: Why do timeouts have a latency of about 30 seconds?
+A: A timeout means the system waited until its time limit and gave up, so its latency is long by definition. That makes high latency predict failure mechanically, not causally.
+Interview angle: "Slow payments fail more, but slowness is partly the symptom, not the cause. I checked by looking at non-timeout failures separately."
+
+Q: Why is P95 latency misleading here?
+A: About 4 percent of attempts are timeouts with very long latency, which is close to the 5 percent that P95 cuts off. So P95 sits right at the edge of the timeout group and moves a lot if the timeout share changes slightly. P50 and P99 should be read with it.
+
+Q: Why does latency depend on network and bank size?
+A: Weak networks and smaller banks are slower. Network quality also drives failures, so latency and failure are linked through a shared cause. This is why a raw latency-versus-failure chart can mislead.
+
+Q: Why does the Clearwave latency ramp instead of jumping?
+A: A bad deploy usually degrades gradually, then gets fixed. The ramp from 1.0x to 2.0x over 3 to 16 Aug, then a sudden drop on 17 Aug, gives a change-point that Phase 3 should detect.
+
+Q: What does PENDING mean and why is it mostly timeouts?
+A: PENDING means the payment has no final status after 24 hours. It mostly comes from uncertain-status codes because a timeout does not tell you whether the bank debited the money. That is why PENDING is excluded from the success rate and reported as Pending Share.
+
+Q: Why do PENDING rows have no latency or completion time?
+A: They never finished, so there is nothing to measure. Counting them as zero or as a failure would distort the latency percentiles and the success rate.
+
+Q: Why did the failure rate fall slightly after PENDING was added?
+A: Some failures became PENDING and left the denominator. The failure rate is failures divided by SUCCESS plus FAILED, so removing uncertain attempts changes it. This is a reporting choice, not a data change, which is why Pending Share is shown separately.
+
+Q: Why is the debited flag only in the truth file?
+A: A real company cannot see which timeouts debited the customer. Reconciliation with the bank reveals it later. Keeping the flag hidden lets Phase 7 test whether the analysis detects the risk without being told.
+
+Q: Why is the duplicate-debit rate 3 percent and not a realistic 1 percent?
+A: At 1 percent there would be only about 30 double charges, too few to measure a duplicate-payment rate. 3 percent gives enough events to analyse. The inflation is documented, so it is not mistaken for a real-world rate.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
