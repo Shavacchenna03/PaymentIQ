@@ -121,3 +121,11 @@ There is no journey_id in the raw data. A real company would not have one. Journ
 - Detection: for each PSP, the hourly volume profile is shifted by 0 to 23 hours to find the best match with the other PSPs combined. A PSP is flagged if a non-zero shift halves the distance. The half hour is fixed from the settlement-lag gap, because reconciliation comes from the bank and stays in IST. The script does not read any config flag.
 - Missing latency is recovered as (completed_at minus initiated_at) plus 500 ms, clipped to 200 ms at the lower end. Timestamps are truncated to whole seconds, so the result is approximate.
 - Scoring against the answer key happens only at the end, and the results are written to the log.
+
+
+## Database load (2F-2)
+- generator/load_db.py loads the cleaned data into PostgreSQL with COPY, in foreign-key order: fact_transactions, fact_payment_events, fact_reconciliation. The dirty staging file goes to staging.stg_transactions so the raw record is kept next to the cleaned tables.
+- Truth schema: truth.customer_truth (2B), truth.transaction_truth (2A), and four new tables: truth.intent_truth (real intents, repeat links, true outcome), truth.recon_truth (reason for each reconciliation mismatch), truth.dq_truth (true values of the damaged rows) and truth.attempt_truth (was_debited and pre-conversion status). The truth schema is not queried by any analysis until the final comparison.
+- Indexes are created after the load: fact_transactions on initiated_at, bank_id, psp_id, (customer_id, initiated_at), status and error_code; fact_payment_events on transaction_id; two on the truth schema for later joins. ANALYZE refreshes planner statistics.
+- sql/04_validation.sql recomputes the headline metrics in SQL (success and failure rate, pending share, reconciliation rate, latency percentiles) and checks them against the generator output. Output is saved in reports/phase2_validation_output.txt.
+- Final volumes: 293,991 attempts, 1,152,396 events, 293,991 reconciliation rows, 294,285 staging rows.

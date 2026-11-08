@@ -9,12 +9,13 @@ Delivers actionable reliability engineering metrics and business intelligence da
 ## Documentation
 
 - docs/phase_qa.md: questions and answers for every phase, updated as each phase completes
+- reports/data_quality_log.csv: every data quality issue found, the rule applied and the accuracy of the fix
 
 ## Status
 
 - [x] Phase 0: Setup
 - [x] Phase 1: Business foundation
-- [ ] Phase 2: Data engineering
+- [x] Phase 2: Data engineering
 - [ ] Phase 3: W1 Payment performance
 - [ ] Phase 4: W2 Root cause
 - [ ] Phase 5: W3 Customer journey

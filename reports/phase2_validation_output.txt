@@ -1,0 +1,143 @@
+=== CHECK: 01 row counts ===
+-- CHECK: 01 row counts
+-- EXPECT: dim_banks 40, dim_customers 30000, dim_failure_codes 28, dim_psp 7, fact_payment_events 1152396, fact_reconciliation 293991, fact_transactions 293991, staging.stg_transactions 294285, truth.attempt_truth 293991, truth.customer_truth 30000, truth.dq_truth 972, truth.intent_truth 280000, truth.recon_truth 293991, truth.transaction_truth 293991
+                     tbl       n
+               dim_banks      40
+           dim_customers   30000
+       dim_failure_codes      28
+                 dim_psp       7
+     fact_payment_events 1152396
+     fact_reconciliation  293991
+       fact_transactions  293991
+staging.stg_transactions  294285
+     truth.attempt_truth  293991
+    truth.customer_truth   30000
+          truth.dq_truth     972
+      truth.intent_truth  280000
+       truth.recon_truth  293991
+ truth.transaction_truth  293991
+
+=== CHECK: 02 orphan checks ===
+-- CHECK: 02 orphan checks
+-- EXPECT: all four values are 0
+ events_without_txn  txn_without_recon  txn_without_truth  txn_without_initiated_event
+                  0                  0                  0                            0
+
+=== CHECK: 03 attempt status mix ===
+-- CHECK: 03 attempt status mix
+-- EXPECT: FAILED 30937 (10.52 pct), PENDING 1508 (0.51 pct), SUCCESS 261546 (88.96 pct)
+ status  attempts   pct
+ FAILED     30937 10.52
+PENDING      1508  0.51
+SUCCESS    261546 88.96
+
+=== CHECK: 04 headline rates per the metric dictionary (PENDING and CUS_03 excluded) ===
+-- CHECK: 04 headline rates per the metric dictionary (PENDING and CUS_03 excluded)
+-- EXPECT: eligible about 291900, success_rate about 89.6 pct, failure_rate about 10.4 pct (between 10.3 and 10.5), and the two must add to 100
+ eligible_attempts success_rate_pct failure_rate_pct
+            291859            89.61            10.39
+
+=== CHECK: 05 failure rate including CUS_03, and pending share (compare with the generator) ===
+-- CHECK: 05 failure rate including CUS_03, and pending share (compare with the generator)
+-- EXPECT: failure_rate_incl_cus03_pct 10.58, pending_share_pct 0.51
+failure_rate_incl_cus03_pct pending_share_pct
+                      10.58              0.51
+
+=== CHECK: 06 reconciliation rate (non-PENDING attempts only) ===
+-- CHECK: 06 reconciliation rate (non-PENDING attempts only)
+-- EXPECT: non_pending_attempts 292483, matching 291695, reconciliation_rate_pct 99.7306
+ non_pending_attempts  matching reconciliation_rate_pct
+               292483    291695                 99.7306
+
+=== CHECK: 07 latency percentiles in ms (SUCCESS and FAILED attempts) ===
+-- CHECK: 07 latency percentiles in ms (SUCCESS and FAILED attempts)
+-- EXPECT: p50 about 1900, p95 about 7700 to 8000, p99 about 30000
+ p50_ms  p95_ms  p99_ms
+ 1923.0  8659.0 30577.0
+
+=== CHECK: 08 attempts and failure rate by month ===
+-- CHECK: 08 attempts and failure rate by month
+-- EXPECT: 6 months, attempts rising from about 42000 (April) to about 54000 (September), failure rate falling over time with a bump in August (the Clearwave deploy)
+  month  attempts failure_rate_pct
+2026-04     42083            10.99
+2026-05     46493            10.80
+2026-06     46808            10.32
+2026-07     50940            10.26
+2026-08     54131            11.16
+2026-09     53536             9.99
+
+=== CHECK: 09 top 8 banks by failed attempts ===
+-- CHECK: 09 top 8 banks by failed attempts
+-- EXPECT: the 8 Large banks, with combined share of failures about 65 to 70 pct
+         bank_name size_tier  failures share_of_all_failures_pct
+   Halcyon Federal     Large      2624                      8.48
+Kestrel Commercial     Large      2605                      8.42
+            Solace     Large      2603                      8.41
+            Zenora     Large      2578                      8.33
+   Tarang National     Large      2505                      8.10
+           Vantara     Large      2501                      8.08
+    Meridian Union     Large      2482                      8.02
+    Aurex National     Large      2462                      7.96
+
+=== CHECK: 10 evening share (hours 20-21) by PSP group after the timezone fix ===
+-- CHECK: 10 evening share (hours 20-21) by PSP group after the timezone fix
+-- EXPECT: both groups about 18.7 pct
+       grp  attempts pct_hours_20_21
+Other PSPs    274962           18.72
+ QuickRail     17521           18.66
+
+=== CHECK: 11 settlement lag by PSP group after the timezone fix ===
+-- CHECK: 11 settlement lag by PSP group after the timezone fix
+-- EXPECT: both groups median about 12 to 13.5 hours and about 93 to 95 pct within 24 hours
+       grp median_lag_hours pct_within_24h
+Other PSPs            12.69          94.01
+ QuickRail            12.67          93.93
+
+=== CHECK: 12 truth table loaded: reconciliation mismatch types ===
+-- CHECK: 12 truth table loaded: reconciliation mismatch types
+-- EXPECT: NONE 291695, PENDING_RESOLVED_FAILED 702, PENDING_RESOLVED_SUCCESS 482, DEBITED_TIMEOUT 382, PENDING_UNRESOLVED 324, RANDOM_REVERSAL 258, RANDOM_SETTLED_FAILED 148
+           mismatch_type      n
+                    NONE 291695
+ PENDING_RESOLVED_FAILED    702
+PENDING_RESOLVED_SUCCESS    482
+         DEBITED_TIMEOUT    382
+      PENDING_UNRESOLVED    324
+         RANDOM_REVERSAL    258
+   RANDOM_SETTLED_FAILED    148
+
+=== CHECK: 13 truth table loaded: planted data quality issues ===
+-- CHECK: 13 truth table loaded: planted data quality issues
+-- EXPECT: DUPLICATE_ROW 294, MISSING_ERROR_CODE 93, MISSING_LATENCY 585
+        issue_type   n
+     DUPLICATE_ROW 294
+MISSING_ERROR_CODE  93
+   MISSING_LATENCY 585
+
+=== CHECK: 14 truth table loaded: duplicate debits and incidents ===
+-- CHECK: 14 truth table loaded: duplicate debits and incidents
+-- EXPECT: duplicate_debit_rows 280; incident counts are printed for the record
+ duplicate_debit_rows  outage_rows  deploy_rows
+                  280          186         3524
+
+=== CHECK: 15 truth table loaded: attempts per intent ===
+-- CHECK: 15 truth table loaded: attempts per intent
+-- EXPECT: 1 -> 267955, 2 -> 10299, 3 -> 1546, 4 -> 200
+ n_attempts  intents
+          1   267955
+          2    10299
+          3     1546
+          4      200
+
+=== CHECK: 16 indexes created ===
+-- CHECK: 16 indexes created
+-- EXPECT: 9 indexes (7 on public tables, 2 on truth tables)
+schemaname           tablename               indexname
+    public fact_payment_events          idx_events_txn
+    public   fact_transactions            idx_txn_bank
+    public   fact_transactions   idx_txn_customer_time
+    public   fact_transactions      idx_txn_error_code
+    public   fact_transactions    idx_txn_initiated_at
+    public   fact_transactions             idx_txn_psp
+    public   fact_transactions          idx_txn_status
+     truth       attempt_truth idx_attempttruth_intent
+     truth   transaction_truth     idx_txntruth_intent

@@ -389,6 +389,38 @@ A: The clean files are the answer key. Scoring shows exactly what the cleaning f
 
 ---
 
+## Phase 2F-2: Loading, indexes and validation
+
+Q: Why load with COPY and not row-by-row INSERT?
+A: COPY streams the whole file into the table in one operation. Inserting 1.15 million event rows one batch at a time takes many minutes, while COPY takes about a minute.
+
+Q: Why does the load order matter?
+A: Foreign keys must point to rows that already exist. Transactions must be loaded before events and reconciliation, otherwise the database rejects them.
+
+Q: Why create indexes after the load?
+A: Building an index once on a full table is faster than updating it for every inserted row. Indexes speed up later queries that filter by time, bank, PSP, customer or status.
+
+Q: Why a composite index on customer_id and initiated_at?
+A: Phase 5 groups each customer's attempts in time order to build journeys. This index serves that exact pattern without a full scan.
+
+Q: What does ANALYZE do?
+A: It refreshes the statistics the query planner uses to choose between an index and a full scan. Without it, the first queries after a bulk load can be slow.
+
+Q: Why recompute the metrics in SQL if the generator already printed them?
+A: It proves the metric dictionary produces the same numbers from the database. If SQL, Python and Power BI disagree later, this is the baseline to check against.
+
+Q: Why keep the dirty staging table in the database?
+A: It preserves the raw record. Anyone can compare staging with the cleaned table and see exactly what changed, which is how a real pipeline is audited.
+
+Q: Why is the reconciliation rate 99.73 percent and what does it mean?
+A: Out of 292,483 completed attempts, 788 had a status that disagreed with the bank settlement. Most are debited timeouts, where the app showed failure but the money moved. This is the money finance would have to chase.
+
+Q: What are the Git tags for?
+A: ground-truth-declared marks the commit where the planted patterns were published before any analysis. phase-2-complete marks the finished dataset. Together they show the patterns were declared first.
+Interview angle: "The answer key was committed before I ran a single analysis query, and the tag proves it."
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
