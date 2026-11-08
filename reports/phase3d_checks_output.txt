@@ -1,0 +1,71 @@
+=== CHECK: 01 failure rate by value band, all eligible attempts, with 95 pct interval ===
+-- CHECK: 01 failure rate by value band, all eligible attempts, with 95 pct interval
+-- EXPECT: roughly flat up to 10000, higher above; top bands have wide intervals
+        value_band  attempts  failures failure_pct ci_low ci_high
+      1: under 100     31484      3194       10.14   9.82   10.48
+        2: 100-499    122006     12442       10.20  10.03   10.37
+       3: 500-1999     90065      9147       10.16   9.96   10.35
+      4: 2000-4999     32978      3476       10.54  10.21   10.88
+      5: 5000-9999     10437      1094       10.48   9.91   11.08
+    6: 10000-24999      4220       789       18.70  17.55   19.90
+7: 25000 and above       669       171       25.56  22.40   29.00
+
+=== CHECK: 02 limit and risk failures by value band ===
+-- CHECK: 02 limit and risk failures by value band
+-- EXPECT: LIM_02 appears only at the top bands; risk blocks about 2 times higher from 10000
+        value_band  attempts  limit_failures  risk_failures risk_pct
+      1: under 100     31484               0             62    0.197
+        2: 100-499    122006               0            240    0.197
+       3: 500-1999     90065               0            144    0.160
+      4: 2000-4999     32978               0             70    0.212
+      5: 5000-9999     10437               0             28    0.268
+    6: 10000-24999      4220             377             18    0.427
+7: 25000 and above       669              94              3    0.448
+
+=== CHECK: 03 failure rate by value band, excluding customer-side codes ===
+-- CHECK: 03 failure rate by value band, excluding customer-side codes
+-- EXPECT: flatter than check 01 because wrong PIN and insufficient funds do not depend on amount in this data
+        value_band  attempts failure_pct_no_customer_codes
+      1: under 100     31484                          8.38
+        2: 100-499    122006                          8.49
+       3: 500-1999     90065                          8.44
+      4: 2000-4999     32978                          8.74
+      5: 5000-9999     10437                          8.84
+    6: 10000-24999      4220                         17.13
+7: 25000 and above       669                         23.92
+
+=== CHECK: 04 latency view 1, all eligible attempts ===
+-- CHECK: 04 latency view 1, all eligible attempts
+-- EXPECT: about 5 pct under 5s, about 18 pct at 5-10s, over 90 pct at 10s and above
+    latency_band  attempts failure_pct ci_low ci_high
+     1: under 2s    153559        5.65   5.54    5.77
+         2: 2-5s    109641        5.72   5.58    5.86
+        3: 5-10s     15556       21.32  20.69   21.97
+4: 10s and above     13103       91.95  91.47   92.40
+
+=== CHECK: 05 latency view 2, timeout failures (NET_01, NET_02, NET_03) removed ===
+-- CHECK: 05 latency view 2, timeout failures (NET_01, NET_02, NET_03) removed
+-- EXPECT: under 2s and 2-5s about 4 to 5 pct; 5-10s much lower than view 1; 10s and above still elevated because BNK_04 and CUS_05 are slow but not timeout codes
+    latency_band  attempts failure_pct ci_low ci_high
+     1: under 2s    153524        5.63   5.52    5.75
+         2: 2-5s    109026        5.19   5.06    5.32
+        3: 5-10s     14188       13.74  13.18   14.31
+4: 10s and above      2705       61.00  59.15   62.82
+
+=== CHECK: 06 share of each latency band's failures that are timeouts ===
+-- CHECK: 06 share of each latency band's failures that are timeouts
+-- EXPECT: timeouts make up most of the failures in the 5-10s and 10s+ bands
+    latency_band  failures  timeout_failures timeout_share_pct
+     1: under 2s      8679                35               0.4
+         2: 2-5s      6269               615               9.8
+        3: 5-10s      3317              1368              41.2
+4: 10s and above     12048             10398              86.3
+
+=== CHECK: 07 latency view 3, 4G only, timeouts removed ===
+-- CHECK: 07 latency view 3, 4G only, timeouts removed
+-- EXPECT: same shape as check 05 on a single network type
+    latency_band  attempts failure_pct
+     1: under 2s     67388        5.43
+         2: 2-5s     51842        5.26
+        3: 5-10s      2636       29.06
+4: 10s and above       637       96.39

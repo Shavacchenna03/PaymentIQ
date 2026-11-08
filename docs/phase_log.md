@@ -27,3 +27,7 @@ Built v_daily_kpis, v_weekly_kpis and v_monthly_kpis with 7-day rolling rates an
 
 ## Phase 3C (done)
 Built the hour-by-weekday heatmap view and rolling z-score anomaly flags (28-day baseline, z above 2) for the system-wide first-attempt failure rate and for Kestrel Commercial. Results in reports/phase3c_checks_output.txt.
+
+
+## Phase 3D (done)
+Built value-band and latency-band views with Wilson 95 percent intervals. Tested the latency trap: failure rate by latency band with and without timeout failures, and within 4G only. Results in reports/phase3d_checks_output.txt.
