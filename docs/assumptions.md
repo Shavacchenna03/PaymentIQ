@@ -40,3 +40,9 @@
 - Latency recovery is (completed_at minus initiated_at) plus 500 ms. The diagnosis showed the error is within 500 ms for about 97 percent of rows and up to about 1.3 seconds in the worst case, probably on retry rows that start at a fractional second.
 - FAILED rows with no error code become UNK_01. This can hide the true cause, including "Do not retry" codes. These rows are listed in reports/dq_fixed_rows.csv and should be excluded from root-cause analysis by code.
 - Only exact duplicates are removed. If copies ever differed, the script stops.
+
+
+## Phase 3B assumptions
+- The 30-minute first-attempt rule is imperfect: 5,171 repeat purchases are misread as retries and 679 late retries are misread as first attempts (measured in 3A).
+- Weekly trend analysis uses full 7-day weeks only. The first and last weeks of the period are partial and are excluded.
+- Month lengths are equal for April and September (30 days), so the two can be compared directly.

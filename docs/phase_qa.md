@@ -444,6 +444,32 @@ A: It gives week, weekday, month-end and weekend labels in one place. This is th
 
 ---
 
+## Phase 3B: KPI views and window functions
+
+Q: Why a 7-day rolling rate and not a daily line?
+A: Daily rates swing by about 0.75 points from noise alone, and weekdays have different volumes. A 7-day window covers each weekday once, so seasonality cancels and the trend is easier to see.
+
+Q: Why is the rolling rate computed as a sum divided by a sum?
+A: Averaging daily percentages gives quiet days the same weight as busy days. Dividing total failures by total attempts over the window weights each attempt equally, which matches the metric dictionary.
+
+Q: Why use only full weeks in the weekly trend?
+A: The first and last weeks are partial and have a different weekday mix. Comparing them with a full week would show a change that is only calendar structure.
+
+Q: Why compare September with April for volume growth?
+A: Both months have 30 days, so the comparison is fair.
+
+Q: Why did the repeat-window share change from 75 to 62.5 percent?
+A: The gap is uniform from 5 to 45 minutes, so 25 of the 40 minutes fall inside the 30-minute window. The earlier figure was a mental estimate, and the measured 5,171 of 8,400 (61.6 percent) showed it was wrong. The correction was appended, not edited, to keep the history honest.
+Interview angle: "I measured my own assumption, found it was wrong, and documented the correction."
+
+Q: Why is the trend only 0.2 points between halves?
+A: The Clearwave deploy (3 to 16 Aug) adds about 1.7 points for 14 days, and it falls in the second half, which hides most of the improvement. A trend must be checked with known incidents excluded or modelled.
+
+Q: Why score the derived first-attempt rate against the truth?
+A: The rule has known errors. Scoring shows the derived rate (9.05 percent) is 0.07 points from the true one (8.98 percent), so the headline metric comes with a stated error.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

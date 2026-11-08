@@ -60,3 +60,7 @@ Exact planted magnitudes are stored in the generator config and the truth schema
 - Missing latency can only be recovered approximately. Timestamps are stored at 1-second resolution, so completed_at minus initiated_at is within 1 second of the true latency. The cleaning rule is the timestamp difference plus 500 ms, accurate to about 0.5 seconds. This limit is expected and will be reported.
 - UTC symptom: QuickRail peak hours appear about 5 to 6 hours early, and its settlement lag appears about 5.5 hours longer than other PSPs. A Phase 3 analysis that ignores this would wrongly report QuickRail as a morning-peak PSP.
 - FAILED rows with no error code are mapped to UNK_01. This may hide the true cause, so these rows are tagged in the cleaning log.
+
+
+## Correction (Phase 3B, committed before any further analysis)
+The repeat-intent gap (5 to 45 minutes) is uniform, so about 62.5 percent of repeat purchases fall inside a 30-minute window, not 75 percent as written earlier. Step 3A measured 5,171 of 8,400 (61.6 percent) misread as retries. Earlier text that says 75 percent is superseded by this note.

@@ -19,3 +19,7 @@ Database: 10 base tables plus 4 truth tables, validated in SQL. Git tag: phase-2
 
 ## Phase 3 design and 3A (done)
 Phase 3 (W1 payment performance) designed: headline metric is the first-attempt failure rate, derived in SQL and scored against the answer key. Built dim_date (183 days) and the views v_attempts_flagged and v_attempts_eligible, which apply the metric dictionary rules in one place. Design in docs/phase3_design.md.
+
+
+## Phase 3B (done)
+Built v_daily_kpis, v_weekly_kpis and v_monthly_kpis with 7-day rolling rates and period-over-period changes. Scored the derived first-attempt failure rate against the answer key. Corrected the repeat-window figure from 75 to 62.5 percent.
