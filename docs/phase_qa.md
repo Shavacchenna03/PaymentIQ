@@ -421,6 +421,29 @@ Interview angle: "The answer key was committed before I ran a single analysis qu
 
 ---
 
+## Phase 3 design and 3A: Views and first-attempt logic
+
+Q: Why is the first-attempt failure rate the headline metric?
+A: Retries depend on how customers respond, not only on system performance. A system with a lot of retries shows a higher all-attempt failure rate without being less reliable. The first attempt is the cleanest view of the system, and the all-attempt rate is shown beside it.
+
+Q: How is a first attempt found when there is no journey_id?
+A: An attempt is a first attempt if the same customer has made no earlier attempt to the same payee for the same amount in the previous 30 minutes. This uses the LAG window function.
+
+Q: How wrong is that rule?
+A: Check 03 scores it against the answer key. The 8,400 deliberate repeat purchases are labelled as retries and the retries made more than 30 minutes after a failure are labelled as new first attempts. The size of both errors is measured, not guessed.
+Interview angle: "I scored my own journey rule against ground truth the first time I used it."
+
+Q: Why did the all-attempt P95 latency (8,659 ms) differ from the generator's 7,727 ms?
+A: The generator figure was first attempts only. Retries add many more slow attempts, because 38.6 percent of retries fail and many of those are timeouts. The two numbers answer different questions, so a metric always needs a stated population.
+
+Q: Why build views instead of repeating the filters in every query?
+A: The metric dictionary rules (exclude PENDING, exclude CUS_03) live in one place. If a rule changes, every query changes with it, and SQL, Python and Power BI cannot drift apart.
+
+Q: Why a dim_date table?
+A: It gives week, weekday, month-end and weekend labels in one place. This is the star-schema date dimension that Power BI will use, and it avoids repeating date logic in every query.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

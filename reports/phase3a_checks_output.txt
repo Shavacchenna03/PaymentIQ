@@ -1,0 +1,30 @@
+=== CHECK: 01 dim_date ===
+-- CHECK: 01 dim_date
+-- EXPECT: 183 rows, first date 2026-04-01, last date 2026-09-30
+  n first_date  last_date
+183 2026-04-01 2026-09-30
+
+=== CHECK: 02 eligible view row count ===
+-- CHECK: 02 eligible view row count
+-- EXPECT: 291859 (matches validation check 04)
+ eligible_attempts
+            291859
+
+=== CHECK: 03 derived first-attempt flag versus truth (answer key, used only to score the 30-minute rule) ===
+-- CHECK: 03 derived first-attempt flag versus truth (answer key, used only to score the 30-minute rule)
+-- EXPECT: derived_first about 280000 or a little less; true_first 280000; the confusion counts show how wrong the 30-minute rule is
+ derived_first  true_first  both_first  derived_first_but_retry  derived_retry_but_first
+        275508      280000      274829                      679                     5171
+
+=== CHECK: 04 first-attempt and all-attempt failure rate (eligible attempts) ===
+-- CHECK: 04 first-attempt and all-attempt failure rate (eligible attempts)
+-- EXPECT: all-attempt about 10.39 pct; first-attempt about 9.0 to 9.4 pct
+all_attempt_failure_pct first_attempt_failure_pct  first_attempts
+                  10.39                      9.05          273574
+
+=== CHECK: 05 P95 latency by population ===
+-- CHECK: 05 P95 latency by population
+-- EXPECT: all attempts about 8659 ms; first attempts only about 7700 ms
+    population  p95_ms
+  all attempts  8659.0
+first attempts  7765.0
