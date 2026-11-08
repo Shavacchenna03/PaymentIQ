@@ -54,3 +54,9 @@ Exact planted magnitudes are stored in the generator config and the truth schema
 - Reconciliation mismatches (about 0.2 to 0.35 percent of non-PENDING attempts): debited timeouts, random reversals (SUCCESS reversed to FAILED, 0.1 percent) and random failed-but-settled rows (FAILED settled as SUCCESS, 0.5 percent). Some of the random rows will create extra false double-charge candidates, which Phase 7 must tell apart from real ones.
 - PENDING: 80 percent resolve by the extract date (to their hidden true outcome). 20 percent stay PENDING in reconciliation, so some real double charges are not visible there.
 - Event funnel: failure codes with no ISSUER_RESPONSE are the timeouts, PSP errors, risk blocks, invalid payee and expired collect requests. This is a planted structural pattern for the Phase 4 funnel analysis.
+
+## Amendments (Phase 2E, committed before any analysis)
+- Data quality issues planted in the staging files: about 585 rows with missing latency, about 93 FAILED rows with no error code, all QuickRail rows with UTC timestamps (about 17,000 attempts), and about 294 duplicate rows.
+- Missing latency can only be recovered approximately. Timestamps are stored at 1-second resolution, so completed_at minus initiated_at is within 1 second of the true latency. The cleaning rule is the timestamp difference plus 500 ms, accurate to about 0.5 seconds. This limit is expected and will be reported.
+- UTC symptom: QuickRail peak hours appear about 5 to 6 hours early, and its settlement lag appears about 5.5 hours longer than other PSPs. A Phase 3 analysis that ignores this would wrongly report QuickRail as a morning-peak PSP.
+- FAILED rows with no error code are mapped to UNK_01. This may hide the true cause, so these rows are tagged in the cleaning log.

@@ -104,3 +104,13 @@ There is no journey_id in the raw data. A real company would not have one. Journ
 - Planted mismatches (attempt status differs from final_status): debited timeouts (app showed FAILED, money moved), PENDING attempts that resolved (80 percent resolve, 20 percent stay PENDING), random reversals (0.1 percent of SUCCESS) and random failed-but-settled rows (0.5 percent of FAILED).
 - Hidden file data/raw/recon_truth.csv records the reason for each mismatch. Outputs are data/raw/payment_events.csv, reconciliation.csv and recon_truth.csv (all gitignored).
 - Data extract date is 5 Oct 2026 at 00:00. Every attempt is more than 24 hours old at extract.
+
+## Deliberate data quality issues (2E)
+- Staging files are built from the clean files: data/raw/stg_transactions.csv and data/raw/stg_payment_events.csv. The clean attempts_all.csv and payment_events.csv are kept unchanged so cleaning can be checked against them.
+- Four issues are planted, in this order:
+  1. Missing latency: 0.2 percent of non-PENDING rows have latency_ms blank although completed_at is present.
+  2. FAILED rows with no error code: 0.3 percent of FAILED rows have error_code blank.
+  3. UTC timestamps: every QuickRail attempt row has initiated_at and completed_at 5 hours 30 minutes behind IST, and its events are shifted the same way. Reconciliation (from the bank) stays in IST.
+  4. Duplicate rows: 0.1 percent of rows appear twice as exact copies with the same transaction_id. Events are not duplicated.
+- Hidden files: dq_truth.csv (true latency and true error code of the damaged rows, and the duplicated ids) and dq_planted_summary.csv (what was planted). Cleaning in 2F produces its own data_quality_log.csv.
+- Signals for detecting the UTC issue without a config flag: QuickRail's hourly volume profile is shifted about 5 to 6 hours earlier than other PSPs, and its settlement lag looks about 5.5 hours longer.

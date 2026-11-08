@@ -334,6 +334,35 @@ A: Money settles only when a payment succeeds. A FAILED payment has no settlemen
 
 ---
 
+## Phase 2E: Deliberate data quality issues
+
+Q: Why make the data dirty on purpose?
+A: Real data always has problems. Cleaning them, and documenting how each was found and fixed, shows analytical care. It also means the analysis is run on the cleaned data, with a log of every change.
+
+Q: How do you detect that one PSP writes UTC timestamps?
+A: Compare each PSP's hourly volume profile with the others. Payments peak at 8 to 10pm IST, but QuickRail's peak appears 5 to 6 hours earlier. Its settlement lag also looks about 5.5 hours longer. Two independent signals agreeing is strong evidence.
+Interview angle: "I detected the timezone issue from the data and did not just read a config flag."
+
+Q: Why is the missing latency recovered only approximately?
+A: Timestamps are stored to the second, so the difference between completion and start is within 1 second of the true latency. Adding 500 ms makes the error about 0.5 seconds on average. That is acceptable for 0.2 percent of rows, but the limit is documented.
+
+Q: Why map FAILED rows with no error code to UNK_01?
+A: A failure without a code cannot be assigned to a cause, so it goes to the Unknown category. The rows are tagged in the log so they can be excluded from root-cause analysis.
+
+Q: How are duplicates removed safely?
+A: By transaction_id. If two rows are exact copies, keep one. If they differ, the rule must be decided and logged.
+
+Q: Why does reconciliation stay in IST when QuickRail's own data is in UTC?
+A: Reconciliation comes from the bank, not from QuickRail. Data from different systems can use different conventions, and finding the mismatch is part of the cleaning work.
+
+Q: Why were the events shifted too?
+A: Events come from the same PSP system as the attempts. If only the attempts were fixed, the event timeline would no longer match the transaction.
+
+Q: Why keep the clean files and a hidden truth file?
+A: They are the answer key for cleaning. We can measure how many issues were found and how accurate the recovered values are.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

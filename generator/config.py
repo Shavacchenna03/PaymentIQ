@@ -296,3 +296,9 @@ RECON_NORMAL_LAG_H = (1, 23)
 RECON_LATE_LAG_H = (24, 72)
 RECON_PENDING_LAG_H = (24, 72)
 EXTRACT_DATE = "2026-10-05"          # data extract taken at 00:00 on this date
+
+# ---- 2E: data quality issues ----
+MISSING_LATENCY_RATE = 0.002     # share of non-PENDING rows with latency_ms blanked
+MISSING_CODE_RATE = 0.003        # share of FAILED rows with error_code blanked
+DUPLICATE_ROW_RATE = 0.001       # share of rows duplicated exactly
+UTC_OFFSET_MINUTES = 330         # QuickRail writes UTC (5 hours 30 minutes behind IST)

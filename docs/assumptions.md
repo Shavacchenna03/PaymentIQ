@@ -29,3 +29,9 @@
 - Reconciliation mismatch rates (0.1 percent reversals, 0.5 percent failed-but-settled) are assumptions, not industry statistics.
 - 80 percent of PENDING attempts resolve by the extract date. This is an assumption.
 - FAILED rows have no settlement_time because no money settled.
+
+## Phase 2E assumptions
+- Data quality issue rates (0.2 percent missing latency, 0.3 percent missing error code, 0.1 percent duplicates) are assumptions, not industry statistics.
+- QuickRail is the only PSP writing UTC timestamps. The offset is exactly 5 hours 30 minutes.
+- Duplicate rows are exact copies. Real duplicates sometimes differ slightly, which is not modelled.
+- Reconciliation timestamps come from the bank and are always in IST.
