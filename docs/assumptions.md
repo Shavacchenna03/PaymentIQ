@@ -35,3 +35,8 @@
 - QuickRail is the only PSP writing UTC timestamps. The offset is exactly 5 hours 30 minutes.
 - Duplicate rows are exact copies. Real duplicates sometimes differ slightly, which is not modelled.
 - Reconciliation timestamps come from the bank and are always in IST.
+
+## Phase 2F-1 assumptions
+- Latency recovery is (completed_at minus initiated_at) plus 500 ms. The diagnosis showed the error is within 500 ms for about 97 percent of rows and up to about 1.3 seconds in the worst case, probably on retry rows that start at a fractional second.
+- FAILED rows with no error code become UNK_01. This can hide the true cause, including "Do not retry" codes. These rows are listed in reports/dq_fixed_rows.csv and should be excluded from root-cause analysis by code.
+- Only exact duplicates are removed. If copies ever differed, the script stops.

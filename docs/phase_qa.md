@@ -363,6 +363,32 @@ A: They are the answer key for cleaning. We can measure how many issues were fou
 
 ---
 
+## Phase 2F-1: Cleaning
+
+Q: In what order should the cleaning steps run?
+A: Remove duplicates first, so nothing is counted twice. Fix the timezone next, because the latency recovery depends on correct timestamps. Then fill the error codes and recover the latency. A different order can give wrong results.
+
+Q: How does the script find the shifted PSP without a flag?
+A: It compares each PSP's hourly volume profile with the other PSPs, shifted by 0 to 23 hours. A PSP whose profile matches much better after a shift is flagged. The settlement-lag gap then fixes the half hour.
+Interview angle: "I used two independent signals, volume timing and settlement lag, and they agreed."
+
+Q: Why is the settlement-lag signal needed as well?
+A: Hourly profiles shift in whole hours, and the real offset is 5.5 hours. Reconciliation timestamps come from the bank in IST, so the lag gap measures the half hour.
+
+Q: Why does the script stop if the copies of a duplicate differ?
+A: Then it is no longer a simple duplicate and a rule has to be chosen. Silently picking one would hide a decision.
+
+Q: How accurate is the recovered latency?
+A: About 97 percent of rows are within 0.5 seconds, and the worst case is about 1.3 seconds. Timestamps are stored to the second, so exact recovery is impossible. The limit is stated in the log.
+
+Q: What is the risk of mapping missing codes to UNK_01?
+A: Some of these failures may really be "Do not retry" cases or a known cause. The log shows the true mix, and the rows are listed so the root-cause analysis can exclude them.
+
+Q: Why score the cleaning against the clean files?
+A: The clean files are the answer key. Scoring shows exactly what the cleaning fixed, and what error remains.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

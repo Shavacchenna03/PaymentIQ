@@ -114,3 +114,10 @@ There is no journey_id in the raw data. A real company would not have one. Journ
   4. Duplicate rows: 0.1 percent of rows appear twice as exact copies with the same transaction_id. Events are not duplicated.
 - Hidden files: dq_truth.csv (true latency and true error code of the damaged rows, and the duplicated ids) and dq_planted_summary.csv (what was planted). Cleaning in 2F produces its own data_quality_log.csv.
 - Signals for detecting the UTC issue without a config flag: QuickRail's hourly volume profile is shifted about 5 to 6 hours earlier than other PSPs, and its settlement lag looks about 5.5 hours longer.
+
+## Cleaning (2F-1)
+- generator/clean_data.py turns the staging files into data/processed/transactions_clean.csv and payment_events_clean.csv. Every change is recorded in reports/data_quality_log.csv and reports/dq_fixed_rows.csv.
+- Order: remove duplicate transaction_ids (exact copies), detect timezone-shifted PSPs, shift their timestamps and events back, map FAILED rows with no error code to UNK_01, then recover missing latency.
+- Detection: for each PSP, the hourly volume profile is shifted by 0 to 23 hours to find the best match with the other PSPs combined. A PSP is flagged if a non-zero shift halves the distance. The half hour is fixed from the settlement-lag gap, because reconciliation comes from the bank and stays in IST. The script does not read any config flag.
+- Missing latency is recovered as (completed_at minus initiated_at) plus 500 ms, clipped to 200 ms at the lower end. Timestamps are truncated to whole seconds, so the result is approximate.
+- Scoring against the answer key happens only at the end, and the results are written to the log.

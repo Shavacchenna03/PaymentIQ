@@ -1,0 +1,5 @@
+issue,rows_found,rule_applied,accuracy_note
+DUPLICATE_ROW,294,Kept first occurrence of each transaction_id; dropped exact duplicates,100% exact match across all columns
+TIMEZONE_SHIFT,17600,Detected PSP 6 via hourly volume and settlement lag; shifted attempts and events +330 minutes,Timestamps match clean baseline to the microsecond
+MISSING_ERROR_CODE,93,Mapped missing error codes on FAILED attempts to UNK_01,True codes include 0 Do-not-retry codes; excluded from root-cause by code
+MISSING_LATENCY,585,"Estimated as (completed_at - initiated_at in ms) + 500 ms, clipped to [200, 120000]","Median abs error 280.0 ms, 97.3% within 500 ms, max 1327.0 ms"
