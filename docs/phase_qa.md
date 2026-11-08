@@ -470,6 +470,32 @@ A: The rule has known errors. Scoring shows the derived rate (9.05 percent) is 0
 
 ---
 
+## Phase 3C: Heatmap and anomaly detection
+
+Q: How does the anomaly flag work?
+A: Each day's first-attempt failure rate is compared with the mean and standard deviation of the previous 28 days, excluding the day itself. A z-score above 2 flags the day. The baseline excludes the current day so an anomaly cannot hide itself.
+
+Q: Why were only 3 of the 14 deploy days flagged?
+A: A rolling baseline absorbs a sustained change. After a few elevated days the mean and spread rise, so later days look normal. Daily noise is about 0.75 points against a 1.7-point shift, so a z above 2 is also a high bar. A two-week shift is better found with a weekly view, CUSUM or a change-point test.
+Interview angle: "I matched the detector to the anomaly type. A control chart finds spikes, a change-point test finds sustained shifts."
+
+Q: Why did the outage show clearly at bank level but not system-wide?
+A: Kestrel carries about 9 percent of attempts, and the outage covers a few hours. At bank level the z-scores are 8 to 12. System-wide they are 1.4 to 2.4. Aggregates dilute a local failure, so slice by bank before concluding that nothing happened.
+
+Q: Why is the hourly failure rate almost flat even though peak hours hurt some banks?
+A: Only Small banks degrade at peak, and they carry 8 percent of volume. By size tier, Small banks go from 3.7 to 7.3 percent while Large banks barely move. The system-wide view hides it.
+
+Q: Why use a one-sided test (z above 2)?
+A: The business cares about failure rates rising. A rate that is unusually low is not an incident. A two-sided test would add false alarms.
+
+Q: Why not flag the first 28 days?
+A: There is no baseline yet. The view requires 28 prior days, and the check confirms no flags without one.
+
+Q: Why do night hours look noisy?
+A: Hours 1 to 5 have only 700 to 1,200 attempts each over six months. Small samples move more, so any hourly chart should show volume or hide small cells.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
