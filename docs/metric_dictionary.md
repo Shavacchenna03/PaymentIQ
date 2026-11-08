@@ -43,3 +43,6 @@
 
 ## Clarification (Phase 2C-2)
 Technical Failure Rate counts failures in the Bank-side, PSP-side, Network and Technical categories, but EXCLUDES BNK_03 (insufficient funds) and BNK_05 (account inactive or frozen). They sit under Bank-side only because the issuer reports them, and they are customer-caused. Limit, Risk and Unknown categories are also outside the Technical Failure Rate.
+
+## Clarification (Phase 2D)
+Reconciliation Rate: numerator = non-PENDING attempts whose attempt status equals the reconciliation final_status. Denominator = non-PENDING attempts with a reconciliation record. PENDING attempts are excluded, consistent with the global rule, and are reported through Pending Share and the PENDING resolution breakdown. The data extract date is 5 Oct 2026, so the 24-hour settlement lag rule excludes no attempts.

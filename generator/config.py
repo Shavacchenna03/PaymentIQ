@@ -278,3 +278,21 @@ OUTAGE_RETRY_SUCCESS_MULT = 0.15
 RETRY_SAME_CODE_P = 0.70
 RETRY_FAIL_CODES = {"NET_01": 0.25, "BNK_02": 0.15, "BNK_01": 0.10, "PSP_01": 0.15,
                     "NET_02": 0.10, "PSP_02": 0.10, "UNK_01": 0.05, "CUS_01": 0.10}
+
+# ---- 2D: events and reconciliation ----
+# Failed attempts with these codes never reach the PSP (stopped at the platform)
+NO_PSP_CODES = ["CUS_03", "TEC_01", "TEC_03"]
+# Failed attempts with these codes never got an issuer response
+NO_ISSUER_CODES = ["PSP_01", "PSP_02", "PSP_03", "PSP_04", "NET_01", "NET_02", "NET_03",
+                   "RSK_01", "RSK_02", "CUS_04", "CUS_05"]
+SENT_FRAC_RANGE = (0.02, 0.10)       # SENT_TO_PSP happens at this fraction of the attempt duration
+ISSUER_FRAC_RANGE = (0.55, 0.95)     # ISSUER_RESPONSE happens at this fraction of the duration
+PENDING_SENT_OFFSET_MS = (50, 400)
+RECON_PENDING_RESOLVED_P = 0.80      # share of PENDING attempts that resolve by extract date
+RECON_REVERSAL_P = 0.001             # SUCCESS attempts reversed at settlement
+RECON_SETTLED_FAILED_P = 0.005       # FAILED attempts that still settled money
+RECON_LATE_TAIL_P = 0.06             # share of settlements that take 24 to 72 hours
+RECON_NORMAL_LAG_H = (1, 23)
+RECON_LATE_LAG_H = (24, 72)
+RECON_PENDING_LAG_H = (24, 72)
+EXTRACT_DATE = "2026-10-05"          # data extract taken at 00:00 on this date

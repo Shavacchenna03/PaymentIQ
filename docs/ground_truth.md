@@ -48,3 +48,9 @@ Exact planted magnitudes are stored in the generator config and the truth schema
 - Retries during the Kestrel Commercial outage windows succeed only 0.15x as often as normal.
 - Journey window: about 5 percent of retries occur 31 to 180 minutes after the previous attempt, so a 30-minute window splits them from their journey. Separately, the 8,400 repeat intents (2C-1) will be wrongly merged with their original.
 - Expected retry volume is about 12,000 to 16,000 attempts, below the 20,000 originally targeted. This is the honest result of about a 9 percent failure rate.
+
+## Amendments (Phase 2D, committed before any analysis)
+- P12 (visibility): reconciliation reveals double-charge risk. Debited timeouts appear as FAILED in the attempts table but SUCCESS in reconciliation with money settled. Resolved PENDING attempts that were really successful also appear as SUCCESS. An intent with 2 or more settled successes is a double-charge candidate.
+- Reconciliation mismatches (about 0.2 to 0.35 percent of non-PENDING attempts): debited timeouts, random reversals (SUCCESS reversed to FAILED, 0.1 percent) and random failed-but-settled rows (FAILED settled as SUCCESS, 0.5 percent). Some of the random rows will create extra false double-charge candidates, which Phase 7 must tell apart from real ones.
+- PENDING: 80 percent resolve by the extract date (to their hidden true outcome). 20 percent stay PENDING in reconciliation, so some real double charges are not visible there.
+- Event funnel: failure codes with no ISSUER_RESPONSE are the timeouts, PSP errors, risk blocks, invalid payee and expired collect requests. This is a planted structural pattern for the Phase 4 funnel analysis.

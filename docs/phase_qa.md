@@ -300,6 +300,40 @@ A: A real company would not have one. Phase 5 derives journeys from customer, pa
 
 ---
 
+## Phase 2D: Payment events and reconciliation
+
+Q: What is the payment events table for?
+A: It records each step of a payment (initiated, sent to the PSP, issuer response, final status) with a timestamp. It shows where in the journey an attempt stopped, and how long each step took.
+
+Q: Why do some attempts have fewer than 4 events?
+A: A payment that fails early never reaches later steps. A timeout has no issuer response because the issuer never answered. A cancelled payment never reached the PSP. A PENDING payment has no final status. The missing steps are the funnel, and show where failures happen.
+
+Q: Why do timeouts have no ISSUER_RESPONSE even though the money may have moved?
+A: The platform never received the answer, which is the whole problem with timeouts. The bank may still have debited the customer. Only reconciliation later shows what really happened.
+
+Q: What is reconciliation?
+A: Comparing what the platform recorded with what actually settled at the bank. If the app shows FAILED but the settlement shows SUCCESS and money moved, that is a mismatch the finance team must fix.
+
+Q: Why do some FAILED attempts show SUCCESS in reconciliation?
+A: Debited timeouts. The customer was debited, but the app never got the answer and showed failure. If the customer then retries and succeeds, they pay twice. Reconciliation is how that is detected.
+
+Q: Why is PENDING excluded from the Reconciliation Rate?
+A: A PENDING attempt has no final status yet. Comparing it with the settlement result would count a normal late resolution as an error. PENDING is reported separately, as in the other rates.
+
+Q: Why do 20 percent of PENDING attempts stay PENDING in reconciliation?
+A: Some payments take longer than the extract window to resolve. This is realistic, and it means some real double charges are invisible in reconciliation until later.
+
+Q: Why does settlement have a lag with a tail?
+A: Most settlements complete within a day, but a small share take 1 to 3 days. This is why the metric dictionary waits 24 hours before counting an attempt, and why late settlements must not be treated as missing.
+
+Q: Why is the random mismatch rate small (about 0.1 to 0.5 percent)?
+A: Real reconciliation errors are rare. They exist so the Reconciliation Rate shows a believable figure, and so Phase 7 has to separate real double charges from random noise.
+
+Q: Why does settlement_time exist only for SUCCESS rows?
+A: Money settles only when a payment succeeds. A FAILED payment has no settlement. Leaving settlement_time empty makes that clear.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

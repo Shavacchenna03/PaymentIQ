@@ -22,3 +22,10 @@
 - Duplicate debits come from debited timeouts (3 percent, inflated) and from PENDING attempts that were really successful. Both exist only in the truth files.
 - CUS_04, CUS_05 and BNK_05 form a "customer other" retry group (30 percent retry, 50 percent success) because the first retry table did not cover them.
 - The Clearwave latency ramp is not applied to retries.
+
+## Phase 2D assumptions
+- Data extract date is 5 Oct 2026 at 00:00. Every attempt is more than 24 hours old, so the 24-hour settlement lag rule excludes no attempts.
+- Event timestamps are synthetic, placed at fixed fractions of the attempt duration. They are not real network measurements.
+- Reconciliation mismatch rates (0.1 percent reversals, 0.5 percent failed-but-settled) are assumptions, not industry statistics.
+- 80 percent of PENDING attempts resolve by the extract date. This is an assumption.
+- FAILED rows have no settlement_time because no money settled.

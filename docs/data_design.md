@@ -94,3 +94,13 @@ There is no journey_id in the raw data. A real company would not have one. Journ
 - Double charge (is_duplicate_debit): a retry that succeeds after an earlier attempt in the same intent really debited the customer. The earlier debit source is a timeout flagged is_debited, or a PENDING attempt that was originally SUCCESS.
 - The Clearwave latency ramp is not applied to retries (under 2 percent of rows).
 - Outputs in data/raw/ (gitignored): attempts_all.csv (the raw fact table, no intent_id), transaction_truth.csv, attempt_truth_all.csv, intent_truth.csv. truth.intent_truth is added to the database in step 2F.
+
+## Payment events and reconciliation (2D)
+- fact_payment_events: one row per lifecycle step of an attempt (INITIATED, SENT_TO_PSP, ISSUER_RESPONSE, FINAL_STATUS). About 1.15 million rows.
+- Funnel: most attempts have all 4 events. Failed attempts that stop early skip steps. Timeouts, PSP errors, risk blocks, invalid payee and expired collect requests have no ISSUER_RESPONSE. Customer-cancelled, invalid request and expired token attempts have no SENT_TO_PSP. PENDING attempts have only INITIATED and SENT_TO_PSP, and no FINAL_STATUS.
+- Event timestamps are placed at fixed fractions of the attempt duration: SENT_TO_PSP at 2 to 10 percent, ISSUER_RESPONSE at 55 to 95 percent. INITIATED equals initiated_at and FINAL_STATUS equals completed_at.
+- fact_reconciliation: one row per attempt with the settlement view of the payment (final_status, settled_amount, settlement_time). Money is settled only when final_status is SUCCESS. settlement_time is empty otherwise.
+- Settlement lag: about 94 percent settle within 1 to 23 hours of completion and about 6 percent take 24 to 72 hours. PENDING attempts that resolve to SUCCESS settle 24 to 72 hours after initiation.
+- Planted mismatches (attempt status differs from final_status): debited timeouts (app showed FAILED, money moved), PENDING attempts that resolved (80 percent resolve, 20 percent stay PENDING), random reversals (0.1 percent of SUCCESS) and random failed-but-settled rows (0.5 percent of FAILED).
+- Hidden file data/raw/recon_truth.csv records the reason for each mismatch. Outputs are data/raw/payment_events.csv, reconciliation.csv and recon_truth.csv (all gitignored).
+- Data extract date is 5 Oct 2026 at 00:00. Every attempt is more than 24 hours old at extract.
