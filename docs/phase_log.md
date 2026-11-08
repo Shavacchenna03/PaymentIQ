@@ -23,3 +23,7 @@ Phase 3 (W1 payment performance) designed: headline metric is the first-attempt 
 
 ## Phase 3B (done)
 Built v_daily_kpis, v_weekly_kpis and v_monthly_kpis with 7-day rolling rates and period-over-period changes. Scored the derived first-attempt failure rate against the answer key. Corrected the repeat-window figure from 75 to 62.5 percent.
+
+
+## Phase 3C (done)
+Built the hour-by-weekday heatmap view and rolling z-score anomaly flags (28-day baseline, z above 2) for the system-wide first-attempt failure rate and for Kestrel Commercial. Results in reports/phase3c_checks_output.txt.

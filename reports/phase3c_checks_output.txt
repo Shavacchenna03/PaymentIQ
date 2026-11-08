@@ -1,0 +1,76 @@
+=== CHECK: 01 heatmap shape ===
+-- CHECK: 01 heatmap shape
+-- EXPECT: 168 cells (7 weekdays x 24 hours); total eligible attempts 291859
+ cells eligible
+   168   291859
+
+=== CHECK: 02 failure rate by hour of day ===
+-- CHECK: 02 failure rate by hour of day
+-- EXPECT: hours 20 and 21 slightly above the daytime rate; night hours noisy because volume is low
+ hour_of_day attempts failure_rate_pct
+           0     2197            11.20
+           1     1247            11.55
+           2     1017            10.82
+           3      717             9.48
+           4      717            10.32
+           5     1207            10.60
+           6     2395            10.90
+           7     4911            10.49
+           8     9986            10.04
+           9    13972            10.01
+          10    14950             9.75
+          11    15926            10.49
+          12    18935            10.14
+          13    17864            10.41
+          14    14944            10.82
+          15    13866             9.97
+          16    15161            10.33
+          17    17012            10.86
+          18    19059            10.46
+          19    22002            10.24
+          20    27787            10.68
+          21    26825            10.76
+          22    20175            10.11
+          23     8987            10.07
+
+=== CHECK: 03 system anomaly flags ===
+-- CHECK: 03 system anomaly flags
+-- EXPECT: several days inside 3 to 16 Aug flagged; about 3 to 5 other days flagged; no flags in the first 28 days
+  date_key  first_attempts first_attempt_failure_pct base_mean z_score  in_deploy_window
+2026-07-22            1415                     10.46      8.72    2.39             False
+2026-08-03            1481                     11.95      8.72    4.61              True
+2026-08-06            1540                     11.49      8.94    2.66              True
+2026-08-09            1452                     12.40      9.12    3.04              True
+
+=== CHECK: 04 anomaly summary ===
+-- CHECK: 04 anomaly summary
+-- EXPECT: flagged_in_deploy_window 5 to 9 of 14; flagged_elsewhere 3 to 5 of about 140 days with a baseline
+ flagged_in_deploy_window  flagged_elsewhere  days_with_baseline_outside_window  flagged_without_baseline
+                        3                  1                                141                         0
+
+=== CHECK: 05 Kestrel Commercial outage days (system flag versus bank flag) ===
+-- CHECK: 05 Kestrel Commercial outage days (system flag versus bank flag)
+-- EXPECT: on 14 May, 22 Jul and 9 Sep the Kestrel failure rate is well above its norm; the system-wide flag is probably false
+  date_key  kestrel_attempts kestrel_failure_pct kestrel_z  kestrel_flag system_z  system_flag
+2026-05-14               133               36.09     11.09          True     1.75        False
+2026-07-22               154               48.70     11.69          True     2.39         True
+2026-09-09               174               36.78      8.06          True     1.40        False
+
+=== CHECK: 06 Kestrel anomalies overall ===
+-- CHECK: 06 Kestrel anomalies overall
+-- EXPECT: the three outage days plus a few false alarms
+  date_key  attempts failure_pct z_score
+2026-05-03       125       15.20    2.16
+2026-05-14       133       36.09   11.09
+2026-06-14       122       17.21    2.85
+2026-06-28       151       17.88    2.72
+2026-07-22       154       48.70   11.69
+2026-09-09       174       36.78    8.06
+
+=== CHECK: 07 peak hours by bank size (bank-side codes only), hours 20-21 versus other hours ===
+-- CHECK: 07 peak hours by bank size (bank-side codes only), hours 20-21 versus other hours
+-- EXPECT: Small about 2 times higher in hours 20-21; Large about 1.1 times; Medium in between
+size_tier bank_fail_pct_peak bank_fail_pct_other
+    Large               1.94                1.79
+   Medium               2.98                2.45
+    Small               7.32                3.74
