@@ -1,0 +1,75 @@
+=== CHECK: 01 view totals ===
+-- CHECK: 01 view totals
+-- EXPECT: 273574 first attempts, 24772 failures
+ attempts  failures
+   273574     24772
+
+=== CHECK: 02 network mix by bank group ===
+-- CHECK: 02 network mix by bank group
+-- EXPECT: slow (3G and 2G) share roughly Tarang 25 to 30 pct, Other Large about 15, Zenora about 5 to 9; Zenora fast share highest
+     bank_group  attempts fast_pct g4_pct slow_pct failure_pct
+    Other Large    145079     42.3   43.5     14.1        8.44
+Tarang National     22382     25.6   48.5     25.9        9.01
+         Zenora     23978     54.7   38.2      7.0        8.50
+
+=== CHECK: 03 failure rate by bank group within network group ===
+-- CHECK: 03 failure rate by bank group within network group
+-- EXPECT: within each network group Tarang and Other Large are close; Zenora is the highest or near highest in fast and 4G
+     bank_group network_group  attempts failure_pct
+    Other Large            4G     63154        7.83
+Tarang National            4G     10863        7.64
+         Zenora            4G      9166        8.28
+    Other Large          fast     61401        7.44
+Tarang National          fast      5728        7.04
+         Zenora          fast     13124        7.90
+    Other Large          slow     20524       13.28
+Tarang National          slow      5791       13.52
+         Zenora          slow      1688       14.34
+
+=== CHECK: 04 bank-side failure rate by tier, peak (hours 20-21) versus other hours ===
+-- CHECK: 04 bank-side failure rate by tier, peak (hours 20-21) versus other hours
+-- EXPECT: Small about 2 times higher at peak, Medium about 1.2 times, Large about 1.1 times
+size_tier  is_peak  attempts bank_side_pct
+    Large    False    155573          1.50
+    Large     True     35866          1.65
+   Medium    False     48622          2.08
+   Medium     True     11150          2.58
+    Small    False     18274          3.30
+    Small     True      4089          6.77
+
+=== CHECK: 05 network-family failure rate by network type ===
+-- CHECK: 05 network-family failure rate by network type
+-- EXPECT: 3G and 2G about 3.3 to 4.5 times WiFi and 5G
+network_type  attempts network_family_pct failure_pct
+        WiFi     69390               2.51        7.95
+          5G     44004               2.66        8.03
+          4G    119411               3.04        8.37
+          3G     30211               8.21       13.38
+          2G     10558              11.10       15.98
+
+=== CHECK: 06 PSP breakdown ===
+-- CHECK: 06 PSP breakdown
+-- EXPECT: Clearwave has the highest PSP-side rate; other PSPs similar
+      psp_name  attempts failure_pct psp_side_pct psp_01_pct
+     Clearwave     38716        9.85         1.84       1.30
+     Finbridge     24505        9.11         0.98       0.41
+Zenith Gateway      8168        9.13         0.98       0.36
+       Rapidix     59921        8.88         0.97       0.34
+  TransactLink     49386        8.79         0.96       0.36
+       PayNova     76471        9.00         0.93       0.33
+     QuickRail     16407        8.75         0.90       0.30
+
+=== CHECK: 07 Clearwave PSP_01 rate inside versus outside the window found in 3E (3 to 16 Aug) ===
+-- CHECK: 07 Clearwave PSP_01 rate inside versus outside the window found in 3E (3 to 16 Aug)
+-- EXPECT: about 12 pct inside, under 1 pct outside
+ in_window  attempts psp_01_pct
+     False     35636       0.29
+      True      3080      12.89
+
+=== CHECK: 08 device type ===
+-- CHECK: 08 device type
+-- EXPECT: failure rates within about 0.3 points of each other (descriptive only, tested in 4E)
+device_type  attempts failure_pct
+    Android    191711        9.07
+        iOS     60032        9.01
+        Web     21831        9.02

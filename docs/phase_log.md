@@ -51,3 +51,7 @@ Built v_repaired_codes, v_attempts_rc and v_failures_coded. Applied the failure 
 
 ## Phase 4B (done)
 Built v_bank_conc (all eligible attempts and first attempts): failure share against volume share, excess failures, within-tier rate gap and z-score, with Wilson intervals. Results in reports/phase4b_checks_output.txt.
+
+
+## Phase 4B and 4C (done)
+4B: bank concentration view with within-tier gaps. 4C: first-attempt view v_first_rc with bank group, network group and peak flag; breakdowns by network, peak hour, PSP and device. Results in reports/phase4b_checks_output.txt and reports/phase4c_checks_output.txt.

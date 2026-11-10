@@ -582,6 +582,28 @@ A: The 93 repaired rows sit in Unknown, but 78 were really network, bank or PSP 
 
 ---
 
+## Phase 4B: Bank concentration
+
+Q: Why do the top 8 banks hold 65.7 percent of failures on 69.8 percent of volume?
+A: They are the 8 Large banks, and most failures follow volume. Large banks under-contribute, Small banks (8.25 percent of volume, 11.28 percent of failures) over-contribute by about 1.4 times. Concentration alone does not mean unreliability.
+
+Q: What is the excess-failures measure?
+A: Observed failures minus the failures the bank's volume share would predict. Positive means more failures than its size explains.
+
+Q: Why compare each bank with its own tier?
+A: Otherwise every Large bank looks good and every Small bank looks bad just because of tier.
+
+Q: Why is the within-tier comparison misleading here?
+A: It flags Tarang National (z 2.66) and shows Zenora as average (z of minus 0.06). Tarang has many weak-network customers and Zenora has a hidden bank penalty, so the simple view points at the wrong bank. This is the Simpson's setup that 4D tests.
+
+Q: Why not name the worst Small bank?
+A: Each Small bank has about 1,100 to 1,400 first attempts, so intervals are about 4 points wide, and with 18 banks tested a few flags appear by chance. The tier rate (14.17 percent) is the usable result.
+
+Q: Why are 4C and 4D on first attempts only?
+A: Retry outcomes come from retry behaviour, not from bank, network or hour, so they dilute the effects. The derived first-attempt flag misclassifies about 1.6 percent of rows, which biases effects slightly toward zero.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
