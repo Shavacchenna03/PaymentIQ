@@ -43,3 +43,7 @@ Power BI build deferred to Phase 8B. Page 1 is skipped for now, with its design 
 
 ## Phase 4 design (done)
 W2 root-cause plan approved: cause-specific models plus an all-failures model, fixed bank effects, scripts then a narrative notebook, scoring against failure_truth.csv. Design in docs/phase4_design.md.
+
+
+## Phase 4A (done)
+Built v_repaired_codes, v_attempts_rc and v_failures_coded. Applied the failure taxonomy by category, code and retry class, with the 93 repaired UNK_01 rows excluded from code-level work. Results in reports/phase4a_checks_output.txt.

@@ -1,0 +1,86 @@
+=== CHECK: 01 repaired codes ===
+-- CHECK: 01 repaired codes
+-- EXPECT: repaired_ids 93; unk01_in_fact_transactions is 93 plus the genuine UNK_01 failures (a few hundred in total)
+ repaired_ids  unk01_in_fact_transactions
+           93                         328
+
+=== CHECK: 02 all failed attempts by category ===
+-- CHECK: 02 all failed attempts by category
+-- EXPECT: total 30937, shares add to 100; Network largest at about 40 to 47 pct, then Bank-side, Customer, PSP-side
+ category  failures share_pct
+  Network     12416     40.13
+Bank-side      8150     26.34
+ Customer      4169     13.48
+ PSP-side      3873     12.52
+Technical       856      2.77
+     Risk       565      1.83
+    Limit       471      1.52
+  Unknown       437      1.41
+
+=== CHECK: 03 all failed attempts by code with cumulative share (Pareto of codes) ===
+-- CHECK: 03 all failed attempts by code with cumulative share (Pareto of codes)
+-- EXPECT: NET_01 first at about 23 pct; the first 8 codes cover about 75 to 80 pct
+error_code  category         retry_class  failures share_pct cumulative_pct
+    NET_01   Network Verify status first      6934     22.41          22.41
+    NET_02   Network Verify status first      3123     10.09          32.51
+    CUS_01  Customer     Customer action      2381      7.70          40.20
+    NET_03   Network Verify status first      2359      7.63          47.83
+    BNK_02 Bank-side Verify status first      2068      6.68          54.51
+    BNK_01 Bank-side          Safe retry      1867      6.03          60.55
+    PSP_01  PSP-side          Safe retry      1782      5.76          66.31
+    BNK_03 Bank-side     Customer action      1478      4.78          71.09
+    BNK_06 Bank-side          Safe retry      1242      4.01          75.10
+    BNK_04 Bank-side Verify status first      1227      3.97          79.07
+    PSP_02  PSP-side          Safe retry       929      3.00          82.07
+    PSP_04  PSP-side          Safe retry       736      2.38          84.45
+    CUS_03  Customer        Do not retry       624      2.02          86.47
+    CUS_04  Customer     Customer action       575      1.86          88.32
+    TEC_03 Technical          Safe retry       452      1.46          89.79
+    LIM_02     Limit     Customer action       436      1.41          91.20
+    PSP_03  PSP-side          Safe retry       426      1.38          92.57
+    CUS_05  Customer     Customer action       379      1.23          93.80
+    RSK_01      Risk        Do not retry       338      1.09          94.89
+    UNK_01   Unknown            Escalate       328      1.06          95.95
+    BNK_05 Bank-side     Customer action       268      0.87          96.82
+    TEC_01 Technical        Do not retry       267      0.86          97.68
+    RSK_02      Risk            Escalate       227      0.73          98.41
+    CUS_02  Customer     Customer action       210      0.68          99.09
+    TEC_02 Technical Verify status first       137      0.44          99.53
+    UNK_02   Unknown            Escalate       109      0.35          99.89
+    LIM_03     Limit     Customer action        30      0.10          99.98
+    LIM_01     Limit     Customer action         5      0.02         100.00
+
+=== CHECK: 04 analysis population ===
+-- CHECK: 04 analysis population
+-- EXPECT: eligible_failures 30313; repaired 93; coded_failures 30220 (CUS_03 is already outside the eligible set)
+ eligible_failures  repaired  coded_failures
+             30313        93           30220
+
+=== CHECK: 05 coded failures by retry class ===
+-- CHECK: 05 coded failures by retry class
+-- EXPECT: Verify status first largest at about 50 to 58 pct; Safe retry about 20 to 25; Customer action about 15 to 20; Do not retry and Escalate small
+        retry_class  failures share_pct
+Verify status first     15848     52.44
+         Safe retry      7434     24.60
+    Customer action      5762     19.07
+       Do not retry       605      2.00
+           Escalate       571      1.89
+
+=== CHECK: 06 technical failure rate versus headline failure rate (metric dictionary, BNK_03 and BNK_05 excluded) ===
+-- CHECK: 06 technical failure rate versus headline failure rate (metric dictionary, BNK_03 and BNK_05 excluded)
+-- EXPECT: headline 10.39 pct; technical about 7.5 to 8.5 pct (repaired rows sit in Unknown, so they are outside it)
+headline_failure_rate_pct technical_failure_rate_pct
+                    10.39                       8.07
+
+=== CHECK: 07 category mix, first attempts versus retries ===
+-- CHECK: 07 category mix, first attempts versus retries
+-- EXPECT: shares differ modestly; retries repeat the previous code 70 pct of the time, so Network stays large in both
+ category  first_failures first_share_pct  retry_failures retry_share_pct
+  Network           10194           41.28            2222           40.23
+Bank-side            6669           27.00            1481           26.82
+ Customer            2958           11.98             587           10.63
+ PSP-side            2950           11.94             923           16.71
+Technical             776            3.14              80            1.45
+     Risk             521            2.11              44            0.80
+    Limit             396            1.60              75            1.36
+  Unknown             233            0.94             111            2.01
