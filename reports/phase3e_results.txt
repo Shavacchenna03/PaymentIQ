@@ -1,0 +1,62 @@
+=== PHASE 3E: STATISTICAL ANALYSIS ===
+Loaded eligible attempts: 291,859 rows (expected 291859)
+
+--- SECTION 1: DAILY COUNTS ---
+Total days analyzed: 183
+Overall first-attempt failure rate: 9.05% (24,772 / 273,574)
+
+--- SECTION 2: CHANGE-POINT DETECTION ---
+Detected Change-Point Window: 2026-08-03 to 2026-08-16 (14 days)
+Failure rate inside window:  10.66%
+Failure rate outside window: 8.92%
+Likelihood Ratio Statistic (LR): 70.85
+Note: "LR is not chi-square distributed because the window was searched; treat it as a size of evidence, not an exact p-value."
+Permutation test (200 iterations, seed 7): max permuted LR = 45.93, p-value = 0.0000
+CUSUM first exceeded 4*sd (0.0375): 2026-08-06
+CUSUM maximum reached: 2026-08-16 (S = 0.1583)
+Saved figure: reports/figures/p3e_daily_rate.png
+
+--- SECTION 3: TREND MODELS (FIRST ATTEMPTS) ---
+Model A (Naive) t30:   OR = 0.9865 (95% CI: [0.9791, 0.9938], p = 3.3686e-04)
+Model B (Window) t30:  OR = 0.9786 (95% CI: [0.9711, 0.9861], p = 3.2363e-08)
+Model B in_window:     OR = 1.2641 (95% CI: [1.2061, 1.3248], p = 1.2828e-22)
+Model A implied 6-month change: -0.65 percentage points
+Model B implied 6-month change: -1.01 percentage points
+Adjusting for the detected August deploy window reveals a significantly larger underlying downward trend (-1.01 pp vs -0.65 pp).
+
+--- SECTION 4: LATENCY AFTER CONTROLS ---
+Filtered latency dataset (non-null latency, mechanical slow codes removed): 277,728 rows
+
+Logistic Regression Odds Ratios (latency and controls):
+                                                                      OR    CI_2.5    CI_97.5        p_value
+C(latency_band, Treatment('1: under 2s'))[T.2: 2-5s]            0.948416  0.914794   0.983273   4.028359e-03
+C(latency_band, Treatment('1: under 2s'))[T.3: 5-10s]           2.968405  2.768357   3.182908  3.650917e-205
+C(latency_band, Treatment('1: under 2s'))[T.4: 10s and above]  10.227265  8.895706  11.758138  4.225620e-234
+C(network_type, Treatment('WiFi'))[T.2G]                        0.391793  0.352260   0.435762   8.422821e-67
+C(network_type, Treatment('WiFi'))[T.3G]                        0.703862  0.659277   0.751462   7.126753e-26
+C(network_type, Treatment('WiFi'))[T.4G]                        0.957666  0.920201   0.996655   3.362810e-02
+C(network_type, Treatment('WiFi'))[T.5G]                        0.992123  0.943155   1.043634   7.594367e-01
+C(size_tier, Treatment('Large'))[T.Medium]                      1.131959  1.088742   1.176891   4.350623e-10
+C(size_tier, Treatment('Large'))[T.Small]                       1.708955  1.626089   1.796045   4.129843e-99
+np.log(amount)                                                  1.061685  1.049231   1.074287   2.728936e-23
+
+Raw Failure Rates by Latency Band in Filtered Sample:
+                  attempts  failures  failure_rate_pct
+latency_band                                          
+1: under 2s         153521      8641              5.63
+2: 2-5s             108986      5614              5.15
+3: 5-10s             13800      1561             11.31
+4: 10s and above      1421       366             25.76
+Interpretation: Both the 5-10s and 10s+ latency bands have odds ratios substantially greater than 1 whose 95% confidence intervals exclude 1 (OR ~2.97 and ~10.23), while the 2-5s band has an odds ratio slightly below 1 (OR ~0.95, CI [0.91, 0.98]).
+
+--- SECTION 5: VALUE STEP ANALYSIS ---
+Size Tier  | Band         | Attempts | Fail Rate |  LIM_02% |    RSK% |  Excl LIM/RSK% |           95% CI
+-----------------------------------------------------------------------------------------------
+Large      | < Rs 10k     |  200,415 |     9.76% |    0.00% |   0.18% |          9.58% |   [9.63%, 9.89%]
+Large      | >= Rs 10k    |    3,310 |    10.60% |    0.00% |   0.60% |         10.00% |  [9.60%, 11.70%]
+Medium     | < Rs 10k     |   62,921 |    10.85% |    0.00% |   0.19% |         10.65% | [10.60%, 11.09%]
+Medium     | >= Rs 10k    |    1,076 |    14.41% |    1.67% |   0.09% |         12.64% | [12.43%, 16.63%]
+Small      | < Rs 10k     |   23,634 |    12.55% |    0.00% |   0.23% |         12.32% | [12.14%, 12.98%]
+Small      | >= Rs 10k    |      503 |    90.26% |   83.10% |   0.00% |          7.16% | [87.35%, 92.55%]
+Saved figure: reports/figures/p3e_value_by_tier.png
+Phase 3E analysis OK
