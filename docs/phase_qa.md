@@ -496,6 +496,26 @@ A: Hours 1 to 5 have only 700 to 1,200 attempts each over six months. Small samp
 
 ---
 
+## Phase 3D: Value and latency bands
+
+Q: Why is the failure rate flat up to Rs 10,000 and then jumps?
+A: Failure is about 10.2 percent in every band up to Rs 10,000, then 18.7 and 25.6 percent above. The jump is mostly per-transaction limit failures (LIM_02), plus risk blocks about 2.2 times higher. It is a step caused by policy limits, not a smooth rise with amount.
+
+Q: What is a Wilson interval and why use it?
+A: A 95 percent confidence interval for a proportion. It behaves well for small samples and for rates near 0 or 100 percent, where the simple normal formula can give impossible values. The top value bands have only 669 attempts, so their intervals are wide.
+
+Q: Why did removing timeouts not clear the latency trap?
+A: The 10 second band fell from 92 to 61 percent, not to the base rate. The remaining slow failures are BNK_04 (12 s median) and CUS_05 (60 s median), which are slow by definition. Removing only the NET codes left other mechanical failures in.
+
+Q: Why did the 4G-only view not help?
+A: Holding the network constant cannot fix a relationship that is mechanical. It also shrank the 5 to 10 second band to 2,636 attempts and left the slow-by-design codes in.
+Interview angle: "A control only helps if the confounder is what drives the association. Here the cause was the failure code, so network controls did nothing."
+
+Q: What is the honest conclusion on latency?
+A: Below 5 seconds, latency says nothing about failure (about 5.2 to 5.7 percent). Above 5 seconds, failures come from timeouts and slow-by-design codes. Speeding up the platform would not by itself reduce failures.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
