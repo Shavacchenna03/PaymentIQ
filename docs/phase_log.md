@@ -31,3 +31,7 @@ Built the hour-by-weekday heatmap view and rolling z-score anomaly flags (28-day
 
 ## Phase 3D (done)
 Built value-band and latency-band views with Wilson 95 percent intervals. Tested the latency trap: failure rate by latency band with and without timeout failures, and within 4G only. Results in reports/phase3d_checks_output.txt.
+
+
+## Phase 3E and 3F (done)
+Python analysis: data-driven change-point (recovered 3 to 16 Aug exactly), trend adjusted for the incident (minus 1.0 points), latency model (flawed by selection bias, reported as a caution) and value step (Small-bank limit). Wrote reports/w1_findings.md answering the five W1 questions and the Power BI Page 1 design. Power BI build is step 3G.
