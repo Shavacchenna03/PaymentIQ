@@ -10,6 +10,7 @@ Delivers actionable reliability engineering metrics and business intelligence da
 
 - docs/phase_qa.md: questions and answers for every phase, updated as each phase completes
 - reports/data_quality_log.csv: every data quality issue found, the rule applied and the accuracy of the fix
+- docs/dashboard_backlog.md: Power BI pages still to build, with status and data sources
 
 ## Status
 
@@ -22,4 +23,5 @@ Delivers actionable reliability engineering metrics and business intelligence da
 - [ ] Phase 6: W4 Financial impact
 - [ ] Phase 7: W5 Recovery intelligence
 - [ ] Phase 8: W6 Experimentation
+- [ ] Phase 8B: Power BI build (all five pages)
 - [ ] Phase 9: Portfolio packaging

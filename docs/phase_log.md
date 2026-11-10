@@ -35,3 +35,7 @@ Built value-band and latency-band views with Wilson 95 percent intervals. Tested
 
 ## Phase 3E and 3F (done)
 Python analysis: data-driven change-point (recovered 3 to 16 Aug exactly), trend adjusted for the incident (minus 1.0 points), latency model (flawed by selection bias, reported as a caution) and value step (Small-bank limit). Wrote reports/w1_findings.md answering the five W1 questions and the Power BI Page 1 design. Power BI build is step 3G.
+
+
+## Dashboard backlog created
+Power BI build deferred to Phase 8B. Page 1 is skipped for now, with its design and data sources recorded in docs/dashboard_backlog.md.
