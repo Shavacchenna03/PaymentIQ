@@ -55,3 +55,7 @@ Built v_bank_conc (all eligible attempts and first attempts): failure share agai
 
 ## Phase 4B and 4C (done)
 4B: bank concentration view with within-tier gaps. 4C: first-attempt view v_first_rc with bank group, network group and peak flag; breakdowns by network, peak hour, PSP and device. Results in reports/phase4b_checks_output.txt and reports/phase4c_checks_output.txt.
+
+
+## Phase 4C and 4D (done)
+4C: bank by network, peak, PSP and device breakdowns on first attempts. 4D: logistic models M0, M1, M2 (34 bank effects, Holm) and M3 (peak by tier), scored against planted values. Zenora recovered (OR 1.44 against planted 1.42), Tarang cleared (OR 1.02), peak effects recovered for Small and Medium, Large slightly high (0.109 against 0). Results in reports/phase4d_results.txt.

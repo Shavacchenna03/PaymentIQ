@@ -604,6 +604,35 @@ A: Retry outcomes come from retry behaviour, not from bank, network or hour, so 
 
 ---
 
+## Phase 4C and 4D: Network confounding and the Simpson's regression
+
+Q: Why does Tarang National look worse than the other Large banks?
+A: 25.9 percent of its attempts are on 3G or 2G, against 14.1 percent for the other Large banks. Inside every network group it is within 0.4 points of them.
+
+Q: Why does Zenora look average?
+A: 54.7 percent of its attempts are on fast networks and its payments are small, which hides a real bank penalty. Inside every network group it is above the other Large banks.
+
+Q: What did the four models show?
+A: M0 (raw) flagged Tarang (OR 1.07) and cleared Zenora (OR 1.01). M1 (all failures, with controls) cleared Tarang (0.99) and showed Zenora weakly (1.08). M2 (bank-side failures with controls) cleared Tarang (OR 1.02) and exposed Zenora (OR 1.44, 95 percent CI 1.30 to 1.60). The planted value was 1.42.
+Interview angle: "The raw comparison pointed at the wrong bank. Controlling for network and modelling the right cause pointed at the right one."
+
+Q: Why is Zenora diluted in the all-failures model?
+A: Its penalty acts only on bank-side failures. Network and customer failures make up most failures and carry no Zenora effect, so the signal is small relative to the noise.
+
+Q: Why did 32 of 34 banks survive the Holm correction?
+A: Medium and Small banks have higher baseline bank-side failure than the Large reference group, so almost all differ from it. That is a tier baseline, not 32 findings. Banks should be judged against their own tier.
+
+Q: What was the Holm correction for?
+A: With 34 coefficients, a few would look significant by chance. Holm adjusts the p-values so the chance of any false flag stays at 5 percent.
+
+Q: What did the peak model show?
+A: Peak hours raise bank-side failure by 2.14 times at Small banks (planted 2.2), 1.25 times at Medium (planted 1.28) and 1.11 times at Large (planted 1.0). The Large estimate is 2.3 standard errors above the planted value, probably because the Kestrel outage falls in the evening and is only partly absorbed by the anomaly-day dummy. It is reported as a limitation.
+
+Q: Why is the Small bank at 10,000 rupees or more control so large (OR 92)?
+A: Small banks have a per-transaction limit of 10,000 rupees. It is a policy limit, included as a control so that Small banks are not blamed for it.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
