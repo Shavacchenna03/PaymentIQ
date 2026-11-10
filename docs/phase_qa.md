@@ -562,6 +562,26 @@ A: Their real cause is unknown, because the cleaning mapped a missing code to UN
 
 ---
 
+## Phase 4A: Failure taxonomy applied
+
+Q: What does the code Pareto show?
+A: The failure codes are spread widely. It takes 10 codes to cover 79 percent of failures. The top three are timeouts (NET_01, NET_02, NET_03), 40 percent of failures together, and all are "Verify status first".
+
+Q: Why does that matter for recovery?
+A: The largest block of failures cannot be safely retried until the true status is known. A retry rule that treats timeouts like a temporary outage would risk double debits.
+
+Q: Why does the retry class split look the way it does?
+A: Verify status first is 52 percent, Safe retry 25 percent, Customer action 19 percent, and Do not retry plus Escalate about 4 percent. Only a quarter of failures are candidates for a simple automatic retry.
+
+Q: Why do retries have a different failure mix from first attempts?
+A: Retry behaviour selects which failures come back. PSP-side failures are 16.7 percent of retry failures against 11.9 percent of first-attempt failures, because safe-retry codes are retried more often and a failed retry repeats its previous code 70 percent of the time.
+Interview angle: "Retries are a selected, correlated sample, so I measure causes on first attempts."
+
+Q: How was the technical failure rate affected by the repaired rows?
+A: The 93 repaired rows sit in Unknown, but 78 were really network, bank or PSP failures. The technical rate (8.07 percent) is understated by about 0.03 points.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

@@ -1,0 +1,98 @@
+=== CHECK: 01 view totals by population ===
+-- CHECK: 01 view totals by population
+-- EXPECT: 40 banks in each; all: attempts 291859, failures 30313; first: attempts 273574, failures 24772; shares add to 100
+population  banks attempts failures volume_share_total failure_share_total
+       all     40   291859    30313              100.0               100.0
+     first     40   273574    24772              100.0               100.0
+
+=== CHECK: 02 concentration by bank size tier (all eligible attempts) ===
+-- CHECK: 02 concentration by bank size tier (all eligible attempts)
+-- EXPECT: Large about 70 pct of volume and 65 to 67 pct of failures; Medium about 22 and 23; Small about 8 and 11 to 12
+size_tier  banks volume_share_pct failure_share_pct failure_pct
+    Large      8            69.81             65.70        9.77
+   Medium     14            21.93             23.02       10.91
+    Small     18             8.25             11.28       14.17
+
+=== CHECK: 03 Pareto of banks by failures, top 12 (all eligible attempts) ===
+-- CHECK: 03 Pareto of banks by failures, top 12 (all eligible attempts)
+-- EXPECT: the 8 Large banks first, each about 8 pct of failures; cumulative failure share stays below cumulative volume share
+ rnk          bank_name size_tier  attempts  failures failure_pct volume_share_pct failure_share_pct cum_failure_share_pct cum_volume_share_pct
+   1    Halcyon Federal     Large     26161      2560        9.79             8.96              8.45                  8.45                 8.96
+   2             Solace     Large     25980      2548        9.81             8.90              8.41                 16.86                17.86
+   3 Kestrel Commercial     Large     25622      2540        9.91             8.78              8.38                 25.24                26.64
+   4             Zenora     Large     25533      2513        9.84             8.75              8.29                 33.53                35.39
+   5            Vantara     Large     25293      2453        9.70             8.67              8.09                 41.62                44.06
+   6    Tarang National     Large     23873      2449       10.26             8.18              8.08                 49.70                52.24
+   7     Meridian Union     Large     25555      2431        9.51             8.76              8.02                 57.72                61.00
+   8     Aurex National     Large     25708      2419        9.41             8.81              7.98                 65.70                69.81
+   9       Harbor Crest    Medium      4913       545       11.09             1.68              1.80                 67.50                71.49
+  10   Sagar Mercantile    Medium      4905       545       11.11             1.68              1.80                 69.30                73.17
+  11             Lumora    Medium      4751       543       11.43             1.63              1.79                 71.09                74.80
+  12      Kiran Finance    Medium      4571       541       11.84             1.57              1.78                 72.87                76.37
+
+=== CHECK: 04 top 20 pct of banks (8 of 40) by failures versus their volume ===
+-- CHECK: 04 top 20 pct of banks (8 of 40) by failures versus their volume
+-- EXPECT: top 8 failure share about 65 to 67 pct against volume share about 70 pct; all 8 are Large
+top8_failure_share_pct top8_volume_share_pct  large_banks_in_top8
+                 65.70                 69.81                    8
+
+=== CHECK: 05 Large and Medium banks, first attempts, rate against own tier ===
+-- CHECK: 05 Large and Medium banks, first attempts, rate against own tier
+-- EXPECT: Tarang National the highest in Large by about 0.5 to 0.8 points (z above 3); Zenora near the tier rate; Kestrel Commercial slightly high from the outage
+size_tier          bank_name  attempts  failures failure_pct ci_low ci_high rate_gap_vs_tier_pp z_vs_tier
+    Large    Tarang National     22382      2016        9.01   8.64    9.39                0.50      2.66
+    Large    Halcyon Federal     24621      2102        8.54   8.19    8.89                0.03      0.15
+    Large Kestrel Commercial     24045      2052        8.53   8.19    8.89                0.02      0.13
+    Large             Zenora     23978      2038        8.50   8.15    8.86               -0.01     -0.06
+    Large             Solace     24418      2076        8.50   8.16    8.86               -0.01     -0.05
+    Large            Vantara     23752      2005        8.44   8.09    8.80               -0.07     -0.38
+    Large     Meridian Union     24020      2019        8.41   8.06    8.76               -0.11     -0.58
+    Large     Aurex National     24223      1985        8.19   7.86    8.55               -0.32     -1.76
+   Medium      Kiran Finance      4259       435       10.21   9.34   11.16                0.73      1.62
+   Medium             Lumora      4422       438        9.91   9.06   10.82                0.42      0.95
+   Medium          Cedarline      3866       379        9.80   8.91   10.78                0.32      0.68
+   Medium   Sagar Mercantile      4594       446        9.71   8.89   10.60                0.22      0.52
+   Medium          Tidewater      3863       370        9.58   8.69   10.55                0.09      0.20
+   Medium             Ambera      4192       398        9.49   8.64   10.42                0.01      0.02
+   Medium             Nexora      4528       429        9.47   8.66   10.36               -0.01     -0.02
+   Medium       Harbor Crest      4577       430        9.39   8.58   10.27               -0.09     -0.21
+   Medium Vela Small Finance      4580       429        9.37   8.56   10.25               -0.12     -0.27
+   Medium           Ridgeway      4241       397        9.36   8.52   10.27               -0.12     -0.27
+   Medium       Orchid Trust      4299       402        9.35   8.52   10.26               -0.13     -0.30
+   Medium            Quillon      4219       390        9.24   8.41   10.16               -0.24     -0.53
+   Medium          Prismatic      4070       373        9.16   8.32   10.09               -0.32     -0.70
+   Medium             Banyan      4062       353        8.69   7.86    9.60               -0.79     -1.73
+
+=== CHECK: 06 Small banks, first attempts ===
+-- CHECK: 06 Small banks, first attempts
+-- EXPECT: about 1100 to 1400 first attempts per bank; intervals about 3 to 4 points wide, so the ranking is mostly noise
+             bank_name  attempts  failures failure_pct ci_low ci_high ci_width_pp rate_gap_vs_tier_pp z_vs_tier
+                 Udaan      1293       195       15.08  13.23   17.14        3.91                2.52      2.73
+              Instapay      1180       175       14.83  12.92   16.97        4.05                2.27      2.35
+            Nagar Seva      1372       182       13.27  11.57   15.16        3.59                0.70      0.78
+Malwa Kshetriya Gramin      1467       194       13.22  11.59   15.05        3.46                0.66      0.76
+    Sundarbans Grameen      1275       167       13.10  11.36   15.06        3.70                0.53      0.57
+            Rupee Link      1377       179       13.00  11.33   14.88        3.55                0.43      0.49
+           Shree Anand      1047       135       12.89  11.00   15.06        4.06                0.33      0.32
+         Deccan Gramin      1047       133       12.70  10.82   14.86        4.04                0.14      0.13
+               Rajhans      1128       143       12.68  10.86   14.75        3.89                0.11      0.11
+         Janta Pragati      1324       166       12.54  10.86   14.43        3.57               -0.03     -0.03
+          Swift Wallet      1180       147       12.46  10.69   14.46        3.77               -0.11     -0.11
+            Gram Vikas      1098       133       12.11  10.31   14.18        3.87               -0.45     -0.45
+          Ekta Nagarik      1472       177       12.02  10.46   13.79        3.33               -0.54     -0.63
+        Kaveri Grameen      1056       125       11.84  10.03   13.93        3.90               -0.73     -0.71
+          Himal Gramin      1412       165       11.69  10.11   13.47        3.36               -0.88     -1.00
+               Pragati      1291       147       11.39   9.77   13.24        3.47               -1.18     -1.28
+              Dhan Pay      1034       109       10.54   8.81   12.56        3.75               -2.02     -1.96
+              Lokmitra      1310       138       10.53   8.99   12.31        3.32               -2.03     -2.22
+
+=== CHECK: 07 banks flagged by within-tier z-score ===
+-- CHECK: 07 banks flagged by within-tier z-score
+-- EXPECT: only a few flagged; chance alone flags about 5 pct (2 of 40); Tarang should be among the high flags
+population size_tier  banks  flagged_high  flagged_low
+       all     Large      8             1            0
+       all    Medium     14             1            1
+       all     Small     18             2            0
+     first     Large      8             1            0
+     first    Medium     14             0            0
+     first     Small     18             2            1

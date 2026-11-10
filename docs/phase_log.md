@@ -47,3 +47,7 @@ W2 root-cause plan approved: cause-specific models plus an all-failures model, f
 
 ## Phase 4A (done)
 Built v_repaired_codes, v_attempts_rc and v_failures_coded. Applied the failure taxonomy by category, code and retry class, with the 93 repaired UNK_01 rows excluded from code-level work. Results in reports/phase4a_checks_output.txt.
+
+
+## Phase 4B (done)
+Built v_bank_conc (all eligible attempts and first attempts): failure share against volume share, excess failures, within-tier rate gap and z-score, with Wilson intervals. Results in reports/phase4b_checks_output.txt.
