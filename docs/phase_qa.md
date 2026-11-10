@@ -516,6 +516,33 @@ A: Below 5 seconds, latency says nothing about failure (about 5.2 to 5.7 percent
 
 ---
 
+## Phase 3E: Trend, change-point, latency model and value step
+
+Q: How did the change-point search work?
+A: For every possible window of 5 or more days it compared two rates, one inside the window and one outside, using a binomial likelihood. The window with the best fit was chosen. It returned 3 to 16 Aug without being told the dates.
+Interview angle: "A control chart finds spikes. A likelihood search over windows finds sustained shifts."
+
+Q: Why use a permutation test for the change-point?
+A: Searching many windows makes the best likelihood ratio look larger than chance would, so the normal chi-square p-value is wrong. Shuffling the days 200 times and repeating the search shows what the best ratio looks like with no real shift. The observed 70.9 was far above the largest shuffled value of 45.9.
+
+Q: Why did adjusting for the deploy change the trend from minus 0.65 to minus 1.0 points?
+A: The 14 deploy days sit in the second half and push the failure rate up, so they hide part of the real improvement. Adding a window term separates them. A trend model must account for known incidents.
+
+Q: Why is the latency regression not trusted?
+A: Removing failures by code but keeping every success makes slow attempts look like failures, so the model finds a large effect that is not real. It also made 2G look safer than WiFi, which cannot be right. Filtering on the outcome distorts coefficients.
+Interview angle: "I caught that my own control was biased. A significant coefficient is not the same as a causal one."
+
+Q: Why is there no causal latency effect to find?
+A: Latency is generated from the failure code and network type. Slow payments fail because slow codes exist, so speeding up the platform would not by itself reduce failures.
+
+Q: What is the real explanation for the Rs 10,000 step?
+A: Small banks have a Rs 10,000 per-transaction limit, so most larger payments through them fail with LIM_02. Excluding limit and risk codes, those payments fail 7.2 percent of the time. It is a policy limit, not unreliability.
+
+Q: Why does the Small-bank figure need caution?
+A: The cell has only 503 attempts. Its 95 percent interval is 87 to 93 percent, and the estimate is far from the other tiers, but small cells need a wider reading.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

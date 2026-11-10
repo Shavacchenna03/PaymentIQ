@@ -46,3 +46,9 @@
 - The 30-minute first-attempt rule is imperfect: 5,171 repeat purchases are misread as retries and 679 late retries are misread as first attempts (measured in 3A).
 - Weekly trend analysis uses full 7-day weeks only. The first and last weeks of the period are partial and are excluded.
 - Month lengths are equal for April and September (30 days), so the two can be compared directly.
+
+
+## Phase 3E limitations
+- The latency regression removed failures with slow-by-design codes but kept all successes. This biases the model: slow attempts look like failures, and the 2G odds ratio came out below 1. The result is reported as a cautionary example, not as a finding.
+- The change-point search uses a likelihood ratio that is not chi-square distributed, so significance comes from a permutation test (200 shuffles). With 200 shuffles the smallest possible p-value is about 0.005.
+- The Small-bank cell at or above Rs 10,000 has only 503 attempts, so the 90 percent failure rate is approximate.

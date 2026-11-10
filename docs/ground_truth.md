@@ -64,3 +64,10 @@ Exact planted magnitudes are stored in the generator config and the truth schema
 
 ## Correction (Phase 3B, committed before any further analysis)
 The repeat-intent gap (5 to 45 minutes) is uniform, so about 62.5 percent of repeat purchases fall inside a 30-minute window, not 75 percent as written earlier. Step 3A measured 5,171 of 8,400 (61.6 percent) misread as retries. Earlier text that says 75 percent is superseded by this note.
+
+
+## Results note (Phase 3E, written after the analysis)
+- P7: a data-driven change-point search recovered the deploy window exactly (3 to 16 Aug) without being given the dates. Rate inside 10.66 percent, outside 8.92 percent. The rolling z-score of 3C flagged only 3 of the 14 days.
+- P13: after adjusting for the detected window, the failure trend is about minus 1.0 percentage points over the period (odds ratio 0.979 per 30 days, 95 percent CI 0.971 to 0.986). The naive model gives minus 0.65 because the deploy hides part of the improvement.
+- P6: the Rs 10,000 step is entirely a Small-bank per-transaction limit. Small banks at or above Rs 10,000 fail 90.3 percent of the time (503 attempts), 83.1 percent from LIM_02. There is no general amount effect.
+- P8: latency is generated from the failure code and network, so it has no causal effect on failure. The 3E latency regression showed a spurious effect caused by selection bias (see docs/assumptions.md).
