@@ -39,3 +39,7 @@ Python analysis: data-driven change-point (recovered 3 to 16 Aug exactly), trend
 
 ## Dashboard backlog created
 Power BI build deferred to Phase 8B. Page 1 is skipped for now, with its design and data sources recorded in docs/dashboard_backlog.md.
+
+
+## Phase 4 design (done)
+W2 root-cause plan approved: cause-specific models plus an all-failures model, fixed bank effects, scripts then a narrative notebook, scoring against failure_truth.csv. Design in docs/phase4_design.md.

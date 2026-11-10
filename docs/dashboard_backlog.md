@@ -21,3 +21,8 @@ v_daily_kpis, v_weekly_kpis, v_monthly_kpis, v_heatmap_hour_weekday, v_anomaly_s
 
 ## Rule for every phase
 At the end of each analysis phase: write docs/powerbi_pageN_design.md, list the views and tables the page needs, and update this table.
+
+
+
+## Page 2 planned data sources (Phase 4)
+v_failures_coded, v_attempts_rc, v_repaired_codes (created in 4A), plus bank-level and PSP-level result tables saved by the Phase 4 scripts. Design doc written at 4F.

@@ -543,6 +543,25 @@ A: The cell has only 503 attempts. Its 95 percent interval is 87 to 93 percent, 
 
 ---
 
+## Phase 4 design: Root-cause plan
+
+Q: Why use cause-specific models?
+A: A failure has several possible causes, each with its own drivers. A bank penalty acts only on bank-side failures. In a model of all failures it is diluted by network and customer failures. Modelling each cause separately, on all attempts as the denominator, shows the effect clearly.
+
+Q: Why never filter rows by the outcome?
+A: In Phase 3E, removing failures with certain codes but keeping all successes made slow attempts look like failures and gave 2G a lower failure risk than WiFi. The denominator must stay all eligible attempts.
+
+Q: Why fixed effects for banks and not random effects?
+A: Each of the 40 banks gets its own odds ratio, so Tarang National and Zenora can be read and scored against the answer key. Random effects shrink estimates toward the average, which would blur the two banks being tested.
+
+Q: Why show an all-failures model as well?
+A: It shows what a simple analysis would conclude. Comparing it with the bank-side model makes the dilution visible, and that is the lesson about aggregation.
+
+Q: Why exclude the 93 repaired UNK_01 rows from code-level work?
+A: Their real cause is unknown, because the cleaning mapped a missing code to UNK_01. Treating them as true unknown failures would distort code shares.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
