@@ -837,6 +837,32 @@ A: Sampling uncertainty only. They do not show whether the assumed gain can be a
 
 ---
 
+## Phase 7-1: Rules layer and duplicate-debit detector
+
+Q: What are the five decisions?
+A: Eligible for retry evaluation, Customer action required, Wait for status confirmation, Escalate, Do not retry. They come from the retry class of the first error, whether the status is certain, and whether the bank is having an incident.
+
+Q: Why is a timeout never retried straight away?
+A: A timeout does not prove the payment failed. The bank may already have debited the customer, so a retry could charge twice. Timeouts and pending attempts go to Wait for status confirmation.
+Interview angle: "The first rule I wrote was the one that prevents harm, and I audited that it never fires wrongly."
+
+Q: Why is there a hard-rule audit with zero counts?
+A: A safety rule is only credible if a query proves it holds. Check 03 counts violations, and all counts must be zero.
+
+Q: How does the incident hold work?
+A: A bank and 3-hour block is held when its failure rate is far above normal, measured with a Wilson lower bound so small samples do not trigger it. Retries during an outage mostly fail, so waiting is better. The version here uses hindsight, so a live system would detect incidents later.
+
+Q: How is the duplicate-debit detector built without the answer key?
+A: It flags an attempt that settled at the bank after an earlier attempt in the same journey was not an app success but did settle. That means the customer was debited, saw no success, and paid again. The truth column is used only to score it.
+
+Q: Why does the detector miss some cases and raise some false alarms?
+A: It cannot see a debit that is still PENDING at the bank, so those are missed. Random settlement flips and merged repeat purchases look like double charges, so they raise false alarms.
+
+Q: Why is the observed recovery by decision not a forecast?
+A: Only customers who chose to retry produce an outcome. A retry triggered by the system could behave differently, which is why Phase 8 tests it.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

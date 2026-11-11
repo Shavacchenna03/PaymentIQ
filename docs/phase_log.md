@@ -99,3 +99,7 @@ Scenario model: retry-addressable pool with +2, +5 and +10 point recovery gains,
 
 ## Phase 6 (done)
 W4 complete: failed, recovered and unrecovered value (scored against hidden intents), retry and limit scenarios with bootstrap intervals and take-rate sensitivity, report, notebook, Page 4 design (W4 part). Tag phase-6-complete.
+
+
+## Phase 7-1 (done)
+Built the five-way decision table, audited the hard safety rules, added a bank-incident hold scored against the planted outage, and a duplicate-debit detector scored against truth. Results in reports/phase7_1_checks_output.txt.

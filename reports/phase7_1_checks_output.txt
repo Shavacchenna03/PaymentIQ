@@ -1,0 +1,58 @@
+=== CHECK: 01 decision table size ===
+-- CHECK: 01 decision table size
+-- EXPECT: about 27000 to 27300 rows (failed journey starts 25805 plus pending starts); five decisions
+ rows  decisions  pending_rows
+27165          5          1360
+
+=== CHECK: 02 decisions: volume, value and what customers actually did (observed, self-selected) ===
+-- CHECK: 02 decisions: volume, value and what customers actually did (observed, self-selected)
+-- EXPECT: Wait for status confirmation largest (about 17000); Eligible for retry evaluation about 6000 to 7500; observed recovery highest for Eligible and lowest for Customer action and Do not retry
+                     decision  journeys value_lakh retried_pct recovered_pct
+ Wait for status confirmation     14617      194.8        43.8          30.4
+Eligible for retry evaluation      5833       74.9        52.9          38.9
+     Customer action required      5002      144.0        41.9          31.0
+                 Do not retry      1195       17.3         5.9           2.4
+                     Escalate       518        7.7        28.2          15.6
+
+=== CHECK: 03 hard-rule audit (every count must be 0) ===
+-- CHECK: 03 hard-rule audit (every count must be 0)
+-- EXPECT: all four values 0
+ eligible_not_safe  eligible_but_pending  eligible_do_not_retry  eligible_in_incident
+                 0                     0                      0                     0
+
+=== CHECK: 04 duplicate-debit exposure by decision (answer key: money had already moved) ===
+-- CHECK: 04 duplicate-debit exposure by decision (answer key: money had already moved)
+-- EXPECT: about 900 to 1000 journey starts where the customer was already debited; none in Eligible for retry evaluation
+                    decision  already_debited_starts value_lakh
+Wait for status confirmation                     916      12.85
+                    Escalate                       1       0.00
+
+=== CHECK: 05 incident detector scored against the planted outage rows (attempt level, answer key) ===
+-- CHECK: 05 incident detector scored against the planted outage rows (attempt level, answer key)
+-- EXPECT: flagged_blocks a handful; false_blocks_other_banks 0 to 2; recall about 60 to 90 pct (outage hours that fall in partly affected blocks are missed); precision above 60 pct
+ flagged_blocks  false_blocks_other_banks  flagged_attempts  true_outage_attempts  tp_attempts recall_pct precision_pct
+             12                         6               366                   186          176       94.6          48.1
+
+=== CHECK: 06 what the incident hold changes (Safe retry class journey starts, observed) ===
+-- CHECK: 06 what the incident hold changes (Safe retry class journey starts, observed)
+-- EXPECT: inside incident blocks recovery far lower than outside (retries succeed 0.15 times as often); small counts
+ in_incident  journeys retried_pct recovered_pct
+       False      5833        52.9          38.9
+        True        88        58.0          11.4
+
+=== CHECK: 07 duplicate-debit detector scored against truth (attempt level) ===
+-- CHECK: 07 duplicate-debit detector scored against truth (attempt level)
+-- EXPECT: truth 280; true positives about 225 to 250; precision about 85 to 92 pct; recall about 80 to 90 pct
+ flagged  truth_duplicates  tp  fp  fn precision_pct recall_pct caught_lakh
+     287               280 237  50  43          82.6       84.6        3.27
+
+=== CHECK: 08 why the detector misses and why it raises false alarms ===
+-- CHECK: 08 why the detector misses and why it raises false alarms
+-- EXPECT: misses mostly "earlier attempt still PENDING at the bank" (about 30 to 40); false alarms mostly RANDOM_SETTLED_FAILED or NONE rows from merged repeat purchases
+       kind                                     reason  n
+false alarm                                       NONE 44
+false alarm                            DEBITED_TIMEOUT  4
+false alarm                      RANDOM_SETTLED_FAILED  1
+false alarm                   PENDING_RESOLVED_SUCCESS  1
+       miss  earlier attempt still PENDING at the bank 33
+       miss other (for example split from its journey) 10

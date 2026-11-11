@@ -58,3 +58,9 @@
 - Transaction value is not revenue. Revenue at risk will use a take rate of 0.5 percent of value as a labelled assumption, with 0.3 and 1.0 percent as a sensitivity range. These are not PayFlow facts.
 - Derived journeys misstate value slightly (346 merged and about 676 split under w30b). Check 09 measures the gap against the hidden intents.
 - Scenarios (2, 5 and 10 point recovery gains) are hypothetical, not achieved results.
+
+## Phase 7 assumptions
+- The rules layer is a decision table built from retry classes, status certainty and a bank-incident hold. It is decision support, not a live payment engine.
+- The incident hold uses same-block hindsight (bank and 3-hour block, at least 15 attempts, Wilson lower bound above 20 percent). A live system would need a trailing window and would detect incidents later.
+- The duplicate-debit detector uses observable data only (app status and bank reconciliation inside a w30b journey). Truth columns are read only to score it.
+- Observed recovery by decision comes from customers who chose to retry. It is not what a system-triggered retry would achieve. Phase 8 tests that.
