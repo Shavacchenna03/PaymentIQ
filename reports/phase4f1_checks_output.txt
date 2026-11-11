@@ -1,0 +1,97 @@
+=== CHECK: 01 funnel totals ===
+-- CHECK: 01 funnel totals
+-- EXPECT: 293991 attempts; full lifecycle about 93 pct; no issuer response about 6 pct; no final status about 0.5 pct; stopped at platform about 0.5 pct
+            stop_point  attempts   pct
+1: stopped at platform      1343  0.46
+    2: no final status      1508  0.51
+ 3: no issuer response     17866  6.08
+     4: full lifecycle    273274 92.95
+
+=== CHECK: 02 stop point by status ===
+-- CHECK: 02 stop point by status
+-- EXPECT: SUCCESS all full lifecycle; PENDING all no final status; FAILED split across the other points
+ status             stop_point  attempts
+ FAILED 1: stopped at platform      1343
+ FAILED  3: no issuer response     17866
+ FAILED      4: full lifecycle     11728
+PENDING     2: no final status      1508
+SUCCESS      4: full lifecycle    261546
+
+=== CHECK: 03 stop point by failure code (compare with the taxonomy) ===
+-- CHECK: 03 stop point by failure code (compare with the taxonomy)
+-- EXPECT: NET and PSP codes, RSK, CUS_04, CUS_05 mostly no issuer response; CUS_03, TEC_01, TEC_03 stopped at platform; bank codes full lifecycle
+error_code  failures  platform  no_issuer  full
+    NET_01      6934         0       6934     0
+    NET_02      3123         0       3123     0
+    CUS_01      2381         0          0  2381
+    NET_03      2359         0       2359     0
+    BNK_02      2068         0          0  2068
+    BNK_01      1867         0          0  1867
+    PSP_01      1782         0       1782     0
+    BNK_03      1478         0          0  1478
+    BNK_06      1242         0          0  1242
+    BNK_04      1227         0          0  1227
+    PSP_02       929         0        929     0
+    PSP_04       736         0        736     0
+    CUS_03       624       624          0     0
+    CUS_04       575         0        575     0
+    TEC_03       452       452          0     0
+    LIM_02       436         0          0   436
+    PSP_03       426         0        426     0
+    CUS_05       379         0        379     0
+    RSK_01       338         0        338     0
+    UNK_01       328         0         58   270
+    BNK_05       268         0          0   268
+    TEC_01       267       267          0     0
+    RSK_02       227         0        227     0
+    CUS_02       210         0          0   210
+    TEC_02       137         0          0   137
+    UNK_02       109         0          0   109
+    LIM_03        30         0          0    30
+    LIM_01         5         0          0     5
+
+=== CHECK: 04 where failures stop, by category ===
+-- CHECK: 04 where failures stop, by category
+-- EXPECT: Network and PSP-side almost entirely no issuer response; Bank-side almost entirely full lifecycle
+ category  failures no_issuer_pct platform_pct full_pct
+  Network     12416         100.0          0.0      0.0
+Bank-side      8150           0.0          0.0    100.0
+ Customer      4169          22.9         15.0     62.1
+ PSP-side      3873         100.0          0.0      0.0
+Technical       856           0.0         84.0     16.0
+     Risk       565         100.0          0.0      0.0
+    Limit       471           0.0          0.0    100.0
+  Unknown       437          13.3          0.0     86.7
+
+=== CHECK: 05 share of attempts with no issuer response, by bank tier and by PSP ===
+-- CHECK: 05 share of attempts with no issuer response, by bank tier and by PSP
+-- EXPECT: higher at Small banks (more network failures) and Clearwave (deploy window)
+ dim            grp  attempts no_issuer_pct
+ psp      Clearwave     41814          6.77
+ psp      Finbridge     26350          6.14
+ psp Zenith Gateway      8827          6.13
+ psp        Rapidix     64372          6.01
+ psp        PayNova     82085          5.97
+ psp      QuickRail     17600          5.83
+ psp   TransactLink     52943          5.82
+tier         Medium     64440          6.27
+tier          Large    205253          6.02
+tier          Small     24298          6.02
+
+=== CHECK: 06 step timing for SUCCESS attempts, by network type ===
+-- CHECK: 06 step timing for SUCCESS attempts, by network type
+-- EXPECT: PSP-to-issuer median grows from WiFi and 5G to 2G (about 3 times)
+network_type  attempts median_psp_to_issuer_ms p95_psp_to_issuer_ms median_issuer_to_final_ms
+          5G     42388                     723                 1839                       248
+        WiFi     66910                     752                 2129                       270
+          4G    114735                     849                 2530                       322
+          3G     27957                    1999                 4862                       675
+          2G      9556                    3298                 7689                      1104
+
+=== CHECK: 07 PENDING attempts and reconciliation outcome ===
+-- CHECK: 07 PENDING attempts and reconciliation outcome
+-- EXPECT: 1508 PENDING; 1184 resolved, 324 unresolved
+final_status  pending_attempts
+      FAILED               702
+     PENDING               324
+     SUCCESS               482

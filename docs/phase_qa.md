@@ -659,6 +659,26 @@ A: The tier average includes Zenora, which raises the average by about 0.05.
 
 ---
 
+## Phase 4F-1: Event funnel
+
+Q: What does the event funnel show?
+A: Where in the payment lifecycle each attempt stopped: at the platform (never sent to the PSP), after being sent with no final status (PENDING), with a final status but no issuer response, or through the full lifecycle. It localises a failure in the pipeline.
+
+Q: Does the funnel tell us why a payment failed?
+A: No. It tells us where the process stopped. Timeouts and PSP errors have no issuer response because the issuer never answered, but a missing response does not say whether the network, the PSP or the bank was at fault.
+Interview angle: "The funnel locates the failure, the model attributes the cause."
+
+Q: Why is the stop point derived from the events and not from the error code?
+A: So it is measured and not assumed. Check 03 then compares the measured stop point with the taxonomy as a consistency check.
+
+Q: Why does a missing issuer response matter for recovery?
+A: If the issuer never responded, the platform does not know whether the debit happened. These attempts are the ones where status must be checked before any retry.
+
+Q: Why measure step timing on successes only?
+A: Failures stop at different points, so their step times are not comparable. Successes all pass every step.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

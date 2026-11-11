@@ -63,3 +63,7 @@ Built v_bank_conc (all eligible attempts and first attempts): failure share agai
 
 ## Phase 4E (done)
 Device null tested (likelihood-ratio and plus or minus 5 percent equivalence), network and PSP effects scored against planted values, and within-tier bank deviations with Holm correction. Zenora is the only bank that differs from its tier, 0 false positives, no device effect detected, Clearwave bad only inside 3 to 16 Aug. 2G effect marginally above the planted value (2.1 SE). Results in reports/phase4e_results.txt.
+
+
+## Phase 4F-1 (done)
+Built v_funnel from the payment events: stop point per attempt, step timing, and breakdowns by failure code, category, bank tier, PSP and network. Results in reports/phase4f1_checks_output.txt.
