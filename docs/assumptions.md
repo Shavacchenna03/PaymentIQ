@@ -52,3 +52,9 @@
 - The latency regression removed failures with slow-by-design codes but kept all successes. This biases the model: slow attempts look like failures, and the 2G odds ratio came out below 1. The result is reported as a cautionary example, not as a finding.
 - The change-point search uses a likelihood ratio that is not chi-square distributed, so significance comes from a permutation test (200 shuffles). With 200 shuffles the smallest possible p-value is about 0.005.
 - The Small-bank cell at or above Rs 10,000 has only 503 attempts, so the 90 percent failure rate is approximate.
+
+## Phase 6 assumptions
+- Value unit is the w30b journey amount (the intended payment). Journeys starting with a do-not-retry code (CUS_03, TEC_01, RSK_01) are excluded from recovery value, as in the metric dictionary.
+- Transaction value is not revenue. Revenue at risk will use a take rate of 0.5 percent of value as a labelled assumption, with 0.3 and 1.0 percent as a sensitivity range. These are not PayFlow facts.
+- Derived journeys misstate value slightly (346 merged and about 676 split under w30b). Check 09 measures the gap against the hidden intents.
+- Scenarios (2, 5 and 10 point recovery gains) are hypothetical, not achieved results.

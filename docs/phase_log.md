@@ -87,3 +87,7 @@ Retry timing and recovery funnel on w30b journeys, customer features, rule-based
 
 ## Phase 5 (done)
 W3 complete: four journey rules scored against hidden intents (w30b best), recovery funnel, corrected retry-gap view, blind segmentation (weak, reported), cohorts, report, notebook, Page 3 design. Tag phase-5-complete.
+
+
+## Phase 6-1 (done)
+Built value_journeys (w30b) and measured failed, recovered and unrecovered value by retry class, code, bank tier, city tier, value band and customer decile, scored against the hidden intents, plus the reconciliation money gap. Results in reports/phase6_1_checks_output.txt.

@@ -778,6 +778,28 @@ A: Most unrecovered failures were never retried, recovery depends on the failure
 
 ---
 
+## Phase 6-1: Value views
+
+Q: Is a failed payment lost revenue?
+A: No. Many failed journeys are retried and succeed. The three measures are kept apart: failed value (failed first attempts), recovered value (failed-first journeys that later succeeded) and unrecovered value (eligible failed-first journeys with no success).
+
+Q: Why is recovery by value different from recovery by count?
+A: Failures are not spread evenly across amounts. Large payments through Small banks fail on the per-transaction limit and rarely recover, so recovery by value is lower than recovery by count.
+
+Q: Why exclude do-not-retry journeys from recovery value?
+A: Retrying a cancelled or blocked payment would be wrong, so counting it as a missed recovery would overstate the opportunity, as with the rates in the metric dictionary.
+
+Q: Why is transaction value not company revenue?
+A: A PSP earns a fee on the payment, not the payment amount. Revenue at risk is the unrecovered value times an assumed take rate, shown with a sensitivity range.
+
+Q: What is the reconciliation exposure?
+A: Attempts where the app and the bank disagree, for example a failed timeout that actually debited the customer. It is finance-side money to chase, separate from recovery.
+
+Q: Why score against the hidden intents?
+A: Derived journeys misgroup a few attempts, so the derived values can be off. Check 09 shows by how much.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
