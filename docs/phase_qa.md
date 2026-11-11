@@ -633,6 +633,32 @@ A: Small banks have a per-transaction limit of 10,000 rupees. It is a policy lim
 
 ---
 
+## Phase 4E: Device null, network, PSP and within-tier banks
+
+Q: Why one likelihood-ratio test for device?
+A: Device has three levels, so pairwise tests multiply the chance of a false flag. One test with 2 degrees of freedom asks whether device improves the model at all. Result: p = 0.84.
+
+Q: Does a large p-value prove device has no effect?
+A: No. The equivalence check asks whether the 90 percent interval for each odds ratio lies inside 0.95 to 1.05. It does in the all-failures model (iOS 0.964 to 1.018, Web 0.954 to 1.036), so device is within plus or minus 5 percent overall. In the four cause-specific models Web fails the check because it has only 21,831 attempts, so there we can only say no effect was detected.
+Interview angle: "Absence of evidence is not evidence of absence, so I tested equivalence with a stated margin, and reported where power was too low."
+
+Q: How well were network effects recovered?
+A: 3G (1.25 against 1.2), 4G (0.20 against 0.15) and 5G (0.06 against 0) are within 2 standard errors. 2G is 1.58 against 1.5, which is 2.1 standard errors, a marginal miss. With four coefficients one marginal miss is not surprising. A small upward bias from the derived first-attempt flag or from competing risks is possible but untested.
+
+Q: Is Clearwave unreliable?
+A: Only during 3 to 16 Aug (odds ratio 19.7). Outside the window its odds ratio is 0.89 (interval 0.78 to 1.02, contains 1). Ignoring the window makes it look permanently worse (odds ratio 1.98).
+
+Q: Why compare each bank with its tier average?
+A: In 4D almost every Medium and Small bank looked significant because their baseline is higher than the Large reference. Deviations from the tier average ask which banks are worse than their peers. Standard errors use the covariance matrix because the average is built from estimated coefficients.
+
+Q: Which banks differ from their tier?
+A: Only Zenora (odds ratio 1.37, Holm-adjusted p below 0.0001). Tarang National does not (0.98). No other bank survives. Udaan had p = 0.034 before correction and was removed by Holm.
+
+Q: Why is Zenora's deviation (0.317) lower than in 4D (0.367)?
+A: The tier average includes Zenora, which raises the average by about 0.05.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

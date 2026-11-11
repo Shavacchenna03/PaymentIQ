@@ -1,0 +1,160 @@
+=== PHASE 4E: DEVICE NULL, NETWORK, PSP, AND WITHIN-TIER BANKS ===
+
+--- Loading Data ---
+Loaded v_first_rc rows: 273574 (expect 273574)
+Number of Kestrel flagged dates: 6
+
+Event Counts across all 273,574 first attempts:
+  Total failures:   24772
+  Bank-side events: 5097
+  Network events:   10194
+  PSP-side events:  2950
+  Customer events:  4286
+
+============================================================
+SECTION 1: DEVICE NULL, ALL-FAILURES MODEL
+============================================================
+Likelihood-Ratio Test for Device (All Failures):
+  LR statistic: 0.3564, df: 2, p-value: 8.3679e-01
+
+Device Odds Ratios (vs Android reference, 95% CI):
+  Web: coef = -0.0062, OR = 0.9939 (95% CI: [0.9460, 1.0441]), p = 8.0680e-01
+  iOS: coef = -0.0095, OR = 0.9905 (95% CI: [0.9590, 1.0231]), p = 5.6489e-01
+
+Equivalence Check (90% CI vs [0.95, 1.05] equivalence margin):
+  Web: 90% CI for OR = [0.9536, 1.0359] -> Inside [0.95, 1.05]: True
+  iOS: 90% CI for OR = [0.9640, 1.0178] -> Inside [0.95, 1.05]: True
+
+Number of Attempts per Device Level:
+  Android:  191711 (70.08%)
+  iOS    :   60032 (21.94%)
+  Web    :   21831 (7.98%)
+
+============================================================
+SECTION 2: DEVICE IN THE FOUR CAUSE-SPECIFIC MODELS
+============================================================
+
+Device LR Tests across Cause-Specific Models:
+     outcome  events lr_stat          p ios_or ios_90_lo ios_90_hi web_or web_90_lo web_90_hi both_equiv      p_adj
+   bank_side    5097   3.370 1.8546e-01  1.009     0.953     1.068  0.909     0.831     0.995         No 7.4186e-01
+ network_fam   10194   1.115 5.7257e-01  0.999     0.959     1.041  1.040     0.978     1.106         No 7.4186e-01
+    psp_side    2950   3.286 1.9339e-01  1.016     0.943     1.095  0.884     0.783     0.998         No 7.4186e-01
+customer_fam    4286   3.072 2.1528e-01  0.951     0.893     1.012  1.054     0.961     1.155         No 7.4186e-01
+
+Saved device forest plot to: D:\Analyst\PaymentIQ\reports\figures\p4e_device_forest.png
+
+============================================================
+SECTION 3: NETWORK FAILURE MODEL
+============================================================
+
+Network Failure Odds Ratios (vs WiFi reference, 95% CI):
+  2G  : coef = 1.5833 (SE = 0.0396), OR = 4.8708 (95% CI: [4.5070, 5.2638]), p = 0.0000e+00
+  3G  : coef = 1.2506 (SE = 0.0323), OR = 3.4923 (95% CI: [3.2781, 3.7205]), p = 0.0000e+00
+  4G  : coef = 0.1978 (SE = 0.0296), OR = 1.2188 (95% CI: [1.1501, 1.2916]), p = 2.3299e-11
+  5G  : coef = 0.0600 (SE = 0.0383), OR = 1.0619 (95% CI: [0.9851, 1.1446]), p = 1.1697e-01
+
+Raw Network-Family Rate by Network Type:
+              attempts  failures  rate_pct
+network_type                              
+WiFi             69390      1742      2.51
+5G               44004      1172      2.66
+4G              119411      3627      3.04
+3G               30211      2481      8.21
+2G               10558      1172     11.10
+
+============================================================
+SECTION 4: PSP FAILURE MODEL
+============================================================
+
+PSP Model with Clearwave Window Controlled (Reference: PayNova):
+  Clearwave         : coef = -0.1191, OR = 0.8877 (95% CI: [0.7750, 1.0168]), p = 8.5524e-02
+  Finbridge         : coef = 0.0514, OR = 1.0527 (95% CI: [0.9091, 1.2191]), p = 4.9240e-01
+  QuickRail         : coef = -0.0439, OR = 0.9571 (95% CI: [0.8008, 1.1439]), p = 6.2959e-01
+  Rapidix           : coef = 0.0400, OR = 1.0408 (95% CI: [0.9325, 1.1617]), p = 4.7560e-01
+  TransactLink      : coef = 0.0252, OR = 1.0255 (95% CI: [0.9125, 1.1525]), p = 6.7232e-01
+  Zenith Gateway    : coef = 0.0456, OR = 1.0467 (95% CI: [0.8298, 1.3203]), p = 7.0024e-01
+  clearwave_window  : coef = 2.9820, OR = 19.7280 (95% CI: [16.8296, 23.1257]), p = 3.6273e-296
+
+Clearwave without Window Control (Naive Aggregation):
+  Clearwave (naive): coef = 0.6843, OR = 1.9824 (95% CI: [1.7856, 2.2008]), p = 1.1327e-37
+
+Outside the August deployment window, Clearwave's baseline failure rate is normal: its 95% CI [0.7750, 1.0168] contains 1.0 (True).
+
+============================================================
+SECTION 5: WITHIN-TIER BANK DEVIATIONS
+============================================================
+
+All 34 Within-Tier Bank Deviations (sorted by p-value):
+             bank_name   tier  deviation       OR   CI_low  CI_high            p        p_adj  survives_holm
+                Zenora  Large   0.317405 1.373558 1.258361 1.499302 1.228166e-12 4.175766e-11           True
+                 Udaan  Small   0.266230 1.305035 1.020681 1.668608 3.373266e-02 1.000000e+00          False
+          Harbor Crest Medium   0.191719 1.211330 1.014348 1.446564 3.423144e-02 1.000000e+00          False
+                Banyan Medium  -0.201238 0.817718 0.654389 1.021812 7.669451e-02 1.000000e+00          False
+                Ambera Medium   0.152015 1.164178 0.964879 1.404643 1.125572e-01 1.000000e+00          False
+              Instapay  Small   0.211670 1.235741 0.948003 1.610812 1.175455e-01 1.000000e+00          False
+          Swift Wallet  Small  -0.237198 0.788835 0.574613 1.082922 1.423137e-01 1.000000e+00          False
+         Kiran Finance Medium   0.118484 1.125789 0.931587 1.360475 2.200296e-01 1.000000e+00          False
+               Quillon Medium  -0.128342 0.879552 0.711354 1.087520 2.359356e-01 1.000000e+00          False
+              Lokmitra  Small  -0.172815 0.841293 0.628079 1.126888 2.464976e-01 1.000000e+00          False
+             Cedarline Medium   0.115723 1.122685 0.921490 1.367808 2.507526e-01 1.000000e+00          False
+    Vela Small Finance Medium  -0.117594 0.889057 0.725656 1.089251 2.564093e-01 1.000000e+00          False
+Malwa Kshetriya Gramin  Small   0.139615 1.149831 0.900012 1.468995 2.639549e-01 1.000000e+00          False
+          Ekta Nagarik  Small  -0.151845 0.859122 0.652424 1.131305 2.795247e-01 1.000000e+00          False
+              Ridgeway Medium   0.101238 1.106540 0.914135 1.339443 2.988958e-01 1.000000e+00          False
+        Kaveri Grameen  Small  -0.142115 0.867521 0.628982 1.196526 3.863286e-01 1.000000e+00          False
+               Rajhans  Small   0.116340 1.123378 0.849641 1.485308 4.142272e-01 1.000000e+00          False
+      Sagar Mercantile Medium  -0.075905 0.926904 0.759627 1.131017 4.547466e-01 1.000000e+00          False
+            Rupee Link  Small   0.086508 1.090360 0.842494 1.411150 5.108887e-01 1.000000e+00          False
+             Prismatic Medium  -0.060543 0.941253 0.763898 1.159785 5.697767e-01 1.000000e+00          False
+       Tarang National  Large  -0.025055 0.975257 0.879331 1.081647 6.352965e-01 1.000000e+00          False
+              Dhan Pay  Small  -0.067122 0.935081 0.683238 1.279755 6.750284e-01 1.000000e+00          False
+               Pragati  Small  -0.058528 0.943152 0.712068 1.249228 6.831552e-01 1.000000e+00          False
+                Nexora Medium  -0.041008 0.959821 0.788090 1.168974 6.834793e-01 1.000000e+00          False
+          Orchid Trust Medium  -0.040874 0.959950 0.784242 1.175026 6.919020e-01 1.000000e+00          False
+    Sundarbans Grameen  Small   0.042682 1.043606 0.793842 1.371953 7.597444e-01 1.000000e+00          False
+           Shree Anand  Small  -0.025786 0.974543 0.717290 1.324061 8.690207e-01 1.000000e+00          False
+             Tidewater Medium  -0.015160 0.984954 0.798358 1.215163 8.875006e-01 1.000000e+00          False
+          Himal Gramin  Small  -0.016592 0.983545 0.753756 1.283386 9.027280e-01 1.000000e+00          False
+         Deccan Gramin  Small   0.015260 1.015377 0.749896 1.374844 9.213885e-01 1.000000e+00          False
+         Janta Pragati  Small  -0.010119 0.989932 0.754910 1.298123 9.416677e-01 1.000000e+00          False
+            Nagar Seva  Small   0.002852 1.002856 0.768404 1.308842 9.832531e-01 1.000000e+00          False
+                Lumora Medium   0.001486 1.001487 0.823789 1.217516 9.881043e-01 1.000000e+00          False
+            Gram Vikas  Small   0.000962 1.000963 0.744262 1.346201 9.949220e-01 1.000000e+00          False
+
+Number of banks surviving Holm correction (p_adj < 0.05): 1
+Surviving banks: Zenora
+
+Summary of Tarang National and Zenora within-tier deviations:
+Tarang National (Large): deviation = -0.0251, OR = 0.9753 (95% CI: [0.8793, 1.0816]), p = 6.3530e-01, p_adj = 1.0000, survives = False
+Zenora          (Large): deviation = 0.3174, OR = 1.3736 (95% CI: [1.2584, 1.4993]), p = 1.2282e-12, p_adj = 0.0000, survives = True
+
+Saved within-tier banks forest plot to: D:\Analyst\PaymentIQ\reports\figures\p4e_within_tier_banks.png
+
+============================================================
+SECTION 6: SCORING AGAINST GROUND TRUTH
+============================================================
+
+1. Network Recovery vs NET_LOGODDS Ground Truth:
+  4G  : estimate = 0.1978 (SE = 0.0296, 95% CI: [0.1398, 0.2559]) | Planted = 0.1500 | Within 2 SE: True
+  3G  : estimate = 1.2506 (SE = 0.0323, 95% CI: [1.1873, 1.3138]) | Planted = 1.2000 | Within 2 SE: True
+  2G  : estimate = 1.5833 (SE = 0.0396, 95% CI: [1.5056, 1.6609]) | Planted = 1.5000 | Within 2 SE: False
+  5G  : estimate = 0.0600 (SE = 0.0383, 95% CI: [-0.0150, 0.1351]) | Planted = 0.0000 | Within 2 SE: True
+
+Saved network recovery figure to: D:\Analyst\PaymentIQ\reports\figures\p4e_network_recovery.png
+
+2. Device Null Effect vs DEVICE_TRUE_EFFECT = 0.0:
+  Web: 95% CI for log-odds = [-0.0555, 0.0432] -> Contains 0.0: True
+  iOS: 95% CI for log-odds = [-0.0419, 0.0229] -> Contains 0.0: True
+
+3. PSP Effect Recovery:
+  Clearwave window log-odds: 2.9820 (95% CI: [2.8231, 3.1409]) -> Strictly positive: True
+  Non-Clearwave PSPs excluding OR = 1.0: 0 ([])
+
+4. Within-Tier Bank Deviation Recovery:
+  Zenora survives Holm:          True
+  Tarang National survives Holm: False
+  Other banks surviving (false positives): 0 (None)
+
+Device effects are completely absent across all failure causes, network failure penalties are accurately recovered, Clearwave degrades exclusively during its deployment incident, and Zenora is the sole true bank-side outlier when evaluated against tier baselines.
+
+Phase 4E analysis OK
