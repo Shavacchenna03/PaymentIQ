@@ -75,3 +75,7 @@ Scorecard of 14 numeric estimates and 7 qualitative checks against planted value
 
 ## Phase 4 (done)
 W2 root cause complete: taxonomy, concentration, Simpson's regression, device null, network and PSP effects, funnel, scorecard (12 of 14 hits), RCA report, notebook, Page 2 design. Tag phase-4-complete.
+
+
+## Phase 5-1 (done)
+Derived journeys at 15, 30 and 60 minutes plus the w30b rule, scored merged and split journeys against the hidden intents, and computed recovery, retry and abandonment metrics per variant against the truth. Results in reports/phase5_1_checks_output.txt.

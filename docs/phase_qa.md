@@ -715,6 +715,26 @@ A: Aggregates and raw comparisons mislead. Concentration reflects volume, the wo
 
 ---
 
+## Phase 5-1: Journey derivation and scoring
+
+Q: How are journeys derived without a journey_id?
+A: Attempts by the same customer to the same payee for the same amount are ordered in time. A new journey starts when the gap from the previous attempt exceeds the window (15, 30 or 60 minutes). A window function numbers the journeys.
+
+Q: What is the w30b variant?
+A: The 30-minute rule plus one more condition: a new journey also starts if the previous attempt succeeded. A retry only follows a failure, so an identical purchase after a success is a new intent. It removes most of the repeat-purchase merging.
+Interview angle: "I improved the rule with domain logic and measured the improvement against hidden truth."
+
+Q: What is a merged journey and what is a split intent?
+A: A merged journey contains attempts from more than one true intent, for example two identical cups of tea. A split intent has its attempts spread across more than one derived journey, for example a retry made hours later.
+
+Q: Why does the window length matter?
+A: A short window splits late retries into new journeys, which lowers measured recovery. A long window merges separate purchases, which raises it. Check 04 shows the recovery rate under each window against the truth.
+
+Q: Why must recovery and abandonment add to 100 percent?
+A: They use the same eligible journeys, as the metric dictionary requires. Check 05 verifies it for every variant.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

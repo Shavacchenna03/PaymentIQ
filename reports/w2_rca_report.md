@@ -36,3 +36,7 @@ Bank-side failures are about 5,100 of 24,772 first-attempt failures. If Zenora's
 - First attempts only; retries are excluded from causal models.
 - 93 repaired UNK_01 rows were excluded from code-level work.
 - The Large-bank peak estimate may be inflated by Kestrel's evening outage; untested.
+
+## Correction (added in Phase 5)
+Section 5 said removing Zenora's penalty would prevent roughly 200 first-attempt failures. A closer estimate is about 150: Zenora's bank-side failures are roughly 2 percent of its 23,978 first attempts (about 480), and cutting the odds by 31 percent removes about 150. The conclusion is unchanged: under 1 percent of all failures. The original text is left as written.
+
