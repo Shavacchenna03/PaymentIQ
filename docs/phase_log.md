@@ -83,3 +83,7 @@ Derived journeys at 15, 30 and 60 minutes plus the w30b rule, scored merged and 
 
 ## Phase 5-2 (done)
 Retry timing and recovery funnel on w30b journeys, customer features, rule-based and k-means segmentation scored blind against truth.customer_truth. Results in reports/phase5_results.txt.
+
+
+## Phase 5 (done)
+W3 complete: four journey rules scored against hidden intents (w30b best), recovery funnel, corrected retry-gap view, blind segmentation (weak, reported), cohorts, report, notebook, Page 3 design. Tag phase-5-complete.

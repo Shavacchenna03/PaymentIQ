@@ -758,6 +758,26 @@ A: Reliable, Failure-prone and Retry-dependent differ only slightly in failure r
 
 ---
 
+## Phase 5-3: Gaps, cohorts and wrap-up
+
+Q: Why did the first retry-gap view show 0 percent above 30 minutes?
+A: It only joined attempts inside the same w30b journey, and w30b starts a new journey after 30 minutes, so late retries were excluded by construction. The corrected view has no cut and is checked against the true gaps.
+Interview angle: "A metric computed on a filtered population can hide the thing you are measuring."
+
+Q: Why cap the corrected gap at 180 minutes?
+A: Without a cap, any later purchase of the same amount would count as a retry. 180 minutes is the longest planted gap. In real data the cap would be tuned.
+
+Q: What is a cohort and why look at it?
+A: Customers grouped by signup month. It shows whether newer customers behave differently. Newer cohorts are small, so intervals are wide and differences should not be over-read.
+
+Q: Why are segments not shown on the dashboard?
+A: At about 0.7 failures per customer they cannot be recovered reliably, so showing them would imply a precision the data lacks.
+
+Q: What is the main message of Phase 5?
+A: Most unrecovered failures were never retried, recovery depends on the failure code, and the journey definition matters: a domain-aware rule (w30b) beats a pure time window.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

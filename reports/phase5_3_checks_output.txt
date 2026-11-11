@@ -1,0 +1,49 @@
+=== CHECK: 01 corrected retry gaps (derived, no 30-minute cut) ===
+-- CHECK: 01 corrected retry gaps (derived, no 30-minute cut)
+-- EXPECT: median 40 to 50 s; share above 1800 s about 4 to 6 pct; derived count slightly above the true retry count because repeat purchases after a failure are included
+ gaps median_s pct_above_1800s
+13947       44            6.03
+
+=== CHECK: 02 true retry gaps from the answer key ===
+-- CHECK: 02 true retry gaps from the answer key
+-- EXPECT: about 13991 gaps; median about 40 to 45 s; share above 1800 s about 4 to 6 pct
+ gaps median_s pct_above_1800s
+13991       44            4.87
+
+=== CHECK: 03 cohorts ===
+-- CHECK: 03 cohorts
+-- EXPECT: Before 2026-04 about 18000 customers (fewer with intents); newer cohorts about 2000 each; first_failure_pct about 8 to 10 everywhere with wide intervals for new cohorts
+        cohort  customers journeys journeys_per_customer failed_first first_failure_pct ci_low ci_high retry_rate_pct recovery_all_pct avg_amount
+       2026-04       1933    21040                 10.88         1961              9.32   8.93    9.72          42.63            31.21       1260
+       2026-05       2011    17429                  8.67         1590              9.12   8.70    9.56          43.84            31.32       1298
+       2026-06       1888    12855                  6.81         1172              9.12   8.63    9.63          43.17            31.23       1223
+       2026-07       1908     9436                  4.95          866              9.18   8.61    9.78          42.73            31.64       1314
+       2026-08       1728     5810                  3.36          509              8.76   8.06    9.52          41.65            29.47       1340
+       2026-09        958     1827                  1.91          144              7.88   6.73    9.21          39.58            22.92       1275
+Before 2026-04      17896   211939                 11.84        19563              9.23   9.11    9.35          43.85            31.03       1261
+
+=== CHECK: 04 activity of new cohorts by calendar month ===
+-- CHECK: 04 activity of new cohorts by calendar month
+-- EXPECT: no activity before the signup month; active_pct highest in the signup month, then lower
+ cohort   month  active_customers active_pct
+2026-04 2026-04              1023       52.5
+2026-04 2026-05              1499       76.9
+2026-04 2026-06              1494       76.7
+2026-04 2026-07              1471       75.5
+2026-04 2026-08              1502       77.1
+2026-04 2026-09              1403       72.0
+2026-05 2026-05              1116       54.7
+2026-05 2026-06              1554       76.1
+2026-05 2026-07              1541       75.5
+2026-05 2026-08              1519       74.4
+2026-05 2026-09              1501       73.5
+2026-06 2026-06              1004       51.5
+2026-06 2026-07              1484       76.1
+2026-06 2026-08              1465       75.1
+2026-06 2026-09              1452       74.5
+2026-07 2026-07              1028       50.2
+2026-07 2026-08              1512       73.9
+2026-07 2026-09              1495       73.1
+2026-08 2026-08              1057       51.9
+2026-08 2026-09              1505       74.0
+2026-09 2026-09               958       48.4

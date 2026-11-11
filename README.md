@@ -19,7 +19,7 @@ Delivers actionable reliability engineering metrics and business intelligence da
 - [x] Phase 2: Data engineering
 - [x] Phase 3: W1 Payment performance
 - [x] Phase 4: W2 Root cause
-- [ ] Phase 5: W3 Customer journey
+- [x] Phase 5: W3 Customer journey
 - [ ] Phase 6: W4 Financial impact
 - [ ] Phase 7: W5 Recovery intelligence
 - [ ] Phase 8: W6 Experimentation
