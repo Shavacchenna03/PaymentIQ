@@ -91,3 +91,7 @@ W3 complete: four journey rules scored against hidden intents (w30b best), recov
 
 ## Phase 6-1 (done)
 Built value_journeys (w30b) and measured failed, recovered and unrecovered value by retry class, code, bank tier, city tier, value band and customer decile, scored against the hidden intents, plus the reconciliation money gap. Results in reports/phase6_1_checks_output.txt.
+
+
+## Phase 6-2 (done)
+Scenario model: retry-addressable pool with +2, +5 and +10 point recovery gains, a separate speculative limit scenario, take-rate sensitivity (0.3, 0.5, 1.0 percent) and bootstrap intervals. All labelled hypothetical. Results in reports/phase6_results.txt.

@@ -1,0 +1,6 @@
+scenario,family,assumption,gain_lakh,ci_low,ci_high,revenue_rs_at_0.3pct,revenue_rs_at_0.5pct,revenue_rs_at_1.0pct
++2 pp recovery (retry-addressable),Retry-addressable,+2 pp recovery gain on addressable pool,6.29,6.07,6.51,1886.1,3143.5,6286.9
++5 pp recovery (retry-addressable),Retry-addressable,+5 pp recovery gain on addressable pool,15.72,15.18,16.29,4715.2,7858.7,15717.3
++10 pp recovery (retry-addressable),Retry-addressable,+10 pp recovery gain on addressable pool,31.43,30.36,32.57,9430.4,15717.3,31434.7
+10% limit recovery (alternative rail),Limit,10% of limit unrecovered value captured,8.11,7.12,9.12,2432.3,4053.8,8107.6
+25% limit recovery (alternative rail),Limit,25% of limit unrecovered value captured,20.27,17.79,22.8,6080.7,10134.6,20269.1

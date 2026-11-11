@@ -800,6 +800,26 @@ A: Derived journeys misgroup a few attempts, so the derived values can be off. C
 
 ---
 
+## Phase 6-2: Scenario model
+
+Q: How is a scenario gain calculated?
+A: A gain of g points moves g percent of the pool's journeys from unrecovered to recovered, at the average amount of that pool's unrecovered journeys. It assumes the extra recoveries look like the average unrecovered journey.
+
+Q: Why separate retry-addressable value from limit value?
+A: Limit failures such as LIM_02 are a policy limit and do not respond to retries. Mixing them would overstate what retry logic can recover. They get their own speculative scenario, for example an alternative payment option.
+
+Q: Why is the revenue figure so much smaller than the transaction value?
+A: Revenue is the recovered value times an assumed take rate (0.5 percent base, 0.3 to 1.0 range). A PSP earns a fee, not the payment amount.
+Interview angle: "I kept transaction value and revenue separate, and showed the take rate as an assumption with a range."
+
+Q: Why bootstrap the intervals?
+A: Value is heavy-tailed, since a few large limit-blocked payments dominate. A bootstrap over journeys shows how much totals move if the sample were different, without assuming a distribution.
+
+Q: Are these results forecasts?
+A: No. They are scenarios. The data is synthetic, the pool and the take rate are assumptions, and an intervention would need to be tested, which is Phase 8.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

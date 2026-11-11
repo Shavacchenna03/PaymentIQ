@@ -1,0 +1,5 @@
+pool,journeys,unrecovered_journeys,unrecovered_lakh,ci_low,ci_high
+addr,23692,15812,209.79,202.2,217.69
+limit,400,386,81.08,71.17,91.19
+other,518,437,6.64,4.82,9.5
+total,24610,16635,297.51,284.96,310.37
