@@ -702,6 +702,19 @@ A: In the four cause-specific models Web has too few attempts for its interval t
 
 ---
 
+## Phase 4F-3: RCA report and notebook
+
+Q: Why does the report state a hypothetical improvement?
+A: Removing Zenora's penalty would cut its bank-side failure odds by about 31 percent, roughly 200 first-attempt failures, under 1 percent of all failures. It is a scenario, not a result, and financial sizing waits for Phase 6.
+
+Q: Why is the notebook read-only?
+A: It loads saved results and figures and tells the story, so it runs fast and cannot drift from the verified outputs.
+
+Q: What is the main message of Phase 4?
+A: Aggregates and raw comparisons mislead. Concentration reflects volume, the worst-looking bank is clean, and the real outlier only appears with controls and the right cause-specific outcome.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

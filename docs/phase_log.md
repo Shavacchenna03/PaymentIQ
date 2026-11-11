@@ -71,3 +71,7 @@ Built v_funnel from the payment events: stop point per attempt, step timing, and
 
 ## Phase 4F-2 (done)
 Scorecard of 14 numeric estimates and 7 qualitative checks against planted values, with misses reported. Saved to reports/phase4_scorecard.csv and reports/figures/p4f_scorecard.png.
+
+
+## Phase 4 (done)
+W2 root cause complete: taxonomy, concentration, Simpson's regression, device null, network and PSP effects, funnel, scorecard (12 of 14 hits), RCA report, notebook, Page 2 design. Tag phase-4-complete.

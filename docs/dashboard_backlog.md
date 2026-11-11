@@ -5,7 +5,7 @@ Decision (after Phase 3): analysis phases come first. All five pages are built t
 | Page | Workstream | Data produced in | Status | Design doc |
 |---|---|---|---|---|
 | 1 Executive Overview | W1 | Phase 3 | SKIPPED, analysis done, build pending | docs/powerbi_page1_design.md |
-| 2 Failure Intelligence | W2 | Phase 4 | Pending, design written at end of Phase 4 | not yet written |
+| 2 Failure Intelligence | W2 | Phase 4 | Design written, build pending | docs/powerbi_page2_design.md |
 | 3 Customer Behaviour | W3 | Phase 5 | Pending | not yet written |
 | 4 Recovery and Financial Impact | W4, W5 | Phases 6 and 7 | Pending | not yet written |
 | 5 Product Experiments | W6 | Phase 8 | Pending | not yet written |
