@@ -820,6 +820,23 @@ A: No. They are scenarios. The data is synthetic, the pool and the take rate are
 
 ---
 
+## Phase 6-3: Financial report
+
+Q: What is the main message of Phase 6?
+A: Transaction value is not revenue, and most unrecovered value is not retry-addressable. Limits hold 27 percent of unrecovered value from 400 journeys, and the revenue effect of retry gains is small at a realistic take rate.
+
+Q: Why is recovery by value lower than by count?
+A: The largest payments fail most often on limits and rarely recover, so recovery by value is 26.1 percent against 32.4 percent by count.
+
+Q: Why does the report call the revenue case weak?
+A: At a 0.5 percent take rate, a 10 point recovery gain is about 15,700 rupees over six months. The justification is customer experience and reliability.
+Interview angle: "I reported that the revenue case is small, and argued for the work on other grounds."
+
+Q: What do the intervals show?
+A: Sampling uncertainty only. They do not show whether the assumed gain can be achieved, which is why the scenarios are tested in Phase 8.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

@@ -95,3 +95,7 @@ Built value_journeys (w30b) and measured failed, recovered and unrecovered value
 
 ## Phase 6-2 (done)
 Scenario model: retry-addressable pool with +2, +5 and +10 point recovery gains, a separate speculative limit scenario, take-rate sensitivity (0.3, 0.5, 1.0 percent) and bootstrap intervals. All labelled hypothetical. Results in reports/phase6_results.txt.
+
+
+## Phase 6 (done)
+W4 complete: failed, recovered and unrecovered value (scored against hidden intents), retry and limit scenarios with bootstrap intervals and take-rate sensitivity, report, notebook, Page 4 design (W4 part). Tag phase-6-complete.
