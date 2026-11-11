@@ -1,0 +1,8 @@
+name,source_file,check,expectation,observed,verdict,source_ok
+Clearwave deploy window,reports/phase4e_results.txt,19.7280,coefficient strictly positive,"OR 19.7, 95% CI 16.8 to 23.1",HIT,True
+Kestrel outage days flagged at bank level,reports/phase3c_checks_output.txt,11.69,all three outage days flagged,"z of 11.09, 11.69 and 8.06",HIT,True
+Deploy window recovered by change-point,reports/phase3e_results.txt,2026-08-03 to 2026-08-16,window within 2 days of 3 to 16 Aug,3 to 16 Aug exactly,HIT,True
+Device equivalence (all-failures model),reports/phase4e_results.txt,0.9536,90% CIs inside 0.95 to 1.05,"Web 0.954 to 1.036, iOS 0.964 to 1.018",HIT,True
+Device equivalence (four cause models),reports/phase4e_results.txt,both_equiv,inside 0.95 to 1.05,No in all four (Web too wide),LOW POWER,True
+Bank concentration,reports/phase4b_checks_output.txt,65.70,top 8 failure share 65 to 70 percent against volume share,65.70 percent against 69.81 percent,HIT,True
+"False positives among banks (within-tier, Holm)",reports/phase4e_results.txt,Other banks surviving,0,0,HIT,True

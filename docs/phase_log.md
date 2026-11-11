@@ -67,3 +67,7 @@ Device null tested (likelihood-ratio and plus or minus 5 percent equivalence), n
 
 ## Phase 4F-1 (done)
 Built v_funnel from the payment events: stop point per attempt, step timing, and breakdowns by failure code, category, bank tier, PSP and network. Results in reports/phase4f1_checks_output.txt.
+
+
+## Phase 4F-2 (done)
+Scorecard of 14 numeric estimates and 7 qualitative checks against planted values, with misses reported. Saved to reports/phase4_scorecard.csv and reports/figures/p4f_scorecard.png.

@@ -1,0 +1,15 @@
+name,est,se,planted,z,verdict,source_ok,note
+Zenora bank-side (4D M2),0.3667,0.05168367346938776,0.35,0.3231194471865754,HIT,True,
+Zenora vs tier average (4E),0.3174,0.04468297442775242,0.30624999999999997,0.24953576038292627,HIT,True,"tier average includes Zenora, so the expected deviation is 7/8 of the penalty"
+Tarang bank-side (4D M2),0.0245,0.061071428571428575,0.0,0.40116959064327484,HIT,True,
+Peak Large,0.1086,0.0465,0.0,2.335483870967742,OUTSIDE 2 SE,True,
+Peak Medium,0.2216,0.0677,0.25,-0.4194977843426885,HIT,True,
+Peak Small,0.7613,0.0748,0.8,-0.5173796791443859,HIT,True,
+Network 4G,0.1978,0.0296,0.15,1.6148648648648651,HIT,True,
+Network 3G,1.2506,0.0323,1.2,1.5665634674922593,HIT,True,
+Network 2G,1.5833,0.0396,1.5,2.1035353535353516,OUTSIDE 2 SE,True,
+Network 5G,0.06,0.0383,0.0,1.5665796344647518,HIT,True,
+Device iOS,-0.0095,0.01653061224489796,0.0,-0.5746913580246913,HIT,True,
+Device Web,-0.0062,0.025178571428571432,0.0,-0.246241134751773,HIT,True,
+Clearwave outside deploy window,-0.1191,0.06927364554130032,0.0,-1.7192685482243555,HIT,True,
+Trend over the period (log-odds),-0.13123595410449063,0.023722399594485234,-0.15,0.7909843108734861,HIT,True,"planted trend acts on bank, network and PSP failures only, so a slightly smaller overall estimate is expected"

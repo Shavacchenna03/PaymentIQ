@@ -679,6 +679,29 @@ A: Failures stop at different points, so their step times are not comparable. Su
 
 ---
 
+## Phase 4F-2: Scorecard against planted values
+
+Q: What does the scorecard test?
+A: Whether the methods recovered what was planted. Each estimate is compared with its planted value in standard errors. Within 2 is a hit, beyond 2 is reported as outside 2 SE.
+
+Q: Why report the misses?
+A: With 14 estimates, one or two beyond 2 standard errors is expected by chance (about 5 percent each). Large peak (2.3 SE) and 2G (2.1 SE) are both just outside. Hiding them would make the scorecard unfalsifiable.
+Interview angle: "The scorecard has misses, and I can say why. That is what makes the hits credible."
+
+Q: Why is the expected within-tier Zenora deviation 7/8 of the penalty?
+A: The Large tier average includes Zenora, so it rises by one eighth of the penalty and the deviation shrinks by the same amount.
+
+Q: Why does the scorecard use transcribed estimates?
+A: Parsing text results is brittle. Each row names its source file and a check string that must appear in it, so a typo is caught.
+
+Q: Why is the trend estimate expected to be slightly smaller than the planted value?
+A: The planted trend acts on bank, network and PSP failures but not on customer, limit or risk failures, so the overall effect is diluted.
+
+Q: What does the "low power" row mean?
+A: In the four cause-specific models Web has too few attempts for its interval to fit inside plus or minus 5 percent. It says nothing about the device effect itself.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
