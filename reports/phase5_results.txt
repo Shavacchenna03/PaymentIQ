@@ -1,0 +1,146 @@
+=== PHASE 5-2: RETRY TIMING, FUNNEL AND SEGMENTATION ANALYSIS ===
+
+======================================================================
+SECTION 1: TIME TO RETRY (v_retry_gaps)
+======================================================================
+Number of retry gaps observed: 13105
+Gap (seconds) quantiles: P25 = 24.0s, Median = 41.0s, P75 = 72.0s, P90 = 124.0s, P95 = 188.0s
+Share of retry gaps > 1800s (30m): 0.0000 (0.00%)
+Share of retry gaps > 600s (10m):  0.0203 (2.03%)
+
+Median retry gap by error code (8 most frequent codes):
+            count  median_gap_s
+error_code                     
+NET_01       2968          42.0
+CUS_01       1539          41.0
+NET_02       1323          40.0
+NET_03       1021          41.0
+BNK_01        948          41.0
+PSP_01        860          41.0
+BNK_02        843          40.0
+BNK_06        626          41.0
+
+Median retry gap by next status:
+             count  median_gap_s
+next_status                     
+FAILED        4903          40.0
+PENDING        142          39.5
+SUCCESS       8060          42.0
+
+Saved retry gap plot to D:\Analyst\PaymentIQ\reports\figures\p5_retry_gap.png
+
+======================================================================
+SECTION 2: RECOVERY FUNNEL (w30b journeys)
+======================================================================
+Eligible failed journeys (first-attempt failure): 24610
+  - Retried (>1 attempt):                          11186 (45.45%)
+  - Recovered (any attempt succeeded):             7975 (32.41%)
+  - Retried but not recovered:                     3211 (13.05%)
+  - Never retried (abandoned immediately):         13424 (54.55%)
+
+Share of unrecovered journeys that were NEVER retried: 80.70% (13424 / 16635)
+
+Funnel split by retry class of the first error:
+                     eligible  retried_pct  recovered_pct
+retry_class                                              
+Customer action          5002        41.86          31.03
+Escalate                  518        28.19          15.64
+Safe retry               5921        52.95          38.47
+Verify status first     13169        44.13          30.86
+
+======================================================================
+SECTION 3: CUSTOMER FEATURES
+======================================================================
+Total customers in features table: 28322
+Kept customers with journeys >= 5: 20655 (72.93%)
+Overall retry rate (among failed):    0.4379 (43.79%)
+Overall retry success (among retry): 0.7111 (71.11%)
+
+Summary statistics of derived customer features (kept customers):
+       failure_rate    retry_rate  retry_success  log_avg_amount  log_journeys
+count  20655.000000  20655.000000   20655.000000    20655.000000  20655.000000
+mean       0.092212      0.438375       0.710263        6.928942      2.382542
+std        0.096008      0.337345       0.254753        0.657745      0.530630
+min        0.000000      0.000000       0.000000        4.440296      1.609438
+25%        0.000000      0.000000       0.711086        6.510027      1.945910
+50%        0.083333      0.437851       0.711086        6.909230      2.302585
+75%        0.142857      0.500000       0.711086        7.333693      2.772589
+max        0.800000      1.000000       1.000000       10.163008      4.795791
+
+======================================================================
+SECTION 4: BLIND SEGMENTATION (RULES & K-MEANS)
+======================================================================
+Rule thresholds: avg_amount Top 12% = 2203.90, failure_rate Top 15% = 0.1875, retry_rate Bottom 20% = 0.0000, retry_rate Top 25% = 0.5000
+
+Rule-based Segment Counts:
+  Reliable        :  16294 (78.89%)
+  High-value      :   2479 (12.00%)
+  Failure-prone   :   1148 ( 5.56%)
+  Retry-dependent :    552 ( 2.67%)
+  Abandoning      :    182 ( 0.88%)
+
+K-Means Cluster Sizes (k=5):
+  Cluster 0:   3824 (18.51%)
+  Cluster 1:   3641 (17.63%)
+  Cluster 2:   6663 (32.26%)
+  Cluster 3:   2293 (11.10%)
+  Cluster 4:   4234 (20.50%)
+
+Mean raw feature values per K-Means cluster:
+                failure_rate  retry_rate  retry_success  log_avg_amount  log_journeys
+kmeans_cluster                                                                       
+0                   0.185952    0.059348       0.744577        6.804587      2.120025
+1                   0.137942    0.883104       0.989400        6.915635      2.472436
+2                   0.000000    0.437851       0.711086        6.823350      2.031021
+3                   0.159168    0.760334       0.111339        6.973143      2.561888
+4                   0.077075    0.224721       0.762294        7.194933      2.998389
+
+======================================================================
+SECTION 5: SCORING AGAINST TRUTH (customer_truth)
+======================================================================
+Merged kept customers with truth: 20655
+
+Crosstab: True Segment (rows) vs Rule Segment (columns):
+rule_segment     Abandoning  Failure-prone  High-value  Reliable  Retry-dependent
+true_segment                                                                     
+Abandoning               52            119         188      2020                8
+Failure-prone            23            193         149      2116               63
+High-value                9             68        1265       913               46
+Reliable                 87            521         575      7850              256
+Retry-dependent          11            247         302      3395              179
+
+Overall Agreement (Rule == True): 0.4618 (46.18%)
+
+Per-True-Segment Recall (Rules):
+  Abandoning      : recall = 0.0218 (2.18%) [True N = 2387]
+  Failure-prone   : recall = 0.0759 (7.59%) [True N = 2544]
+  High-value      : recall = 0.5498 (54.98%) [True N = 2301]
+  Reliable        : recall = 0.8451 (84.51%) [True N = 9289]
+  Retry-dependent : recall = 0.0433 (4.33%) [True N = 4134]
+
+Adjusted Rand Index (Rules):   0.0644
+Adjusted Rand Index (K-Means): 0.0128
+
+Crosstab: True Segment (rows) vs K-Means Cluster (columns):
+kmeans_cluster      0     1     2     3     4
+true_segment                                 
+Abandoning        783   127   916   100   461
+Failure-prone     517   377   761   412   477
+High-value        278   378   535   274   836
+Reliable         1704  1591  3148  1009  1837
+Retry-dependent   542  1168  1303   498   623
+
+Mean Features by TRUE Segment vs Planted Multipliers:
+                 count  failure_rate  retry_rate  retry_success   avg_amount                               planted_multiplier
+true_segment                                                                                                                 
+Abandoning        2387      0.088148    0.271810       0.707154  1116.963271                                  retry_rate 0.3x
+Failure-prone     2544      0.103071    0.437306       0.671443  1097.860218  customer-failure +0.5 log-odds, retry_succ 0.8x
+High-value        2301      0.093010    0.438849       0.709805  2742.609431                                  avg_amount 2.5x
+Reliable          9289      0.089792    0.434728       0.710526  1083.926420                                         Baseline
+Retry-dependent   4134      0.092871    0.543142       0.735612  1120.006654                                  retry_rate 1.4x
+
+Saved segment scatter plot to D:\Analyst\PaymentIQ\reports\figures\p5_segments.png
+
+Reliable (84.5%) and High-value (55.0%) were recovered reasonably well, whereas Failure-prone (7.6%), Retry-dependent (4.3%), and Abandoning (2.2%) were recovered poorly because low failure counts per customer leave behavioral failure and retry rates noisy.
+
+Phase 5-2 analysis OK

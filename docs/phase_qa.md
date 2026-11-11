@@ -735,6 +735,29 @@ A: They use the same eligible journeys, as the metric dictionary requires. Check
 
 ---
 
+## Phase 5-2: Retry timing, funnel and segmentation
+
+Q: How long do customers wait before retrying?
+A: The median gap is under a minute, with a long tail. About 5 percent of retries come after more than 30 minutes, which is what a 30-minute window cannot see.
+
+Q: What does the recovery funnel show?
+A: Of eligible failed journeys about 45 percent are retried and about a third recover. Most unrecovered journeys were never retried, so the biggest lever is getting customers to try again, not making retries succeed.
+
+Q: Why segment blind and score afterwards?
+A: A real company has no segment labels. The rules and k-means see only behaviour. The hidden labels are read last, so the agreement is an honest measure.
+
+Q: Why use both rules and k-means?
+A: Rules are explainable and can be written into a product. K-means is a data-driven comparison. If it does not beat the rules, the simpler method wins.
+Interview angle: "I started with an interpretable baseline and only kept the complex method if it earned its place."
+
+Q: Why require at least 5 journeys per customer?
+A: Customers have a median of about 7 intents and failures occur in about 10 percent of them, so rates from very few journeys are mostly noise.
+
+Q: Why will some segments be hard to recover?
+A: Reliable, Failure-prone and Retry-dependent differ only slightly in failure rate, and with a few failures per customer the estimates are noisy. The scoring section reports the recall for each.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

@@ -79,3 +79,7 @@ W2 root cause complete: taxonomy, concentration, Simpson's regression, device nu
 
 ## Phase 5-1 (done)
 Derived journeys at 15, 30 and 60 minutes plus the w30b rule, scored merged and split journeys against the hidden intents, and computed recovery, retry and abandonment metrics per variant against the truth. Results in reports/phase5_1_checks_output.txt.
+
+
+## Phase 5-2 (done)
+Retry timing and recovery funnel on w30b journeys, customer features, rule-based and k-means segmentation scored blind against truth.customer_truth. Results in reports/phase5_results.txt.
