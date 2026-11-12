@@ -926,6 +926,29 @@ A: Automatic retries add duplicate-debit risk and need status checks first (Phas
 
 ---
 
+## Phase 8-2: Simulated experiment
+
+Q: Why simulate with potential outcomes?
+A: Each customer's observed result is used as the control outcome and the treatment effect is added on top. That keeps real customer differences, so covariate adjustment is meaningful, and the true effect is known exactly.
+
+Q: What does the 1,000-repeat study show?
+A: The real power and error rates of the whole procedure: how often a true +3 point lift is shipped, how often a null effect is shipped by chance, and whether a duplicate increase is caught by the guardrail.
+
+Q: Why is scenario B the A/A check?
+A: With no treatment the two arms are exchangeable, so the share of significant results should be about 5 percent (two-sided). A much higher rate would mean the pipeline is biased.
+
+Q: What is a sample ratio mismatch check?
+A: A chi-square test that the arms are the planned 50/50. A failing test means assignment or logging is broken, and the results should not be trusted. The demo with 55/45 assignment shows the check catches it.
+
+Q: Why does a recovery gain not mean ship?
+A: Scenario C raises recovery by 3 points but also raises duplicates by 0.8 points, past the 0.5 margin. The pre-registered rule says do not ship.
+Interview angle: "The decision rule was written before the simulation, and the guardrail overruled a significant primary metric."
+
+Q: Why report the adjusted logistic model?
+A: As a robustness check. Randomisation makes the unadjusted difference unbiased, and adjustment mainly tightens the interval. If the two disagree, something is wrong.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

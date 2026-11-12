@@ -113,5 +113,9 @@ W5 complete: five-way rules layer (0 audit violations), incident hold (15, 25), 
 ## Phase 8-1 (done)
 Power analysis from the real eligible population (sample sizes, MDE curve, non-inferiority guardrail), PRD for the failure-experience redesign, and experiment plan with a pre-registered decision rule. Results in reports/phase8_power.txt.
 
+## Phase 8-2 (done)
+Simulated experiment under three scenarios (true +3 pp, null, +3 pp with duplicate increase) with the pre-registered decision rule, logistic robustness check, A/A false-positive rate, sample ratio mismatch check and a 1,000-repeat power study. Results in reports/phase8_sim.txt.
+
+
 
 

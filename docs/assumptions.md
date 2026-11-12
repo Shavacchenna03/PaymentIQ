@@ -77,3 +77,10 @@
 - The duplicate-payment baseline uses the observable detector (about 83 percent precision), so it is a proxy.
 - The decision rule is fixed before the simulation runs.
 
+## Phase 8-2 assumptions
+- Outcomes are simulated as potential outcomes: each customer's observed result is the control outcome and treated customers who failed are flipped to success with the probability that gives the assumed lift. The lifts (+3 pp recovery, +0.8 pp duplicates) are our assumptions.
+- A recovery flip also implies a retry. Abandonment is the complement of recovery. Time to completion is not simulated.
+- The inconclusive-on-safety branch is not triggered because the guardrail is powered; no extra rule was added after seeing results.
+- The duplicate rate is a detector-based proxy (about 83 percent precision).
+
+

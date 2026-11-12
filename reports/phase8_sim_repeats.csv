@@ -1,0 +1,4 @@
+scenario,label,ship_rate,ci_lower_gt_0,two_sided_p_lt_05,guardrail_pass,mean_recovery_diff,p2_5_recovery_diff,p97_5_recovery_diff,mean_duplicate_diff,srm_flag_rate
+A,"Scenario A (+3 pp recovery, 0 dup)",0.961,0.969,0.969,0.991,0.03025,0.01504,0.04549,1.1e-05,0.0
+B,Scenario B (Null / A/A),0.023,0.023,0.046,0.988,4e-05,-0.01501,0.01481,1.7e-05,0.002
+C,"Scenario C (+3 pp recovery, +0.8 pp dup)",0.001,0.969,0.969,0.001,0.03007,0.01489,0.04475,0.008016,0.001
