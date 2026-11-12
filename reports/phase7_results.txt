@@ -1,0 +1,74 @@
+=== PHASE 7-2: SCORING MODEL AND POLICY SIMULATION ===
+Loaded decision_table rows: 27165 (expected 27165)
+Train rows (< 2026-08-01): 17180, recovery rate: 30.88%
+Test rows (>= 2026-08-01): 9985, recovery rate: 30.75%
+
+--- SECTION 1: CUSTOMER ACTION SPLIT ---
+      action_group  journeys  value_lakh  retried_pct  recovered_pct
+insufficient funds      1354        18.2         17.1            6.0
+             limit       400        84.2         21.5            3.5
+         wrong PIN      2150        28.8         67.3           58.5
+             other      1098        12.8         30.0           18.1
+
+--- SECTION 2: FEATURES ---
+Feature groups:
+  Categorical: ['error_code_clean', 'size_tier', 'network_type', 'amount_band']
+  Standardised Numeric: ['log_amount', 'log1p_prior_failed_starts', 'prior_retry_rate']
+  Binary: ['is_pending', 'peak', 'in_incident']
+Note: prior_retry_rate mostly reflects whether a customer retries, not whether a retry works.
+
+--- SECTION 3: MODELS (EVALUATED ON TEST ONLY) ---
+All Test Rows - Rules-only: AUC = 0.5698, Brier = 0.2074
+All Test Rows - Model:      AUC = 0.6580, Brier = 0.1965
+
+Within 'Eligible for retry evaluation' Test Rows (N = 2313):
+  Model AUC: 0.5289
+  Overall recovery rate: 39.21%
+  Top decile recovery rate: 46.12%
+  Top half recovery rate: 41.75%
+  Top decile lift: 1.176 (rules-only lift is 1.0 by construction as all Eligible rows have the same score)
+  Bootstrap 95% CI for Model AUC: [0.5067, 0.5530]
+  Bootstrap 95% CI for Top Decile Lift: [1.045, 1.335]
+
+Calibration Table (10 bins of predicted probability on test):
+ mean_pred  obs_rate  count
+  0.045735  0.040040    999
+  0.191832  0.184369    998
+  0.277229  0.296296    999
+  0.295566  0.293587    998
+  0.307027  0.284284    999
+  0.320968  0.322645    998
+  0.338465  0.338677    998
+  0.366437  0.361361    999
+  0.398970  0.401804    998
+  0.550723  0.551552    999
+
+10 Largest Absolute Coefficients:
+                feature      coef
+error_code_clean_CUS_03 -2.503096
+error_code_clean_RSK_01 -2.258808
+error_code_clean_LIM_02 -1.611646
+error_code_clean_CUS_01  1.594708
+error_code_clean_TEC_01 -1.556159
+error_code_clean_BNK_03 -1.547352
+error_code_clean_CUS_02  1.447617
+            in_incident -1.389502
+error_code_clean_PSP_03  0.869882
+error_code_clean_RSK_02 -0.832255
+
+--- SECTION 4: POLICY SIMULATION (TEST PERIOD) [HYPOTHETICAL COUNTERFACTUAL] ---
+Safe-retry FAILED recovery: in-incident = 11.36%, outside = 38.88%, incident_mult = 0.2923
+          policy  retries_sent  incremental_journeys  extra_recovered_lakh  expected_failed_retries  already_debited  expected_double_charges  expected_double_charge_value_lakh
+retry everything          9985                  5714                 55.46                   2028.4              206                    143.6                               2.27
+      rules only          2313                  1093                 10.31                    305.6                0                      0.0                               0.00
+rules plus score          1157                   506                  5.23                    141.2                0                      0.0                               0.00
+Policy results are hypothetical counterfactuals using observed retry success rates, not achieved results
+
+--- SECTION 5: INCIDENT THRESHOLD VARIANTS ---
+         variant  min_attempts  lower_bound_pct  flagged_blocks  flagged_non_kestrel  recall_pct  precision_pct  safe_starts_held
+(15, 20) current            15               20              12                    6        94.6           48.1                88
+        (15, 25)            15               25               5                    0        94.6           90.3                79
+        (25, 20)            25               20               8                    2        94.6           60.3                85
+        (25, 25)            25               25               5                    0        94.6           90.3                79
+
+Phase 7-2 analysis OK

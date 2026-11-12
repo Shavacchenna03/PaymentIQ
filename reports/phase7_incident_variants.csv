@@ -1,0 +1,5 @@
+variant,min_attempts,lower_bound_pct,flagged_blocks,flagged_non_kestrel,recall_pct,precision_pct,safe_starts_held
+"(15, 20) current",15,20,12,6,94.6,48.1,88
+"(15, 25)",15,25,5,0,94.6,90.3,79
+"(25, 20)",25,20,8,2,94.6,60.3,85
+"(25, 25)",25,25,5,0,94.6,90.3,79

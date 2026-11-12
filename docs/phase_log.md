@@ -103,3 +103,7 @@ W4 complete: failed, recovered and unrecovered value (scored against hidden inte
 
 ## Phase 7-1 (done)
 Built the five-way decision table, audited the hard safety rules, added a bank-incident hold scored against the planted outage, and a duplicate-debit detector scored against truth. Results in reports/phase7_1_checks_output.txt.
+
+## Phase 7-2 (done)
+Time-split logistic scoring model compared with rules (AUC, calibration, top-decile lift within the Eligible group), a three-policy counterfactual simulation (retry everything, rules, rules plus score) with expected recovered value and double-charge exposure, and an incident-threshold comparison. Results in reports/phase7_results.txt.
+

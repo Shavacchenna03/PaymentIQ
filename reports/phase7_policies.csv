@@ -1,0 +1,4 @@
+policy,retries_sent,incremental_journeys,extra_recovered_lakh,expected_failed_retries,already_debited,expected_double_charges,expected_double_charge_value_lakh
+retry everything,9985,5714,55.46,2028.4,206,143.6,2.27
+rules only,2313,1093,10.31,305.6,0,0.0,0.0
+rules plus score,1157,506,5.23,141.2,0,0.0,0.0

@@ -863,6 +863,29 @@ A: Only customers who chose to retry produce an outcome. A retry triggered by th
 
 ---
 
+## Phase 7-2: Scoring model and policy simulation
+
+Q: Why evaluate on a time split?
+A: A model fitted on April to July and tested on August to September has never seen the test period. A random split would let it learn from the same weeks it is tested on and flatter it.
+
+Q: How can a model improve on the rules if the rules already decide?
+A: The rules decide which journeys may be retried, but give no ranking inside that group. The model's value is in ordering the Eligible group, measured by top-decile lift. If lift is near 1, the rules are enough.
+Interview angle: "I judged the model against the rules, and the report says whether it earned its place."
+
+Q: What does calibration show?
+A: Whether a predicted 40 percent recovery means about 40 percent actually recovered. A model can rank well and still be badly calibrated.
+
+Q: Why is the policy simulation a counterfactual?
+A: Recovery is only observed for customers who chose to retry. The simulation assumes a system retry succeeds at that observed rate, and it counts only journeys the customer never retried. A real system-triggered retry could behave differently, which is why Phase 8 tests it.
+
+Q: Why does retry-everything cause double charges?
+A: Some failed or pending journeys were already debited. Retrying them and succeeding charges the customer twice. The rules layer holds those back, and the simulation puts a number on the difference.
+
+Q: Why compare incident thresholds?
+A: The first rule flagged blocks at other banks, so precision was 48 percent. Stricter thresholds trade recall for precision. The comparison uses the same data that set the thresholds, so the best variant is optimistic.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

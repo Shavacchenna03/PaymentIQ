@@ -64,3 +64,9 @@
 - The incident hold uses same-block hindsight (bank and 3-hour block, at least 15 attempts, Wilson lower bound above 20 percent). A live system would need a trailing window and would detect incidents later.
 - The duplicate-debit detector uses observable data only (app status and bank reconciliation inside a w30b journey). Truth columns are read only to score it.
 - Observed recovery by decision comes from customers who chose to retry. It is not what a system-triggered retry would achieve. Phase 8 tests that.
+
+## Phase 7-2 assumptions
+- Model trained on April to July, tested on August to September. The test period contains the Clearwave incident and the August to September outage windows, so it is harder than a random split.
+- prior_retry_rate mostly reflects whether a customer retries. It is not evidence that a system-triggered retry would work.
+- The policy simulation assumes a system retry succeeds at the observed retry success rate of the same error code, and counts gains only for journeys the customer never retried. Double-charge exposure uses the hidden debited flag and is scoring only.
+- Incident thresholds are compared on the same data used to set them, so the best variant is optimistic.
