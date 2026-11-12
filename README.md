@@ -8,6 +8,8 @@ Delivers actionable reliability engineering metrics and business intelligence da
 
 ## Documentation
 
+- reports/executive_report.md: findings across all six workstreams, answering the five executive questions
+- reports/project_summary_onepage.md: one-page summary of the project
 - docs/phase_qa.md: questions and answers for every phase, updated as each phase completes
 - reports/data_quality_log.csv: every data quality issue found, the rule applied and the accuracy of the fix
 - docs/dashboard_backlog.md: Power BI pages still to build, with status and data sources

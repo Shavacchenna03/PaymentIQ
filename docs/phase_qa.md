@@ -966,6 +966,26 @@ A: No. The effect size is an assumption. The simulation shows the method's power
 
 ---
 
+## Phase 9-1: Executive report
+
+Q: What is the one-sentence story of PaymentIQ?
+A: Payment failures look like one problem in aggregate, but they are several, and the biggest value block (timeouts and uncertain statuses) needs a status check, while the biggest single value code (limits) needs a better customer experience, not a retry.
+
+Q: How do I answer "you found what you planted"?
+A: The patterns were committed before analysis (tag ground-truth-declared). The test was whether the methods recovered the right magnitudes and avoided the traps. 12 of 14 estimates were within 2 standard errors, and the two misses are reported.
+Interview angle: "My scorecard has misses and negative results, which is what makes the hits credible."
+
+Q: Which results are weakest?
+A: Customer segmentation (adjusted Rand index 0.064), the scoring model (within-group AUC 0.529), and the latency regression (biased). All are reported as negative or cautionary results.
+
+Q: Is revenue the justification?
+A: No. At an assumed 0.5 percent take rate, +5 points of recovery is about 7,900 rupees over six months. The justification is customer experience, reliability and avoiding double charges.
+
+Q: What would change with real data?
+A: Effects would be messier, duplicate-debit rates lower, journey IDs may exist, and the experiment would be real. The methods transfer; the numbers would not.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

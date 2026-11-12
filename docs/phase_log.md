@@ -119,6 +119,10 @@ Simulated experiment under three scenarios (true +3 pp, null, +3 pp with duplica
 ## Phase 8 (done)
 W6 complete: power analysis, PRD, pre-registered decision rule, simulated experiment with 1,000-repeat power study, A/A and SRM checks, report, notebook, Page 5 design. Tag phase-8-complete.
 
+## Phase 9-1 (done)
+Executive report answering the five questions across all six workstreams, with a "what did not work" section, plus a one-page project summary.
+
+
 
 
 
