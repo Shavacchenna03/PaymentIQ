@@ -886,6 +886,23 @@ A: The first rule flagged blocks at other banks, so precision was 48 percent. St
 
 ---
 
+## Phase 7-3: Recovery report
+
+Q: What is the main message of Phase 7?
+A: Rules, not a model, are the product. Never retrying uncertain statuses prevents double charges, and the biggest value block (194.8 lakh) needs a status-check capability, not smarter retries.
+
+Q: Why was the scoring model rejected?
+A: Within the Eligible group its AUC was 0.529 and top-decile lift 1.18. It did little beyond the error code the rules already use.
+Interview angle: "I built the model, measured it against the rules, and recommended not shipping it."
+
+Q: Why does retry everything look better but is not?
+A: It recovers more expected value but causes about 144 double charges and sends thousands of retries likely to fail, and its simulated success rate is optimistic for uncertain and customer-action cases.
+
+Q: How good is the duplicate-debit detector?
+A: Precision 82.6 percent and recall 84.6 percent against hidden truth. Misses are debits still pending at the bank, false alarms mostly merged repeat purchases.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

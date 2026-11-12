@@ -107,3 +107,7 @@ Built the five-way decision table, audited the hard safety rules, added a bank-i
 ## Phase 7-2 (done)
 Time-split logistic scoring model compared with rules (AUC, calibration, top-decile lift within the Eligible group), a three-policy counterfactual simulation (retry everything, rules, rules plus score) with expected recovered value and double-charge exposure, and an incident-threshold comparison. Results in reports/phase7_results.txt.
 
+## Phase 7 (done)
+W5 complete: five-way rules layer (0 audit violations), incident hold (15, 25), duplicate-debit detector scored (82.6 percent precision, 84.6 percent recall), scoring model compared and rejected, hypothetical policy comparison, report, notebook, Page 4 part 2. Tag phase-7-complete.
+
+
