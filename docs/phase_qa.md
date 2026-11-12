@@ -949,6 +949,23 @@ A: As a robustness check. Randomisation makes the unadjusted difference unbiased
 
 ---
 
+## Phase 8-3: Experiment report
+
+Q: What is the main message of Phase 8?
+A: A good experiment is designed before it runs: sample size, a guardrail, and a decision rule fixed in advance. In the simulation the guardrail overruled a significant recovery gain.
+
+Q: Why does one run mislead?
+A: The true +3 pp lift showed as +1.93 pp in the detailed run, because a single draw has sampling noise. Across 1,000 repeats the lift ranged from 1.50 to 4.55.
+Interview angle: "I showed the distribution of outcomes, not just one lucky result."
+
+Q: What would a real test need that this one lacks?
+A: A confirmed duplicate-payment measure, per-failure-type analysis, logged time to completion, and a longer window for late retries.
+
+Q: Is the redesign shown to work?
+A: No. The effect size is an assumption. The simulation shows the method's power, false-positive rate and guardrail behaviour.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

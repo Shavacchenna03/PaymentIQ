@@ -8,7 +8,7 @@ Decision (after Phase 3): analysis phases come first. All five pages are built t
 | 2 Failure Intelligence | W2 | Phase 4 | Design written, build pending | docs/powerbi_page2_design.md |
 | 3 Customer Behaviour | W3 | Phase 5 | Design written, build pending | docs/powerbi_page3_design.md |
 | 4 Recovery and Financial Impact | W4, W5 | Phases 6 and 7 | Design written (W4 and W5), build pending | docs/powerbi_page4_design.md |
-| 5 Product Experiments | W6 | Phase 8 | Pending | not yet written |
+| 5 Product Experiments | W6 | Phase 8 | Design written, build pending | docs/powerbi_page5_design.md |
 
 ## Page 1 data sources already in PostgreSQL
 v_daily_kpis, v_weekly_kpis, v_monthly_kpis, v_heatmap_hour_weekday, v_anomaly_system, v_anomaly_kestrel, v_value_bands, v_latency_bands, v_attempts_eligible, dim_date, dim_banks, dim_psp.

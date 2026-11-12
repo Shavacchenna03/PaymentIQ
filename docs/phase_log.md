@@ -116,6 +116,10 @@ Power analysis from the real eligible population (sample sizes, MDE curve, non-i
 ## Phase 8-2 (done)
 Simulated experiment under three scenarios (true +3 pp, null, +3 pp with duplicate increase) with the pre-registered decision rule, logistic robustness check, A/A false-positive rate, sample ratio mismatch check and a 1,000-repeat power study. Results in reports/phase8_sim.txt.
 
+## Phase 8 (done)
+W6 complete: power analysis, PRD, pre-registered decision rule, simulated experiment with 1,000-repeat power study, A/A and SRM checks, report, notebook, Page 5 design. Tag phase-8-complete.
+
+
 
 
 
