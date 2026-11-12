@@ -986,6 +986,19 @@ A: Effects would be messier, duplicate-debit rates lower, journey IDs may exist,
 
 ---
 
+## Phase 9-2: README and interview pack
+
+Q: Why is the README short?
+A: A recruiter reads it for about 30 seconds. It leads with the story and results and links out for detail.
+
+Q: Why do case studies include "do differently"?
+A: It shows judgement and awareness of limits, which interviewers probe.
+
+Q: Why list negative results in the README?
+A: They make the positive results credible.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

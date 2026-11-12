@@ -122,6 +122,10 @@ W6 complete: power analysis, PRD, pre-registered decision rule, simulated experi
 ## Phase 9-1 (done)
 Executive report answering the five questions across all six workstreams, with a "what did not work" section, plus a one-page project summary.
 
+## Phase 9-2 (done)
+README rewritten as a recruiter-facing front page; interview case studies and a hard-questions sheet written.
+
+
 
 
 
