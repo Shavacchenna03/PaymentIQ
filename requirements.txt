@@ -10,3 +10,5 @@ seaborn
 jupyter
 python-dotenv
 scikit-learn
+nbformat
+nbconvert

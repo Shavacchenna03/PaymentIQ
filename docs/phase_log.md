@@ -125,9 +125,7 @@ Executive report answering the five questions across all six workstreams, with a
 ## Phase 9-2 (done)
 README rewritten as a recruiter-facing front page; interview case studies and a hard-questions sheet written.
 
-
-
-
-
+## Phase 9 (done)
+Executive report, README, interview pack, reproducibility check (fresh clone), resume bullets and presentation outline. Tag phase-9-complete. Remaining: Phase 8B Power BI build.
 
 

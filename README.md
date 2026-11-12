@@ -28,8 +28,8 @@ Python (pandas, numpy, scipy, statsmodels, scikit-learn), PostgreSQL, SQL (views
 ## Architecture
 generator/ (seeded Python simulation, cleaning, loading and analysis scripts) builds PostgreSQL tables in the public, staging and truth schemas. sql/ holds numbered scripts (schema, views, checks). reports/ holds findings and outputs, notebooks/ holds read-only narrative notebooks, docs/ holds design, assumptions and Q&A.
 
-## Intended run order (verified in Phase 9-3)
-Create .env (DB credentials), create the venv and install requirements.txt, then run generator scripts in phase order (schema, dimensions, intents, failures, latency, retries, events and reconciliation, dirty staging, cleaning, load), then the numbered SQL files, then the analysis scripts.
+## Reproduce
+See docs/reproduce.md for prerequisites and the full run order.
 
 ## Method principles
 Metric dictionary before code. Ground truth declared before analysis. Never filter rows by the outcome. Scenarios labelled hypothetical. Negative results reported.
@@ -37,7 +37,7 @@ Metric dictionary before code. Ground truth declared before analysis. Never filt
 ## Status
 - [x] Phases 0 to 8 complete (tags phase-2-complete to phase-8-complete)
 - [ ] Phase 8B: Power BI build (all five pages; see docs/dashboard_backlog.md)
-- [ ] Phase 9: portfolio packaging (in progress)
+- [x] Phase 9: portfolio packaging
 
 ## Documentation
 - docs/metric_dictionary.md, docs/data_design.md, docs/ground_truth.md, docs/assumptions.md

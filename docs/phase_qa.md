@@ -999,6 +999,22 @@ A: They make the positive results credible.
 
 ---
 
+## Phase 9-3: Reproducibility and packaging
+
+Q: Why test a fresh clone?
+A: A project that only runs on the author's machine is not reproducible. Cloning, installing and compiling in a clean folder catches missing packages and path assumptions.
+
+Q: Why is the check a dry run?
+A: A full rerun would overwrite the database. Compiling every script and listing the files verifies the structure without that risk.
+
+Q: Why are the CSVs not in Git?
+A: They are large and generated. The seeded scripts recreate them exactly.
+
+Q: Why keep a 2-line and a 3-line resume version?
+A: Resume space varies. Both use only verified numbers and say synthetic.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.
