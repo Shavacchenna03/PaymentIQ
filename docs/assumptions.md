@@ -70,3 +70,10 @@
 - prior_retry_rate mostly reflects whether a customer retries. It is not evidence that a system-triggered retry would work.
 - The policy simulation assumes a system retry succeeds at the observed retry success rate of the same error code, and counts gains only for journeys the customer never retried. Double-charge exposure uses the hidden debited flag and is scoring only.
 - Incident thresholds are compared on the same data used to set them, so the best variant is optimistic.
+
+## Phase 8 assumptions
+- The experiment is simulated. The treatment effect is chosen by us (+3 points on recovery) and is not evidence about a real redesign.
+- One observation per customer (first eligible failed journey); customers' other journeys are ignored.
+- The duplicate-payment baseline uses the observable detector (about 83 percent precision), so it is a proxy.
+- The decision rule is fixed before the simulation runs.
+

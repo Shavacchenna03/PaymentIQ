@@ -1,0 +1,47 @@
+=== PHASE 8-1: POWER ANALYSIS AND EXPERIMENT PLANNING ===
+Experiment Population (Customers): 14250
+Baseline Recovery Rate: 32.41%
+Baseline Retry Rate: 45.35%
+
+Duplicate Baseline Count: 81
+Duplicate Baseline Rate: 0.568% (0.005684)
+Note: This duplicate baseline is a detector-based proxy (about 83 percent precision against hidden truth).
+
+--- SECTION 1: PRIMARY OUTCOME POWER ANALYSIS ---
+ effect_pp  power  n_per_arm  n_total
+         1    0.8      34658    69316
+         1    0.9      46397    92794
+         2    0.8       8728    17456
+         2    0.9      11684    23368
+         3    0.8       3906     7812
+         3    0.9       5229    10458
+         4    0.8       2211     4422
+         4    0.9       2960     5920
+         5    0.8       1423     2846
+         5    0.9       1905     3810
+
+Available per-arm sample: 7125 (Total population: 14250)
+Effects detectable at power 0.8 with available sample size: +[3, 4, 5] percentage points
+
+--- SECTION 2: MINIMUM DETECTABLE EFFECT (MDE) CURVE ---
+  n =  500: MDE = 8.51 percentage points
+  n = 1000: MDE = 5.98 percentage points
+  n = 2000: MDE = 4.21 percentage points
+  n = 3000: MDE = 3.43 percentage points
+  n = 4000: MDE = 2.96 percentage points
+  n = 5000: MDE = 2.65 percentage points
+  n = 6000: MDE = 2.42 percentage points
+  n = 7000: MDE = 2.24 percentage points
+Available n = 7125: MDE = 2.22 percentage points
+
+--- SECTION 3: GUARDRAIL NON-INFERIORITY POWER ---
+Duplicate baseline rate: 0.568% (0.005684)
+  Non-inferiority margin 0.25 pp: required n per arm =  11182
+  Non-inferiority margin 0.50 pp: required n per arm =   2796
+  Non-inferiority margin 1.00 pp: required n per arm =    699
+
+Does available per-arm n (7125) suffice for the 0.5 pp margin? YES (requires 2796)
+Minimum non-inferiority margin supported by available sample (7125) at power 0.8: 0.313 percentage points
+If the guardrail is underpowered, a non-significant result does not show duplicates are safe.
+
+Phase 8-1 analysis OK

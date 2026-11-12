@@ -903,6 +903,29 @@ A: Precision 82.6 percent and recall 84.6 percent against hidden truth. Misses a
 
 ---
 
+## Phase 8-1: Power analysis and PRD
+
+Q: Why randomise by customer and not by journey?
+A: A customer who saw both experiences would be contaminated: the message they remember changes how they react to the next one. Sticky assignment avoids that.
+
+Q: What is the minimum detectable effect?
+A: The smallest true lift the test can detect with the planned power (80 percent) at the 5 percent significance level, given the sample size. A smaller real effect would usually be missed.
+
+Q: Why is a guardrail tested as non-inferiority?
+A: We want to show duplicates did not rise by more than a margin, not that they are identical. A non-significant difference does not prove safety, particularly when the baseline is about 1 percent and the sample is small.
+Interview angle: "A non-significant guardrail is not a safe guardrail. I computed whether it was powered."
+
+Q: Why fix the decision rule before the simulation?
+A: Deciding after seeing the results invites picking the rule that gives the answer you like. Writing it first makes the decision auditable.
+
+Q: Why does the report say the experiment is simulated?
+A: The effect size is our assumption. The simulation shows how the method behaves (power, false positives, guardrail), not whether the redesign works.
+
+Q: Why does the PRD start with messaging only?
+A: Automatic retries add duplicate-debit risk and need status checks first (Phase 7). Messaging is the smallest safe change that can be measured.
+
+---
+
 ## Upcoming sections (added when each phase completes)
 
 Phase 2: Data engineering. Expected topics: schema design, primary and foreign keys, how realistic failures are generated, the ground-truth file, validation checks.

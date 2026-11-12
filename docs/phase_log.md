@@ -110,4 +110,8 @@ Time-split logistic scoring model compared with rules (AUC, calibration, top-dec
 ## Phase 7 (done)
 W5 complete: five-way rules layer (0 audit violations), incident hold (15, 25), duplicate-debit detector scored (82.6 percent precision, 84.6 percent recall), scoring model compared and rejected, hypothetical policy comparison, report, notebook, Page 4 part 2. Tag phase-7-complete.
 
+## Phase 8-1 (done)
+Power analysis from the real eligible population (sample sizes, MDE curve, non-inferiority guardrail), PRD for the failure-experience redesign, and experiment plan with a pre-registered decision rule. Results in reports/phase8_power.txt.
+
+
 
